@@ -6,3 +6,15 @@ body {
   text-align: center;
   margin: auto;
 }
+#globe {
+  margin: 20px auto;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+path {
+  fill: #aaa;
+  stroke: #ddd;
+  stroke-width: 0.5;
+}
