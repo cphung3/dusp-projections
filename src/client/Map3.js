@@ -14,7 +14,6 @@ export default class Map extends Component {
     fetch('../../datasets/ne_110m_admin_0_countries.geojson').then(res => res.json())
     .then(geoJson => {
       this.setState({geoJson: geoJson})
-
       });
   }
 
@@ -25,7 +24,7 @@ export default class Map extends Component {
     let pathString = geoGenerator(geoJson)
     window.requestAnimationFrame(() => {
         this.setState({
-           rotation: rotation + 0.4
+           rotation: rotation + 0.2
          })
        })
     return (

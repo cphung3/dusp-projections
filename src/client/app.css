@@ -5,16 +5,84 @@ h1 {
 body {
   text-align: center;
   margin: auto;
+  font-family: 'Roboto';
+}
+.container {
+  justify-content: center;
+  align-content: center;
+  display: flex;
+  flex-flow: wrap;
+}
+.heading {
+  font-family: 'Montserrat';
+  font-weight: 700;
+  justify-content: center;
+  width: 100%;
+  font-size: 40px;
+}
+.subheading {
+  font-family: 'Montserrat';
+  font-weight: 300;
+  justify-content: center;
+  width: 100%;
+  font-size: 90px;
+  margin-bottom: 20px;
+}
+.body-text {
+  font-family: 'Roboto';
+  font-weight: 300;
+  justify-content: center;
+  width: 100%;
+  font-size: 16px;
+  max-width: 600px;
 }
 #globe {
-  margin: 20px auto;
-  margin-top: 50px;
+  /* margin: 20px auto;
+  margin-top: 50px; */
+  padding-top: 50px;
   display: flex;
   justify-content: center;
   align-content: center;
+  /* position: fixed; */
 }
 path {
   fill: #aaa;
   stroke: #ddd;
   stroke-width: 0.5;
+}
+.overlay {
+  /* position: absolute; */
+  background-color : #526355;
+  opacity: 0.8;
+  color : white;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-flow: wrap;
+}
+.block {
+  /* margin: 10px 50px; */
+  display: flex; /* required */
+  flex-flow: row nowrap; /* required */
+  overflow: hidden;
+}
+.block .background,
+.block .foreground {
+  box-sizing: border-box; /* required */
+  width: 100%; /* required */
+  height: 100vh;
+  min-height: 100vh;
+  /* position: relative; */
+  flex: none; /* required */
+}
+.block .background {
+  /* position: fixed; */
+  /* bottom: 0; */
+  margin-left: -100%; /* required */
+}
+.reveal-main{
+  height: 400px;
+  background:#e3e3e3;
 }
