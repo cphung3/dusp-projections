@@ -1,54 +1,12 @@
-h1 {
-  color: green;
+h6 {
+  font-family: 'Poppins';
+  font-weight: 600;
 }
 
 body {
   text-align: center;
   margin: auto;
   font-family: 'Roboto';
-}
-.container {
-  justify-content: center;
-  align-content: center;
-  display: flex;
-  flex-flow: wrap;
-}
-.heading {
-  font-family: 'Montserrat';
-  font-weight: 700;
-  justify-content: center;
-  width: 100%;
-  font-size: 40px;
-}
-.subheading {
-  font-family: 'Montserrat';
-  font-weight: 300;
-  justify-content: center;
-  width: 100%;
-  font-size: 90px;
-  margin-bottom: 20px;
-}
-.body-text {
-  font-family: 'Roboto';
-  font-weight: 300;
-  justify-content: center;
-  width: 100%;
-  font-size: 16px;
-  max-width: 600px;
-}
-#globe {
-  /* margin: 20px auto;
-  margin-top: 50px; */
-  padding-top: 50px;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  /* position: fixed; */
-}
-path {
-  fill: #aaa;
-  stroke: #ddd;
-  stroke-width: 0.5;
 }
 .overlay {
   /* position: absolute; */
@@ -57,11 +15,64 @@ path {
   color : white;
   height: 100%;
   width: 100%;
+  
+  /* display: flex;
+  justify-content: center;
+  align-content: center; */
+  flex-flow: wrap;
+}
+.container {
+  justify-content: center;
+  align-content: center;
+  display: flex;
+  flex-flow: wrap;
+  padding-top: 270px;
+}
+.heading {
+  font-family: 'Montserrat';
+  font-weight: 700;
+  justify-content: center;
+  width: 100%;
+  font-size: 30px;
+  color: #FFE8D6;
+}
+.subheading {
+  font-family: 'Montserrat';
+  font-weight: 300;
+  justify-content: center;
+  width: 100%;
+  font-size: 90px;
+  margin-bottom: 40px;
+  color: #FFE8D6;
+}
+.body-container {
+  font-family: 'Roboto';
+  font-weight: 300;
+  justify-content: center;
+  width: 100%;
+  font-size: 16px;
+  display: flex;
+  /* max-width: 600px; */
+  color: #FFE8D6;
+}
+.body-text {
+  max-width: 600px;
+}
+#globe {
+  /* margin: 20px auto;
+  margin-top: 50px; */
+  padding-top: 100px;
   display: flex;
   justify-content: center;
   align-content: center;
-  flex-flow: wrap;
+  /* position: fixed; */
 }
+#globe path {
+  fill: #aaa;
+  stroke: #ddd;
+  stroke-width: 0.5;
+}
+
 .block {
   /* margin: 10px 50px; */
   display: flex; /* required */
@@ -85,4 +96,18 @@ path {
 .reveal-main{
   height: 400px;
   background:#e3e3e3;
+}
+#arrow-down {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 250px;
+  max-width: 60px;
+  cursor: pointer;
+}
+#arrow-down:hover {
+  /* box-shadow: 0px 0px 5px #fff; */
+}
+.hidden {
+  display: none;
 }
