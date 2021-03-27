@@ -22,13 +22,13 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Poppins',
     fontWeight: 600,
     fontSize: 20,
-    color: '#FFE8D6',
+    color: 'white',
   },
   tab: {
     fontFamily: 'Roboto',
     fontWeight: 300,
-    fontSize: 20,
-    color: '#FFE8D6',
+    fontSize: 16,
+    color: 'white',
     cursor: 'pointer',
   },
   navigation: {
@@ -40,7 +40,11 @@ const useStyles = makeStyles((theme) => ({
       right: '10px'
   },
   container: {
-    backgroundColor: '#526355',
+    // backgroundColor: '#526355',
+    background: 'linear-gradient(125deg, #FFE8D6, #D67474)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
     opacity: 0.8,
   }
 }));

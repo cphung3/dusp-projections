@@ -10,7 +10,11 @@ body {
 }
 .overlay {
   /* position: absolute; */
-  background-color : #526355;
+  /* background-color : #526355; */
+  background: linear-gradient(125deg,#FFE8D6, #D67474);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   opacity: 0.8;
   color : white;
   height: 100%;
@@ -26,34 +30,31 @@ body {
   align-content: center;
   display: flex;
   flex-flow: wrap;
-  padding-top: 270px;
+  padding-top: 200px;
+}
+.heading, .subheading, .body-container {
+  width: 100%;
+  justify-content: center;
+  color: white;
+
 }
 .heading {
   font-family: 'Montserrat';
   font-weight: 700;
-  justify-content: center;
-  width: 100%;
   font-size: 30px;
-  color: #FFE8D6;
 }
 .subheading {
   font-family: 'Montserrat';
   font-weight: 300;
-  justify-content: center;
-  width: 100%;
   font-size: 90px;
   margin-bottom: 40px;
-  color: #FFE8D6;
 }
 .body-container {
   font-family: 'Roboto';
   font-weight: 300;
-  justify-content: center;
-  width: 100%;
   font-size: 16px;
   display: flex;
   /* max-width: 600px; */
-  color: #FFE8D6;
 }
 .body-text {
   max-width: 600px;
@@ -78,6 +79,7 @@ body {
   display: flex; /* required */
   flex-flow: row nowrap; /* required */
   overflow: hidden;
+
 }
 .block .background,
 .block .foreground {
@@ -87,6 +89,7 @@ body {
   min-height: 100vh;
   /* position: relative; */
   flex: none; /* required */
+
 }
 .block .background {
   /* position: fixed; */

@@ -54,7 +54,6 @@ export default class Map extends Component {
         state = {
           rotation: 0,
           geoJson: null,
-          pathString: "",
         }
 
   componentDidMount() {
@@ -70,7 +69,6 @@ export default class Map extends Component {
     const geoGenerator = d3.geoPath().projection(proj)
     function returnProjectionValueWhenValid(point, index) {
       const retVal = proj(point)
-      // console.log('geogenerator: ', d3.geoPath().projection(proj(point)))
       if (retVal?.length) {
         if (retVal[index]) return retVal[index]
         return null
@@ -78,18 +76,18 @@ export default class Map extends Component {
       return 0
     }
     function convertGeoJson(point) {
-      const string = geoGenerator(point);
-      // console.log('path:', string)
-      if (string != null) {
-        return string
+      const path = geoGenerator(point);
+      if (typeof path === "string") {
+        if (!path.includes('MNaN')) {
+          return path
+        }
       }
       return null
     }
     let pathString = geoGenerator(geoJson)
-    // console.log('real pathstring;', pathString)
     window.requestAnimationFrame(() => {
         this.setState({
-           rotation: rotation + 0.2
+           rotation: (rotation + 0.2) % 360
          })
        })
     return (
@@ -99,38 +97,8 @@ export default class Map extends Component {
             <g id="markers">
               {data.map((d, i) => (
                 <path key={`marker-${uuid()}`} d={convertGeoJson(d)} />
-                // <circle
-                //   
-                //   cx={ returnProjectionValueWhenValid(d.coordinates, 0)}
-                //   cy={ returnProjectionValueWhenValid(d.coordinates, 1)}
-                //   r={5}
-                //   fill="#E91E63"
-                //   stroke="#FFFFFF"
-                //   onClick={() => handleMarkerClick(i)}
-                //   // onMouseEnter={() => setIsRotate(false)}
-                // />
               ))}
-              {/* <circle
-                cx={ returnProjectionValueWhenValid([8,48], 0)}
-                cy={ returnProjectionValueWhenValid([8,48], 1)}
-                r={ 10 }
-                fill="#E91E63"
-                className="marker"
-              /> */}
             </g>  
-            {/* <path d={pointString} /> */}
-            {/* {data.map((d, i) => (
-              <path
-                key={`marker-${uuid()}`}
-                cx={500}
-                cy={520}
-                r={5}
-                fill="#E91E63"
-                stroke="#FFFFFF"
-                onClick={() => handleMarkerClick(i)}
-                // onMouseEnter={() => setIsRotate(false)}
-              />
-            ))} */}
           </svg>
       </div>
     );
