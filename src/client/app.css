@@ -111,3 +111,8 @@ body {
 .hidden {
   display: none;
 }
+#markers path {
+  fill: red;
+  stroke: #ddd;
+  stroke-width: 2.5;
+}

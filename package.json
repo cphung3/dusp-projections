@@ -25,6 +25,7 @@
     "react-globe.gl": "^2.14.6",
     "react-scroll-parallax": "^2.3.5",
     "react-svg": "^12.1.0",
+    "react-uuid": "^1.0.2",
     "three": "^0.126.1",
     "topojson-client": "^3.1.0"
   },
