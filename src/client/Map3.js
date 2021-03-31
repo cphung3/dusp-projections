@@ -54,6 +54,7 @@ export default class Map extends Component {
         state = {
           rotation: 0,
           geoJson: null,
+          isRotating: true,
         }
 
   componentDidMount() {
@@ -62,11 +63,27 @@ export default class Map extends Component {
       this.setState({geoJson: geoJson})
       });
   }
+  stopRotate = () => {
+    this.setState({isRotating: false})
+  }
+  resumeRotate = () => {
+    this.setState({isRotating: true})
+  }
 
   render() {
-    const { geoJson, rotation } = this.state;
+    const { geoJson, rotation, isRotating } = this.state;
+    const sensitivity = 75;
+    
     const proj = d3.geoOrthographic().fitSize([this.props.size, this.props.size], geoJson).rotate([rotation])
-    const geoGenerator = d3.geoPath().projection(proj)
+    const k = sensitivity / proj.scale()
+    const drag = d3.drag().on('drag', () => {
+      const rotate = proj.rotate()
+      proj.rotate([
+        rotate[0] + d3.event.dx * k,
+        rotate[1] - d3.event.dy * k
+      ])
+    })
+    const geoGenerator = d3.geoPath().projection(drag)
     function returnProjectionValueWhenValid(point, index) {
       const retVal = proj(point)
       if (retVal?.length) {
@@ -84,20 +101,31 @@ export default class Map extends Component {
       }
       return null
     }
+
     let pathString = geoGenerator(geoJson)
+    let points = data.map((datum, i) => (
+      <path key={`marker-${uuid()}`} d={convertGeoJson(datum)} />
+    ))
     window.requestAnimationFrame(() => {
+      if (isRotating) {
         this.setState({
            rotation: (rotation + 0.2) % 360
          })
+        } 
        })
+    
     return (
-        <div id="globe">
-          <svg width={this.props.size} height={this.props.size} >
+        <div 
+          id="globe"
+        >
+          <svg 
+              onMouseEnter={this.stopRotate} 
+              onMouseLeave={this.resumeRotate} 
+              width={this.props.size} 
+              height={this.props.size} >
             <path d={pathString} />
             <g id="markers">
-              {data.map((d, i) => (
-                <path key={`marker-${uuid()}`} d={convertGeoJson(d)} />
-              ))}
+              {points}
             </g>  
           </svg>
       </div>
