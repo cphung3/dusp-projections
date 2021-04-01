@@ -17,6 +17,7 @@
     "@material-ui/icons": "^4.11.2",
     "babel-polyfill": "^6.26.0",
     "d3": "^6.6.0",
+    "d3-tip": "^0.9.1",
     "express": "^4.16.3",
     "json-loader": "^0.5.7",
     "ola": "^1.1.1",

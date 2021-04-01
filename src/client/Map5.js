@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { timer, drag, select, geoPath, geoOrthographic } from "d3";
+import * as d3 from "d3";
+import './app.css';
+import tip from "d3-tip";
 
 /**
  * Snippet from https://dev.to/muratkemaldar/interactive-world-map-with-d3-geo-498
@@ -25,11 +27,18 @@ export default function Map({data, size}) {
     // }
 
     useEffect(() => {
-        const svg = select(svgRef.current);
+        const svg = d3.select(svgRef.current);
+        const globe = d3.select(wrapperRef.current)
 
-        const projection = geoOrthographic().fitSize([size, size], data);
-        let path = geoPath().projection(projection);
-
+        const projection = d3.geoOrthographic().fitSize([size, size], data);
+        let path = d3.geoPath().projection(projection);
+        const tooltip = tip()
+        .attr('class', 'd3-tip')
+        .offset([-5, 0])
+        .html(function(event, d) {
+            return d.properties.NAME || d.properties.FORMAL_EN
+        })
+        svg.call(tooltip);
         svg
             .selectAll('.country')
             .data(data.features)
@@ -39,14 +48,34 @@ export default function Map({data, size}) {
             })
             .attr("class", "country")
             .attr("d", feature => path(feature))
+            .on("mouseover", tooltip.show)
+            .on("mouseout", tooltip.hide)
             
-        svg.call(drag().on('drag', (event) => {
+            // .on("mouseover", function(event, d) {		
+            //     tooltip.transition()		
+            //         .duration(200)		
+            //         .style("opacity", .9);		
+            //     tooltip	
+            //         .text("hello")	
+            //         .style("left", (event.pageX) + "px")		
+            //         .style("top", (event.pageY - 28) + "px")
+            //         .style('display', 'block');
+            //     })					
+            // .on("mouseout", function(event, d) {		
+            //     tooltip.transition()		
+            //         .duration(500)		
+            //         .style("opacity", 0);	
+            //     });
+
+
+
+        svg.call(d3.drag().on('drag', (event) => {
             const rotate = projection.rotate()
             const k = sensitivity / projection.scale()
             projection.rotate([
                 rotate[0] + event.dx * k,
             ])
-            path = geoPath().projection(projection)
+            path = d3.geoPath().projection(projection)
             svg.selectAll("path").attr("d", feature => path(feature))
             rotateTimer.stop()
             }))
@@ -62,16 +91,22 @@ export default function Map({data, size}) {
             // }
             // }))
 
+            // Define the div for the tooltip
+            // const tooltip = globe
+            //     .selectAll(".country").append("div")	
+            //     .attr("class", "tooltip")				
+            //     .style("opacity", 0);
+
         function rotateFunction(elapsed) {
             const rotate = projection.rotate()
             const k = sensitivity / projection.scale()
             projection.rotate([
                 rotate[0] + 1 * k,
             ])
-            path = geoPath().projection(projection)
+            path = d3.geoPath().projection(projection)
             svg.selectAll("path").attr("d", feature => path(feature))
             }
-        const rotateTimer = timer(rotateFunction,200)
+        const rotateTimer = d3.timer(rotateFunction,200)
         // setIsRotating(rotateTimer);
         // if (!isRotating) {
         //     rotateTimer.stop();

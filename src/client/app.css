@@ -66,11 +66,12 @@ body {
   display: flex;
   justify-content: center;
   align-content: center;
+  cursor: pointer;
   /* position: fixed; */
 }
-#globe path {
+/* #globe path {
 
-}
+} */
 svg {
   display: block;
   /* width: 100% */
@@ -81,9 +82,31 @@ svg .country {
   stroke-width: 0.5px;
 }
 svg .country:hover {
-  stroke: rgb(231, 151, 165);
+  stroke: rgb(223, 179, 179);
   stroke-width: 5px;
   cursor: pointer;
+}
+.tooltip {
+  background: #f1f0f1;                                         
+  box-shadow: 0 0 5px #999999;                              
+  color: #333;                                           
+  display: none;                                                
+  font-size: 14px; 
+  font-family: Helvetica;		
+  left: 300px;                                                   
+  padding: 10px;                                                 
+  position: absolute;                                            
+  text-align: center;                                       
+  top: 220px;                                                     
+  width: 80px;                                                  
+  z-index: 10;      
+}
+.d3-tip {
+  line-height: 1;
+  padding: 12px;
+  background: rgba(43,43,43, 0.8);
+  color: #fff;
+  border-radius: 2px;
 }
 .block {
   /* margin: 10px 50px; */
