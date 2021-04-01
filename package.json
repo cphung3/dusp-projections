@@ -18,6 +18,7 @@
     "babel-polyfill": "^6.26.0",
     "d3": "^6.6.0",
     "express": "^4.16.3",
+    "json-loader": "^0.5.7",
     "ola": "^1.1.1",
     "react": "^16.5.2",
     "react-animation": "^1.2.2",

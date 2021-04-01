@@ -83,7 +83,7 @@ export default class Map extends Component {
         rotate[1] - d3.event.dy * k
       ])
     })
-    const geoGenerator = d3.geoPath().projection(drag)
+    const geoGenerator = d3.geoPath().projection(proj)
     function returnProjectionValueWhenValid(point, index) {
       const retVal = proj(point)
       if (retVal?.length) {

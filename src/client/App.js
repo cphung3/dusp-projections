@@ -4,10 +4,10 @@ import ReactImage from './react.png';
 // import Map from './Map.js';
 import { animations } from 'react-animation'
 
-
-import Map from './Map3.js';
+import Map from './Map5.js';
 import LandingOverlay from './components/LandingOverlay.js'
 import Navbar from './components/Navbar.js'
+import MapData from '../../datasets/ne_110m_admin_0_countries.geo.json'
 
 export default class App extends Component {
   state = { scroll: 0 , clicked: false};
@@ -37,7 +37,7 @@ export default class App extends Component {
         </div>
         {/* <div className={`reveal-main ${scroll > 200 ? 'active' : ""} `}></div> */}
         <div className="background">
-          <Map size={800}/>
+          <Map size={800} data={MapData}/>
         </div>
       </div>
     );

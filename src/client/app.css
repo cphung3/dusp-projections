@@ -69,11 +69,22 @@ body {
   /* position: fixed; */
 }
 #globe path {
+
+}
+svg {
+  display: block;
+  /* width: 100% */
+}
+svg .country {
   fill: #aaa;
   stroke: #ddd;
-  stroke-width: 0.5;
+  stroke-width: 0.5px;
 }
-
+svg .country:hover {
+  stroke: rgb(231, 151, 165);
+  stroke-width: 5px;
+  cursor: pointer;
+}
 .block {
   /* margin: 10px 50px; */
   display: flex; /* required */
