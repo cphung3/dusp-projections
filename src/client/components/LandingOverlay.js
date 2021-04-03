@@ -11,7 +11,7 @@ export default class LandingOverlay extends Component {
         this.setState({clicked: true});
         setTimeout(
             () => this.setState({ hidden: true }), 
-            400
+            450
           );
       }
     render() {

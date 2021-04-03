@@ -2,9 +2,10 @@ import React, { useRef, useState, useEffect } from 'react'
 import * as d3 from "d3";
 import './app.css';
 import tip from "d3-tip";
+import MosaicModal from './components/MosaicModal';
 
 /**
- * Snippet from https://dev.to/muratkemaldar/interactive-world-map-with-d3-geo-498
+ * Source inspiration from https://dev.to/muratkemaldar/interactive-world-map-with-d3-geo-498
  * 
  * @param {Object} data GeoJson map
  * @param {Integer} size parameter used for width and height
@@ -15,6 +16,7 @@ export default function Map({data, size}) {
     const wrapperRef = useRef();
     const [selectedCountry, setSelectedCountry] = useState(null)
     const [isRotating, setIsRotating] = useState(true)
+    const [open, setOpen] = useState(false);
 
     const sensitivity = 75
     // function stopRotate() {
@@ -26,30 +28,44 @@ export default function Map({data, size}) {
     //     // isRotating.restart();
     // }
 
+    const openModal = (e, d) => {
+        console.log('object: ', e, d)
+        setOpen(true);
+        setSelectedCountry(d.properties.NAME)
+    }
+    const closeModal = () => {
+        setOpen(false);
+    }
+
     useEffect(() => {
         const svg = d3.select(svgRef.current);
         const globe = d3.select(wrapperRef.current)
 
         const projection = d3.geoOrthographic().fitSize([size, size], data);
         let path = d3.geoPath().projection(projection);
+
+        // Add tooltip for name of each country
         const tooltip = tip()
-        .attr('class', 'd3-tip')
-        .offset([-5, 0])
-        .html(function(event, d) {
-            return d.properties.NAME || d.properties.FORMAL_EN
+            .attr('class', 'd3-tip')
+            .offset([-5, 0])
+            .html(function(event, d) {
+                return d.properties.NAME || d.properties.FORMAL_EN
         })
+
         svg.call(tooltip);
         svg
             .selectAll('.country')
             .data(data.features)
             .join("path")
-            .on("click", feature => {
-                setSelectedCountry(selectedCountry === feature ? null : feature)
-            })
+            // .on("click", feature => {
+            //     console.log('feature: ', feature)
+            //     setSelectedCountry(selectedCountry === feature ? null : feature)
+            // })
             .attr("class", "country")
             .attr("d", feature => path(feature))
             .on("mouseover", tooltip.show)
             .on("mouseout", tooltip.hide)
+            .on("click", openModal)
             
             // .on("mouseover", function(event, d) {		
             //     tooltip.transition()		
@@ -101,7 +117,7 @@ export default function Map({data, size}) {
             const rotate = projection.rotate()
             const k = sensitivity / projection.scale()
             projection.rotate([
-                rotate[0] + 1 * k,
+                rotate[0] + 1 * k/2,
             ])
             path = d3.geoPath().projection(projection)
             svg.selectAll("path").attr("d", feature => path(feature))
@@ -122,7 +138,9 @@ export default function Map({data, size}) {
                 // onMouseLeave={resumeRotate} 
                 width={size} 
                 height={size} 
-                ref={svgRef}></svg>
+                ref={svgRef}>
+                    <MosaicModal selectedCountry={selectedCountry} open={open || false} handleClose={closeModal}/>
+                </svg>
         </div>
     )
 }
