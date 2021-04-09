@@ -85,9 +85,13 @@ svg .country {
   stroke-width: 0.5px;
 }
 svg .country:hover {
-  stroke: rgb(223, 179, 179);
-  stroke-width: 5px;
+  /* stroke: rgb(223, 179, 179);
+  stroke-width: 5px; */
+  fill: #D67474;
   cursor: pointer;
+}
+svg .country { 
+  transition: fill .4s ease; 
 }
 .tooltip {
   background: #f1f0f1;                                         
@@ -155,4 +159,9 @@ svg .country:hover {
   fill: red;
   stroke: #ddd;
   stroke-width: 2.5;
+}
+.line {
+  margin: 0px;
+  background-color: red;
+  width: 50px;
 }

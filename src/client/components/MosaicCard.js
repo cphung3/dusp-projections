@@ -18,11 +18,18 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MosaicCard() {
+export default function MosaicCard({setCardClicked}) {
   const classes = useStyles();
 
+  const handleClick = () => {
+    setCardClicked(true)
+  }
+
   return (
-    <Card className={classes.root}>
+    <Card 
+        className={classes.root}
+        onClick={handleClick}
+        >
       <CardActionArea>
         <CardMedia
           className={classes.media}
