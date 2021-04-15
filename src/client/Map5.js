@@ -4,6 +4,39 @@ import './app.css';
 import tip from "d3-tip";
 import MosaicModal from './components/MosaicModal';
 
+const pointData = [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [8, 48]
+      },
+      "properties": {
+        "name": "Germany"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [155, 110]
+      },
+      "properties": {
+        "name": "Greenland"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [286, 40]
+      },
+      "properties": {
+        "name": "New York"
+      }
+    }
+  ]
+
 /**
  * Source inspiration from https://dev.to/muratkemaldar/interactive-world-map-with-d3-geo-498
  * 
@@ -36,6 +69,8 @@ export default function Map({data, size}) {
     const closeModal = () => {
         setOpen(false);
     }
+
+
 
     useEffect(() => {
         const svg = d3.select(svgRef.current);
@@ -82,8 +117,29 @@ export default function Map({data, size}) {
             //         .duration(500)		
             //         .style("opacity", 0);	
             //     });
+        
+        const circles = svg
+            .selectAll("circle")
+            .data(pointData)
+            .join("path") // has to be a path because circles don't have edge clipping
+            .attr("class", "cities")
+            .attr("d", geo => path(geo.coordinates))
+            .attr("fill", "pink")
 
+        repeat();
 
+        //blinking circles from https://bl.ocks.org/Tak113/4a8caf75e1d3aa13132c8ad9a662a49b
+        function repeat() {
+            circles
+                .attr('stroke-width',1)
+                .attr('stroke', 'pink')
+                .attr('opacity', 1)
+                .transition()
+                .duration(2000)
+                .attr('stroke-width', 25)
+                .attr('opacity', 0)
+                .on('end',repeat);
+        };
 
         svg.call(d3.drag().on('drag', (event) => {
             const rotate = projection.rotate()
@@ -130,6 +186,7 @@ export default function Map({data, size}) {
         //     rotateTimer.restart(rotateFunction, 200);
         // }
     }, [data, isRotating])
+
 
     return (
         <div id="globe" ref={wrapperRef} >
