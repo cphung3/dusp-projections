@@ -23,11 +23,25 @@ const theme = createMuiTheme({
 });
 
 export default class App extends Component {
-  state = { scroll: 0 , clicked: false};
+  state = { 
+    scroll: 0 , 
+    clicked: false,
+    submissions: {},
+    isLoaded: false,
+  };
 
   componentDidMount() {
-    axios.get('/api/getUsername').then(res =>{
+    // fetch the spreadsheet submission data from server
+    const tempObj = {};
+    axios.get('/api/responses').then(res =>{
       console.log(res)
+      res.data.responses.forEach((val, idx) => {
+        let iso = val.iso;
+        tempObj[iso] = tempObj[iso] || [];
+        tempObj[iso].push(val)
+      })
+      this.setState({submissions: tempObj, isLoaded: true});
+      console.log(this.state)
     })
   }
 
@@ -40,7 +54,7 @@ export default class App extends Component {
   // }
 
   render() {
-    const { scroll, clicked } = this.state;
+    const { scroll, clicked, submissions, isLoaded } = this.state;
     return (
       <MuiThemeProvider theme={theme} >
         <div className='block'>
@@ -53,7 +67,10 @@ export default class App extends Component {
           </div>
           {/* <div className={`reveal-main ${scroll > 200 ? 'active' : ""} `}></div> */}
           <div className="background">
-            <Map size={800} data={MapData}/>
+            { isLoaded ? 
+                <Map submissions={submissions} size={800} data={MapData}/>
+                : null
+            }
           </div>
         </div>
       </MuiThemeProvider>

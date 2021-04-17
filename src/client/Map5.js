@@ -44,12 +44,13 @@ const pointData = [
  * @param {Integer} size parameter used for width and height
  * @returns 
  */
-export default function Map({data, size}) {
+export default function Map({submissions, data, size}) {
     const svgRef = useRef();
     const wrapperRef = useRef();
     const [selectedCountry, setSelectedCountry] = useState(null)
     const [isRotating, setIsRotating] = useState(true)
     const [open, setOpen] = useState(false);
+    const [submissionData, setSubmissionData] = useState([])
 
     const sensitivity = 75
     // function stopRotate() {
@@ -63,7 +64,10 @@ export default function Map({data, size}) {
 
     const openModal = (e, d) => {
         setOpen(true);
-        setSelectedCountry(d.properties.NAME)
+        setSelectedCountry(d.properties.NAME);
+        const selectedISO = d.properties.ISO_A3;
+        setSubmissionData(submissions[selectedISO]);
+        console.log(submissions, selectedISO);
     }
     const closeModal = () => {
         setOpen(false);
@@ -195,7 +199,7 @@ export default function Map({data, size}) {
                 width={size} 
                 height={size} 
                 ref={svgRef}>
-                    <MosaicModal selectedCountry={selectedCountry} open={open || false} handleClose={closeModal}/>
+                    <MosaicModal submissionData={submissionData} selectedCountry={selectedCountry} open={open || false} handleClose={closeModal}/>
                 </svg>
         </div>
     )

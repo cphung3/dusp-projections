@@ -67,12 +67,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MosaicModal({selectedCountry, open, handleClose}) {
+export default function MosaicModal({submissionData, selectedCountry, open, handleClose}) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [cardClicked, setCardClicked] = React.useState(false);
-
+  console.log(submissionData)
   const handleCloseModal = () => {
     handleClose();
     setCardClicked(false);
@@ -115,7 +115,7 @@ export default function MosaicModal({selectedCountry, open, handleClose}) {
                     <h1 className={classes.title} id="simple-modal-title">{selectedCountry}</h1>
                     <div className={classes.line}/>
                   </div>
-                  <MosaicCard setCardClicked={setCardClicked}/>
+                  {submissionData.map((data, idx) => <MosaicCard key={idx} data={data} setCardClicked={setCardClicked}/>)}
                 </div>
               }
             </Paper>

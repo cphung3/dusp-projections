@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MosaicCard({setCardClicked}) {
+export default function MosaicCard({data, setCardClicked}) {
   const classes = useStyles();
 
   const handleClick = () => {
