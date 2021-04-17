@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Reptile from '../assets/contemplative-reptile.jpg';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const useStyles = makeStyles({
   root: {
@@ -17,13 +18,27 @@ const useStyles = makeStyles({
   media: {
     height: 140,
   },
+  icon: {
+    width: '10px',
+    margin: '0px 10px',
+  },
+  subtitle: {
+    display: 'flex', 
+    justifyContent: 'center',
+    alignItems: 'center', 
+    fontSize: '.8rem',
+  },
+  content: {
+    padding: '9px',
+  }
 });
 
-export default function MosaicCard({data, setCardClicked}) {
+export default function MosaicCard({index, data, setCardClicked, setSelectedCard}) {
   const classes = useStyles();
 
   const handleClick = () => {
-    setCardClicked(true)
+    setSelectedCard(index);
+    setCardClicked(true);
   }
 
   return (
@@ -37,9 +52,9 @@ export default function MosaicCard({data, setCardClicked}) {
           image={Reptile}
           title="Contemplative Reptile"
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+        <CardContent className={classes.content}>
+          <Typography variant="subtitle1" className={classes.subtitle}>
+            <b>{data.title}</b> <FiberManualRecordIcon color="primary" className={classes.icon}/> {data.name}
           </Typography>
           {/* <Typography variant="body2" color="textSecondary" component="p">
             Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging

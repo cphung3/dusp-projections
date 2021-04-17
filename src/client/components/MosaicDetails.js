@@ -45,19 +45,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MosaicDetails() {
+export default function MosaicDetails({selectedCard, submissionData}) {
     const classes = useStyles();
-    // getModalStyle is not a pure function, we roll the style only on the first render
+    
+    const data = submissionData[selectedCard] || {}
+    console.log('details', selectedCard, submissionData, data)
 
     return (
         <div>
             <div className={classes.container}>
-                <h1 className={classes.title} id="simple-modal-title">Title of Paper</h1>
+                <h1 className={classes.title} id="simple-modal-title">{data.title}</h1>
                 <div className={classes.lineContainer}>
                     <div className={classes.line}/>
                 </div>
                 <div className={classes.subtext}>
-                    <h5>Author Name</h5>
+                    <h5>{data.name}</h5>
                     <FiberManualRecordIcon color="primary" className={classes.icon}/>
                     <h5>Publishing Date</h5>
                     <FiberManualRecordIcon color="primary" className={classes.icon}/>

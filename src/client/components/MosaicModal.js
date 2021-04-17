@@ -77,6 +77,7 @@ export default function MosaicModal({submissionData, selectedCountry, open, hand
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [cardClicked, setCardClicked] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(0);
   console.log(submissionData)
   const handleCloseModal = () => {
     handleClose();
@@ -113,7 +114,7 @@ export default function MosaicModal({submissionData, selectedCountry, open, hand
                   animate={{ x: 0 }}
                   transition={{ stiffness: 150 }}
                   >
-                <MosaicDetails  />
+                <MosaicDetails selectedCard={selectedCard} submissionData={submissionData} />
               </motion.div>
               : 
               <div>
@@ -121,7 +122,7 @@ export default function MosaicModal({submissionData, selectedCountry, open, hand
                   <h1 className={classes.title} id="simple-modal-title">{selectedCountry}</h1>
                   <div className={classes.line}/>
                 </div>
-                {submissionData.map((data, idx) => <MosaicCard key={idx} data={data} setCardClicked={setCardClicked}/>)}
+                {submissionData.map((data, idx) => <MosaicCard key={idx} index={idx} data={data} setSelectedCard={setSelectedCard} setCardClicked={setCardClicked}/>)}
               </div>
             }
           </Paper>
