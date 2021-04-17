@@ -4,6 +4,7 @@ import ReactImage from './react.png';
 // import Map from './Map.js';
 import { animations } from 'react-animation'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import axios from 'axios';
 
 import Map from './Map5.js';
 import LandingOverlay from './components/LandingOverlay.js'
@@ -24,9 +25,11 @@ const theme = createMuiTheme({
 export default class App extends Component {
   state = { scroll: 0 , clicked: false};
 
-  // componentDidMount() {
-  //   window.addEventListener('scroll', this.handleScroll, { passive: true })
-  // }
+  componentDidMount() {
+    axios.get('/api/getUsername').then(res =>{
+      console.log(res)
+    })
+  }
 
   // componentWillUnmount() {
   //   window.removeEventListener('scroll', this.handleScroll)

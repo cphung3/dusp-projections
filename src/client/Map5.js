@@ -62,7 +62,6 @@ export default function Map({data, size}) {
     // }
 
     const openModal = (e, d) => {
-        console.log('object: ', e, d)
         setOpen(true);
         setSelectedCountry(d.properties.NAME)
     }

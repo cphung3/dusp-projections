@@ -4,3 +4,6 @@ dist
 *.log
 yarn.lock
 datasets
+credentials
+.env
+service_account_credentials.json
