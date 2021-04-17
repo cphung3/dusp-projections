@@ -22,6 +22,7 @@ function getModalStyle() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  // sets the transprency layer
   paperOuter: {
     position: 'absolute',
     width: '80%',
@@ -29,9 +30,13 @@ const useStyles = makeStyles((theme) => ({
     // backgroundColor: theme.palette.background.paper,
     opacity: 0.85,
   },
+  // keeps the inner cards opaque
   paperInner: {
+    position: 'absolute',
+    background: 0,
+    width: '75%',
+    height: '65%',
     padding: theme.spacing(2, 4, 3),
-
   },
   container: {
     display: 'flex',
@@ -52,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   titleBar: {
     width: '100%',
     height: '35px',
-    backgroundColor: 'gray',
+    background: 'linear-gradient(94deg, #809e85, #526355)',
     opacity: 1,
     display: 'flex',
     alignItems: 'center',
@@ -99,26 +104,26 @@ export default function MosaicModal({submissionData, selectedCountry, open, hand
                 null
               }
             </div>
-            <Paper square elevation={0} className={classes.paperInner}>
-              { cardClicked ? 
-                <motion.div   
-                    className="col-md-6 offset-md-3"
-                    initial={{ x: '100vw' }}
-                    animate={{ x: 0 }}
-                    transition={{ stiffness: 150 }}
-                    >
-                  <MosaicDetails  />
-                </motion.div>
-                : 
-                <div>
-                  <div className={classes.container}>
-                    <h1 className={classes.title} id="simple-modal-title">{selectedCountry}</h1>
-                    <div className={classes.line}/>
-                  </div>
-                  {submissionData.map((data, idx) => <MosaicCard key={idx} data={data} setCardClicked={setCardClicked}/>)}
+          </Paper>
+          <Paper square elevation={0} style={modalStyle} className={classes.paperInner}>
+            { cardClicked ? 
+              <motion.div   
+                  className="col-md-6 offset-md-3"
+                  initial={{ x: '100vw' }}
+                  animate={{ x: 0 }}
+                  transition={{ stiffness: 150 }}
+                  >
+                <MosaicDetails  />
+              </motion.div>
+              : 
+              <div>
+                <div className={classes.container}>
+                  <h1 className={classes.title} id="simple-modal-title">{selectedCountry}</h1>
+                  <div className={classes.line}/>
                 </div>
-              }
-            </Paper>
+                {submissionData.map((data, idx) => <MosaicCard key={idx} data={data} setCardClicked={setCardClicked}/>)}
+              </div>
+            }
           </Paper>
         </div>
       </Modal>

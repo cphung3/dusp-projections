@@ -12,6 +12,7 @@ import Reptile from '../assets/contemplative-reptile.jpg';
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    opacity: 1,
   },
   media: {
     height: 140,

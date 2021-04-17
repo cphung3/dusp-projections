@@ -66,7 +66,8 @@ export default function Map({submissions, data, size}) {
         setOpen(true);
         setSelectedCountry(d.properties.NAME);
         const selectedISO = d.properties.ISO_A3;
-        setSubmissionData(submissions[selectedISO]);
+        const selectedSubmission = submissions[selectedISO] || [];
+        setSubmissionData(selectedSubmission);
         console.log(submissions, selectedISO);
     }
     const closeModal = () => {
