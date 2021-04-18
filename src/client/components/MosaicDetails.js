@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'flex-start',
         flexWrap: 'wrap',
+        textAlign: 'left',
     },
     title: {
         width: '100%',
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'flex-start',
         alignItems: 'center',
+        width: '100%',
     },
     icon: {
         width: '10px',
@@ -43,13 +45,15 @@ const useStyles = makeStyles((theme) => ({
     media: {
         height: 500,
     },
+    description: {
+        marginBottom: '30px',
+    }
 }));
 
 export default function MosaicDetails({selectedCard, submissionData}) {
     const classes = useStyles();
     
     const data = submissionData[selectedCard] || {}
-    console.log('details', selectedCard, submissionData, data)
 
     return (
         <div>
@@ -59,11 +63,14 @@ export default function MosaicDetails({selectedCard, submissionData}) {
                     <div className={classes.line}/>
                 </div>
                 <div className={classes.subtext}>
-                    <h5>{data.name}</h5>
+                    <h3>{data.name}</h3>
                     <FiberManualRecordIcon color="primary" className={classes.icon}/>
-                    <h5>Publishing Date</h5>
+                    <h3>Publishing Date</h3>
                     <FiberManualRecordIcon color="primary" className={classes.icon}/>
-                    <h5>Source</h5>
+                    <h3>Source</h3>
+                </div>
+                <div className={classes.description}>
+                    {data.description}
                 </div>
             </div>
                 <CardMedia

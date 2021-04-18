@@ -34,14 +34,12 @@ export default class App extends Component {
     // fetch the spreadsheet submission data from server
     const tempObj = {};
     axios.get('/api/responses').then(res =>{
-      console.log(res)
       res.data.responses.forEach((val, idx) => {
         let iso = val.iso;
         tempObj[iso] = tempObj[iso] || [];
         tempObj[iso].push(val)
       })
       this.setState({submissions: tempObj, isLoaded: true});
-      console.log(this.state)
     })
   }
 

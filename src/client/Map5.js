@@ -68,7 +68,6 @@ export default function Map({submissions, data, size}) {
         const selectedISO = d.properties.ISO_A3;
         const selectedSubmission = submissions[selectedISO] || [];
         setSubmissionData(selectedSubmission);
-        console.log(submissions, selectedISO);
     }
     const closeModal = () => {
         setOpen(false);

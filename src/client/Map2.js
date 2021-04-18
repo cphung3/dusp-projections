@@ -33,11 +33,9 @@ export default function Map(props) {
     .then(geoJson => {
       setGeoJson(geoJson)
         const proj = d3.geoOrthographic().fitSize([props.size, props.size], geoJson).rotate([rotation])
-        console.log('in use effect', proj)
         const geoGenerator = d3.geoPath().projection(proj)
         setPathString(geoGenerator(geoJson))
         setProjection(proj)
-        console.log('projection: ', projection)
       });
   }, []);
 

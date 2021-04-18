@@ -123,7 +123,6 @@ export default class Map extends Component {
     let map = svg.append("g")
   
     // d3.json('../../datasets/ne_110m_admin_0_countries.geojson', function(err, d) {
-    //   console.log('waht is d: ', d)
     //   map.append("g")
     //     .attr("class", "countries" )
     //     .selectAll("path")

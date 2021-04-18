@@ -13,6 +13,8 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    minWidth: 345,
+    marginRight: '20px',
     opacity: 1,
   },
   media: {
@@ -29,7 +31,12 @@ const useStyles = makeStyles({
     fontSize: '.8rem',
   },
   content: {
-    padding: '9px',
+    padding: '0 10px',
+  },
+  ellipsis: {
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
   }
 });
 
@@ -54,7 +61,7 @@ export default function MosaicCard({index, data, setCardClicked, setSelectedCard
         />
         <CardContent className={classes.content}>
           <Typography variant="subtitle1" className={classes.subtitle}>
-            <b>{data.title}</b> <FiberManualRecordIcon color="primary" className={classes.icon}/> {data.name}
+            <b className={classes.ellipsis}>{data.title}</b> <FiberManualRecordIcon color="primary" className={classes.icon}/> <p className={classes.ellipsis}>{data.name}</p> 
           </Typography>
           {/* <Typography variant="body2" color="textSecondary" component="p">
             Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging

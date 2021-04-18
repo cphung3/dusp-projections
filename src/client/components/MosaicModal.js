@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     width: '75%',
     height: '65%',
     padding: theme.spacing(2, 4, 3),
+    overflow: 'auto',
   },
   container: {
     display: 'flex',
@@ -70,6 +71,24 @@ const useStyles = makeStyles((theme) => ({
     padding: '4px',
     marginLeft: '8px',
   },
+  backNav: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    color: 'white',
+    cursor: 'pointer',
+    alignItems: 'center',
+    fontSize: '23px',
+  },
+  cardContainer: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexFlow: 'wrap',
+  },
+  card: {
+    maxWidth: '300px',
+    marginRight: '20px',
+    minWidth: '300px',
+  }
 }));
 
 export default function MosaicModal({submissionData, selectedCountry, open, handleClose}) {
@@ -78,7 +97,6 @@ export default function MosaicModal({submissionData, selectedCountry, open, hand
   const [modalStyle] = React.useState(getModalStyle);
   const [cardClicked, setCardClicked] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(0);
-  console.log(submissionData)
   const handleCloseModal = () => {
     handleClose();
     setCardClicked(false);
@@ -100,7 +118,10 @@ export default function MosaicModal({submissionData, selectedCountry, open, hand
           <Paper square elevation={3} style={modalStyle} className={classes.paperOuter}>
             <div className={classes.titleBar}>
               { cardClicked ? 
-                  <ArrowBackIosIcon onClick={handleBack} className={classes.icon}/>
+                <div onClick={handleBack} className={classes.backNav}>
+                  <ArrowBackIosIcon className={classes.icon}/>
+                  <p>Back</p>
+                </div>
                 :
                 null
               }
@@ -122,7 +143,9 @@ export default function MosaicModal({submissionData, selectedCountry, open, hand
                   <h1 className={classes.title} id="simple-modal-title">{selectedCountry}</h1>
                   <div className={classes.line}/>
                 </div>
-                {submissionData.map((data, idx) => <MosaicCard key={idx} index={idx} data={data} setSelectedCard={setSelectedCard} setCardClicked={setCardClicked}/>)}
+                <div className={classes.cardContainer}>
+                  {submissionData.map((data, idx) => <MosaicCard key={idx} index={idx} data={data} setSelectedCard={setSelectedCard} setCardClicked={setCardClicked}/>)}
+                </div>
               </div>
             }
           </Paper>
