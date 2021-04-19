@@ -1,6 +1,6 @@
 // googleSheetsService.js
 const { google } = require('googleapis')
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+const SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 const sheets = google.sheets('v4');
 const { GoogleAuth } = require('google-auth-library');
 
@@ -22,18 +22,30 @@ async function getSpreadSheet({spreadsheetId, auth}) {
     return res;
   }
   
-  async function getSpreadSheetValues({spreadsheetId, auth, sheetName}) {
+async function getSpreadSheetValues({spreadsheetId, auth, sheetName}) {
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId,
       auth,
       range: sheetName
     });
     return res;
-  }
+}
+
+async function updateSpreadSheetValues({spreadsheetId, auth, range, body}) {
+  const res = await sheets.spreadsheets.values.update({
+    spreadsheetId: spreadsheetId,
+    auth,
+    valueInputOption: 'USER_ENTERED',
+    range: range,
+    resource: body
+  });
+  return res;
+}
   
   
   module.exports = {
     getAuthToken,
     getSpreadSheet,
-    getSpreadSheetValues
+    getSpreadSheetValues,
+    updateSpreadSheetValues
   }

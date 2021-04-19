@@ -40,6 +40,7 @@ const pointData = [
 /**
  * Source inspiration from https://dev.to/muratkemaldar/interactive-world-map-with-d3-geo-498
  * 
+ * @param {Object} submissions submitted data object from Google spreadsheets
  * @param {Object} data GeoJson map
  * @param {Integer} size parameter used for width and height
  * @returns 
@@ -61,6 +62,7 @@ export default function Map({submissions, data, size}) {
     //     setIsRotating(true)
     //     // isRotating.restart();
     // }
+    console.log(submissions)
 
     const openModal = (e, d) => {
         setOpen(true);

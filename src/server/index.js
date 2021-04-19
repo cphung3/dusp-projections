@@ -7,7 +7,8 @@ require('dotenv').config();
 const {
     getAuthToken,
     getSpreadSheet,
-    getSpreadSheetValues
+    getSpreadSheetValues,
+    updateSpreadSheetValues
   } = require('./googleSheetsService.js');
   
   const spreadsheetId = process.env.SHEET_ID;
@@ -36,13 +37,30 @@ const {
         auth
       })
     //   console.log('output for getSpreadSheetValues', JSON.stringify(response.data, null, 2));
-      const headers = ['timestamp', 'title', 'name', 'email', 'affiliation', 'keywords', 'description', 'image', 'country', 'city', 'url', 'permission']
+      const headers = ['timestamp', 'title', 'name', 'email', 'affiliation', 'keywords', 'description', 'image', 'country', 'city', 'url', 'permission', 'coordinates']
       const values = response.data.values;
+      console.log("data", response.data.range)
       // remove question headers
-      sheetData = values.slice(1).map(arr => {
+      sheetData = values.slice(1).map((arr, idx) => {
             const obj = {};
             let iso = ''
-            for (const key in arr) {
+            for (const key in headers) {
+              if (headers[key] === "coordinates") {
+                const lat = 547;
+                const long = 678;
+                const values = [
+                  [lat, long]
+                ]
+                const range = `'${sheetName}'!M${idx + 2}:N${idx + 2}`;
+                const body = {
+                  values: values
+                }
+                // check if lon, lat already exist
+                if(!arr[key]) {
+                  updateSpreadSheetValues({spreadsheetId, auth, range, body})
+                }
+                obj[headers[key]] = [lat, long];
+              } else {
                 let val = arr[key];
                 if (headers[key] === 'country') {
                     const countrySplit = arr[key].replace(/\(/g, "").replace(/\)/g, "").split(" "); // remove all parentheses
@@ -51,11 +69,12 @@ const {
                     val = countrySplit.join(" ");
                 }
                 obj[headers[key]] = val;
+              }
             }
             obj["iso"] = iso;
             return obj
         })
-        console.log(sheetData)
+        // console.log(sheetData)
     } catch(error) {
       console.log(error.message, error.stack);
     }
@@ -73,6 +92,7 @@ const app = express();
 app.use(express.static('dist'));
 app.get('/api/responses', async (req, res) => {
     while (sheetData.length === 0) {}
+    console.log(sheetData)
     res.send({ responses: sheetData })
 });
 
