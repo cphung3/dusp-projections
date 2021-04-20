@@ -25,6 +25,7 @@
     "google-spreadsheet": "^3.1.15",
     "googleapis": "^39.2.0",
     "json-loader": "^0.5.7",
+    "node-fetch": "^2.6.1",
     "ola": "^1.1.1",
     "react": "^16.5.2",
     "react-animation": "^1.2.2",
