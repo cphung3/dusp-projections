@@ -4,39 +4,6 @@ import './app.css';
 import tip from "d3-tip";
 import MosaicModal from './components/MosaicModal';
 
-const pointData = [
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [8, 48]
-      },
-      "properties": {
-        "name": "Germany"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [155, 110]
-      },
-      "properties": {
-        "name": "Greenland"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [286, 40]
-      },
-      "properties": {
-        "name": "New York"
-      }
-    }
-  ]
-
 /**
  * Source inspiration from https://dev.to/muratkemaldar/interactive-world-map-with-d3-geo-498
  * 
@@ -45,7 +12,7 @@ const pointData = [
  * @param {Integer} size parameter used for width and height
  * @returns 
  */
-export default function Map({submissions, data, size}) {
+export default function Map({submissions, coordData, data, size}) {
     const svgRef = useRef();
     const wrapperRef = useRef();
     const [selectedCountry, setSelectedCountry] = useState(null)
@@ -125,11 +92,12 @@ export default function Map({submissions, data, size}) {
         
         const circles = svg
             .selectAll("circle")
-            .data(pointData)
+            .data(coordData)
             .join("path") // has to be a path because circles don't have edge clipping
             .attr("class", "cities")
             .attr("d", geo => path(geo.coordinates))
             .attr("fill", "pink")
+            .attr("point-events", "none")
 
         repeat();
 
@@ -190,7 +158,7 @@ export default function Map({submissions, data, size}) {
         // } else {
         //     rotateTimer.restart(rotateFunction, 200);
         // }
-    }, [data, isRotating])
+    }, [coordData, data, isRotating])
 
 
     return (

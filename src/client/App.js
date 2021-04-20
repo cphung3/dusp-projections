@@ -27,20 +27,34 @@ export default class App extends Component {
     scroll: 0 , 
     clicked: false,
     submissions: {},
+    coordData: [],
     isLoaded: false,
   };
 
   componentDidMount() {
     // fetch the spreadsheet submission data from server
     const tempObj = {};
+    const coordData = [];
+    const addedPoints = new Set()
     axios.get('/api/responses').then(res =>{
-      console.log(res)
       res.data.responses.forEach((val, idx) => {
+        const location = `${val.coordinates.lng},${val.coordinates.lat}`;
+        if (!addedPoints.has(location)) {
+          let coord = { 
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [val.coordinates.lng, val.coordinates.lat]
+            },
+          }
+          coordData.push(coord);
+          addedPoints.add(location);
+        }
         let iso = val.iso;
         tempObj[iso] = tempObj[iso] || [];
         tempObj[iso].push(val)
       })
-      this.setState({submissions: tempObj, isLoaded: true});
+      this.setState({submissions: tempObj, coordData: coordData, isLoaded: true});
     })
   }
 
@@ -53,7 +67,7 @@ export default class App extends Component {
   // }
 
   render() {
-    const { scroll, clicked, submissions, isLoaded } = this.state;
+    const { scroll, clicked, submissions, coordData, isLoaded } = this.state;
     return (
       <MuiThemeProvider theme={theme} >
         <div className='block'>
@@ -67,7 +81,7 @@ export default class App extends Component {
           {/* <div className={`reveal-main ${scroll > 200 ? 'active' : ""} `}></div> */}
           <div className="background">
             { isLoaded ? 
-                <Map submissions={submissions} size={800} data={MapData}/>
+                <Map submissions={submissions} coordData={coordData} size={800} data={MapData}/>
                 : null
             }
           </div>

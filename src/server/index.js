@@ -72,7 +72,7 @@ async function getSpreadSheetValuesResponse() {
                 if(arr[key]) {
                   const coords = {
                     lat: arr[key],
-                    lng: arr[key+1]
+                    lng: arr[parseInt(key)+1]
                   }
                   obj[headers[key]] = coords
                 } else {
@@ -95,7 +95,6 @@ async function getSpreadSheetValuesResponse() {
                 let val = arr[key];
                 if (headers[key] === 'country') {
                     const countrySplit = arr[key].replace(/\(/g, "").replace(/\)/g, "").split(/\s/g); // remove all parentheses
-                    console.log('countrysplit: ', countrySplit)
                     iso = countrySplit[countrySplit.length - 1]; // gets iso value from country
                     countrySplit.pop()
                     country = cleanString(countrySplit.join("+"))
