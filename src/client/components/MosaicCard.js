@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Reptile from '../assets/contemplative-reptile.jpg';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import Image from 'material-ui-image'
 
 const useStyles = makeStyles({
   root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
     opacity: 1,
   },
   media: {
-    height: 140,
+    paddingTop: 0,
   },
   icon: {
     width: '10px',
@@ -41,11 +42,17 @@ const useStyles = makeStyles({
 });
 
 export default function MosaicCard({index, data, setCardClicked, setSelectedCard}) {
+  const [isLoading, setIsLoading] = useState(true)
+
   const classes = useStyles();
 
   const handleClick = () => {
     setSelectedCard(index);
     setCardClicked(true);
+  }
+  function handleLoaded() {
+    setIsLoading(false);
+    console.log('loading false')
   }
 
   return (
@@ -54,11 +61,14 @@ export default function MosaicCard({index, data, setCardClicked, setSelectedCard
         onClick={handleClick}
         >
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={Reptile}
-          title="Contemplative Reptile"
-        />
+          <Image
+            className={classes.media}
+            src={data.image}
+            title={data.title}
+            imageStyle={{height: 'auto'}}
+            style={{paddingTop: 'calc(47%)', maxHeight: '168px', overflow: 'hidden'}}
+            animationDuration={1000}
+          />
         <CardContent className={classes.content}>
           <Typography variant="subtitle1" className={classes.subtitle}>
             <b className={classes.ellipsis}>{data.title}</b> <FiberManualRecordIcon color="primary" className={classes.icon}/> <p className={classes.ellipsis}>{data.name}</p> 

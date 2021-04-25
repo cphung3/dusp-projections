@@ -8,7 +8,7 @@ import MosaicCard from './MosaicCard';
 import MosaicContent from './MosaicContent';
 import { motion } from 'framer-motion';
 import MosaicDetails from './MosaicDetails';
-
+ 
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   titleBar: {
     width: '100%',
     height: '35px',
-    background: 'linear-gradient(94deg, #809e85, #526355)',
+    background: 'white',
     opacity: 1,
     display: 'flex',
     alignItems: 'center',
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     display: 'flex',
     justifyContent: 'flex-start',
-    color: 'white',
+    color: 'gray',
     cursor: 'pointer',
     padding: '4px',
     marginLeft: '8px',
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   backNav: {
     display: 'flex',
     justifyContent: 'flex-start',
-    color: 'white',
+    color: 'gray',
     cursor: 'pointer',
     alignItems: 'center',
     fontSize: '23px',

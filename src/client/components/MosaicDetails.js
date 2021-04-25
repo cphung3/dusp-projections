@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
         margin: '0px 10px',
     },
     media: {
-        height: 500,
+        // height: 500,
+        maxWidth: '100%',
     },
     description: {
         marginBottom: '30px',
@@ -73,10 +74,11 @@ export default function MosaicDetails({selectedCard, submissionData}) {
                     {data.description}
                 </div>
             </div>
-                <CardMedia
+                <img
                     className={classes.media}
-                    image={Reptile}
-                    title="Contemplative Reptile"
+                    src={data.image}
+                    title={data.title}
+                    onProgress={console.log('getting image')}
                 />
         </div>
     )

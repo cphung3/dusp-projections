@@ -8,7 +8,6 @@ require('dotenv').config();
 
 const {
     getAuthToken,
-    getSpreadSheet,
     getSpreadSheetValues,
     updateSpreadSheetValues
 } = require('./googleSheetsService.js');
@@ -34,19 +33,6 @@ function cleanString(input) {
       }
   }
   return output;
-}
-
-async function testGetSpreadSheet() {
-    try {
-      const auth = await getAuthToken();
-      const response = await getSpreadSheet({
-        spreadsheetId,
-        auth
-      })
-    //   console.log('output for getSpreadSheet', JSON.stringify(response.data, null, 2));
-    } catch(error) {
-      console.log(error.message, error.stack);
-    }
 }
   
 async function getSpreadSheetValuesResponse() {
@@ -91,7 +77,14 @@ async function getSpreadSheetValuesResponse() {
                   obj[headers[key]] = geo.results[0].geometry.location;
 
                 }
-              } else {
+              } else if(headers[key] === "image") {
+                if(arr[key]) {
+                  const id = arr[key].split("id=")[1];
+                  const downloadString = `http://drive.google.com/u/0/uc?id=${id}&export=download`
+                  obj[headers[key]] = downloadString;
+                } else obj[headers[key]] = '';
+              }
+              else {
                 let val = arr[key];
                 if (headers[key] === 'country') {
                     const countrySplit = arr[key].replace(/\(/g, "").replace(/\)/g, "").split(/\s/g); // remove all parentheses
