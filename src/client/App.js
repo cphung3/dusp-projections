@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import './app.css';
-import ReactImage from './react.png';
-// import Map from './Map.js';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import { animations } from 'react-animation'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import axios from 'axios';
 
 import Map from './Map5.js';
+import Grid from './Grid.js';
 import LandingOverlay from './components/LandingOverlay.js'
 import Navbar from './components/Navbar.js'
 import MapData from '../../datasets/ne_110m_admin_0_countries.geo.json'
@@ -69,24 +75,31 @@ export default class App extends Component {
   render() {
     const { scroll, clicked, submissions, coordData, isLoaded } = this.state;
     return (
-      <MuiThemeProvider theme={theme} >
-        <div className='block'>
-          {/* <div className="foreground">
-            <Navbar />
-          </div> */}
-          <div className="foreground">
-            <Navbar />
-            <LandingOverlay />
-          </div>
-          {/* <div className={`reveal-main ${scroll > 200 ? 'active' : ""} `}></div> */}
-          <div className="background">
-            { isLoaded ? 
-                <Map submissions={submissions} coordData={coordData} size={800} data={MapData}/>
-                : null
-            }
-          </div>
-        </div>
-      </MuiThemeProvider>
+      <Router>
+        <MuiThemeProvider theme={theme} >
+          <Switch>
+            <Route path="/map">
+              <div className='block'>
+                <div className="foreground">
+                  <Navbar />
+                  <LandingOverlay />
+                </div>
+                <div className="background">
+                  { isLoaded ? 
+                      <Map submissions={submissions} coordData={coordData} size={800} data={MapData}/>
+                      : null
+                  }
+                </div>
+              </div>
+            </Route>
+            <Route path="/grid">
+              <Navbar />
+              <Grid submissions={submissions}></Grid>
+            </Route>
+            <Redirect from="/" to="/map" />
+          </Switch>
+        </MuiThemeProvider>
+      </Router>
     );
   }
 }

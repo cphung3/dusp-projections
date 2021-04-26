@@ -33,6 +33,7 @@
     "react-animation": "^1.2.2",
     "react-dom": "^16.5.2",
     "react-globe.gl": "^2.14.6",
+    "react-router-dom": "^5.2.0",
     "react-scroll-parallax": "^2.3.5",
     "react-svg": "^12.1.0",
     "react-uuid": "^1.0.2",

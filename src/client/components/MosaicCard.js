@@ -15,7 +15,8 @@ const useStyles = makeStyles({
   root: {
     maxWidth: 345,
     minWidth: 345,
-    marginRight: '20px',
+    marginRight: 20,
+    marginBottom: 20,
     opacity: 1,
   },
   media: {

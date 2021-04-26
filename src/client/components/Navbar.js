@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'center',
     backgroundAttachment: 'fixed',
     opacity: 0.8,
+  },
+  link: {
+    textDecoration: 'none',
   }
 }));
 
@@ -54,25 +58,29 @@ export default function Navbar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.container}>
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            VISUALIZING CITIES
-          </Typography>
-          <div className={classes.navigation}>
-            <Typography variant="h6" className={classes.tab}>
-                Map
+        <AppBar position="static" className={classes.container}>
+          <Toolbar>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              VISUALIZING CITIES
             </Typography>
-            <Typography variant="h6" className={classes.tab}>
-                Grid
-            </Typography>
-          </div>
-          {/* <Button color="inherit">Login</Button> */}
-        </Toolbar>
-      </AppBar>
+            <div className={classes.navigation}>
+              <Link className={classes.link} to="/map">
+                <Typography variant="h6" className={classes.tab}>
+                  Map
+                </Typography>
+              </Link> 
+              <Link className={classes.link}  to="/grid">
+                <Typography variant="h6" className={classes.tab}>
+                  Grid
+                </Typography>
+              </Link>
+            </div>
+            {/* <Button color="inherit">Login</Button> */}
+          </Toolbar>
+        </AppBar>
     </div>
   );
 }
