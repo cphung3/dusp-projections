@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'center',
     backgroundAttachment: 'fixed',
     opacity: 0.8,
+    borderBottom: '.5px solid white',
   },
   link: {
     textDecoration: 'none',
@@ -58,11 +59,8 @@ export default function Navbar() {
 
   return (
     <div className={classes.root}>
-        <AppBar position="static" className={classes.container}>
+        <AppBar elevation={0} position="static" className={classes.container}>
           <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <MenuIcon />
-            </IconButton>
             <Typography variant="h6" className={classes.title}>
               VISUALIZING CITIES
             </Typography>

@@ -18,7 +18,7 @@ export default class LandingOverlay extends Component {
         const { clicked, hidden } = this.state;
 
         return (
-            <div className={`overlay ${hidden ? 'hidden' : ''}`} style={clicked ? { animation: animations.slideOut } : {}}>
+            <div className={`overlay ${hidden ? 'hidden' : ''}`} style={clicked ? { animation: animations.fadeOut } : {}}>
                 <div className="container">
                     <div className="heading">
                         PROJECTIONS

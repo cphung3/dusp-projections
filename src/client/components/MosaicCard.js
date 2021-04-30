@@ -7,9 +7,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Reptile from '../assets/contemplative-reptile.jpg';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Image from 'material-ui-image'
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles({
   root: {
@@ -51,6 +51,10 @@ export default function MosaicCard({index, data, setCardClicked, setSelectedCard
     setSelectedCard(index);
     setCardClicked(true);
   }
+  const loadingSkeleton = () => {
+    return (<Skeleton animation="wave" variant="rect" width={345} height={158} />);
+  }
+
   function handleLoaded() {
     setIsLoading(false);
     console.log('loading false')
@@ -64,6 +68,8 @@ export default function MosaicCard({index, data, setCardClicked, setSelectedCard
       <CardActionArea>
           <Image
             className={classes.media}
+            loading={loadingSkeleton()}
+            // disableSpinner={true}
             src={data.image}
             title={data.title}
             imageStyle={{height: 'auto'}}

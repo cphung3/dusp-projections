@@ -1,21 +1,20 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './app.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
 } from "react-router-dom";
-import { animations } from 'react-animation'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import axios from 'axios';
 
-import Map from './Map5.js';
+import Map from './Map.js';
 import Grid from './Grid.js';
 import LandingOverlay from './components/LandingOverlay.js'
 import Navbar from './components/Navbar.js'
 import MapData from '../../datasets/ne_110m_admin_0_countries.geo.json'
+import RightDrawer from './components/RightDrawer';
 
 const theme = createMuiTheme({
   palette: {
@@ -28,16 +27,29 @@ const theme = createMuiTheme({
   }
 });
 
-export default class App extends Component {
-  state = { 
-    scroll: 0 , 
-    clicked: false,
-    submissions: {},
-    coordData: [],
-    isLoaded: false,
+
+
+
+export default function App() {
+  const [clicked, setClicked] = useState(false);
+  const [submissions, setSubmissions] = useState({});
+  const [coordData, setCoordData] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
   };
 
-  componentDidMount() {
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
+  // set the size of the globe based on the size of the user's window
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 2;
+  const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) - 150;
+
+  useEffect(()=> {
     // fetch the spreadsheet submission data from server
     const tempObj = {};
     const coordData = [];
@@ -60,9 +72,11 @@ export default class App extends Component {
         tempObj[iso] = tempObj[iso] || [];
         tempObj[iso].push(val)
       })
-      this.setState({submissions: tempObj, coordData: coordData, isLoaded: true});
+      setSubmissions(tempObj);
+      setCoordData(coordData);
+      setIsLoaded(true);
     })
-  }
+  }, [])
 
   // componentWillUnmount() {
   //   window.removeEventListener('scroll', this.handleScroll)
@@ -72,34 +86,36 @@ export default class App extends Component {
   //   this.setState({scroll: window.pageYOffset})
   // }
 
-  render() {
-    const { scroll, clicked, submissions, coordData, isLoaded } = this.state;
-    return (
-      <Router>
-        <MuiThemeProvider theme={theme} >
-          <Switch>
-            <Route path="/map">
-              <div className='block'>
-                <div className="foreground">
-                  <Navbar />
-                  <LandingOverlay />
-                </div>
-                <div className="background">
-                  { isLoaded ? 
-                      <Map submissions={submissions} coordData={coordData} size={800} data={MapData}/>
-                      : null
-                  }
-                </div>
+  return (
+    <Router>
+      <MuiThemeProvider theme={theme} >
+        <Switch>
+          <Route path="/map">
+            <div className='block'>
+              <div className="foreground">
+                <Navbar />
+                <LandingOverlay />
               </div>
-            </Route>
-            <Route path="/grid">
-              <Navbar />
-              <Grid submissions={submissions}></Grid>
-            </Route>
-            <Redirect from="/" to="/map" />
-          </Switch>
-        </MuiThemeProvider>
-      </Router>
-    );
-  }
+              <div className="background">
+                { isLoaded ? 
+                  (
+                    <div>
+                      <Map open={drawerOpen} handleDrawerOpen={handleDrawerOpen} submissions={submissions} coordData={coordData} sizeVw={vw} sizeVh={vh} data={MapData}/>
+                      <RightDrawer open={drawerOpen} handleDrawerClose={handleDrawerClose}></RightDrawer>
+                    </div>
+                  )
+                    : null
+                }
+              </div>
+            </div>
+          </Route>
+          <Route path="/grid">
+            <Navbar />
+            <Grid submissions={submissions}></Grid>
+          </Route>
+          <Redirect from="/" to="/map" />
+        </Switch>
+      </MuiThemeProvider>
+    </Router>
+  );
 }
