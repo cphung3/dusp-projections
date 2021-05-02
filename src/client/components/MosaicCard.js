@@ -10,17 +10,20 @@ import Typography from '@material-ui/core/Typography';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Image from 'material-ui-image'
 import Skeleton from '@material-ui/lab/Skeleton';
+import LazyCardMedia from './LazyCardMedia.js';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
-    minWidth: 345,
+    // maxWidth: 300,
+    // minWidth: 300,
+    width: '15vw',
     marginRight: 20,
     marginBottom: 20,
     opacity: 1,
   },
   media: {
     paddingTop: 0,
+    // height: 180,
   },
   icon: {
     width: '10px',
@@ -66,6 +69,11 @@ export default function MosaicCard({index, data, setCardClicked, setSelectedCard
         onClick={handleClick}
         >
       <CardActionArea>
+          {/* <LazyCardMedia
+            className={classes.media}          
+            image={data.image}
+            title={data.title}
+          /> */}
           <Image
             className={classes.media}
             loading={loadingSkeleton()}
@@ -76,6 +84,14 @@ export default function MosaicCard({index, data, setCardClicked, setSelectedCard
             style={{paddingTop: 'calc(47%)', maxHeight: '168px', overflow: 'hidden'}}
             animationDuration={1000}
           />
+          {/* <LazyImage
+            image={data.image}
+          /> */}
+          {/* <CardMedia
+            className={classes.media}          
+            image={data.image}
+            title={data.title}
+          /> */}
         <CardContent className={classes.content}>
           <Typography variant="subtitle1" className={classes.subtitle}>
             <b className={classes.ellipsis}>{data.title}</b> <FiberManualRecordIcon color="primary" className={classes.icon}/> <p className={classes.ellipsis}>{data.name}</p> 

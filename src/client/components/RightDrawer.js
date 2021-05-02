@@ -1,42 +1,25 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import { IconButton, Paper } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import { motion } from 'framer-motion';
+import MosaicDetails from './MosaicDetails';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import MosaicCard from './MosaicCard';
+// const MosaicCard = React.lazy(() => import('./MosaicCard'));
 
-const drawerWidth = 600;
+const drawerWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 2.5;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-  },
-  appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginRight: drawerWidth,
   },
   title: {
     flexGrow: 1,
@@ -49,93 +32,95 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
   },
   drawerPaper: {
+    flexFlow: 'wrap',
+    display: 'flex',
     width: drawerWidth,
     top: 64,
   },
   drawerHeader: {
     display: 'flex',
-    alignItems: 'center',
+    // alignItems: 'center',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-start',
+    marginLeft: 20,
+    flex: 1,
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginRight: -drawerWidth,
+  closeDrawer: {
+    display: 'flex',
+    height: '100%',
   },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginRight: 0,
+  closeDrawerBtn: {
+    borderRadius: 0, 
+    padding: 3, 
+    borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+    // background: 'gray',
   },
+  container: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexWrap: 'wrap',
+    marginBottom: '30px',
+  },
+  title: {
+    width: '100%',
+    textAlign: 'left',
+  },
+  line: {
+    margin: '0px',
+    backgroundColor: '#D67474',
+    width: '50px',
+    height: '2px',
+  },
+  titleBar: {
+    width: '100%',
+    height: '35px',
+    background: 'white',
+    opacity: 1,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  icon: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    color: 'gray',
+    cursor: 'pointer',
+    padding: '4px',
+    marginLeft: '8px',
+  },
+  backNav: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    color: 'gray',
+    cursor: 'pointer',
+    alignItems: 'center',
+    fontSize: '23px',
+  },
+  cardContainer: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexFlow: 'wrap',
+  },
+  card: {
+    maxWidth: '300px',
+    marginRight: '20px',
+    minWidth: '300px',
+  }
 }));
 
-export default function RightDrawer({open, handleDrawerClose}) {
+export default function RightDrawer({submissionData, selectedCountry, open, handleDrawerClose}) {
+  const [cardClicked, setCardClicked] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(0);
+
+  const handleBack = () => {
+    setCardClicked(false);
+  }
   const classes = useStyles();
   const theme = useTheme();
   
   return (
     <div className={classes.root}>
-      {/* <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap className={classes.title}>
-            Persistent drawer
-          </Typography>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="end"
-            onClick={handleDrawerOpen}
-            className={clsx(open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
-      >
-        <div className={classes.drawerHeader} />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </main> */}
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -145,29 +130,44 @@ export default function RightDrawer({open, handleDrawerClose}) {
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
+        <div className={classes.closeDrawer}>
+          <IconButton onClick={handleDrawerClose} className={classes.closeDrawerBtn}>
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+        <div className={classes.drawerHeader}>
+          {/* <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton> */}
+          <Paper square elevation={0} className={classes.paperInner}>
+            { cardClicked ? 
+              <motion.div   
+                  className="col-md-6 offset-md-3"
+                  initial={{ x: '100vw' }}
+                  animate={{ x: 0 }}
+                  transition={{ stiffness: 150 }}
+                  >
+                <MosaicDetails selectedCard={selectedCard} submissionData={submissionData} />
+              </motion.div>
+              : 
+              <div>
+                <div className={classes.container}>
+                  <h1 className={classes.title} id="simple-modal-title">{selectedCountry}</h1>
+                  <div className={classes.line}/>
+                </div>
+                <div className={classes.cardContainer}>
+                  {submissionData.map((data, idx) => 
+                  (
+                      <LazyLoadComponent>
+                        <MosaicCard key={idx} index={idx} data={data} setSelectedCard={setSelectedCard} setCardClicked={setCardClicked}/>
+                      </LazyLoadComponent>
+                  )
+                  )}
+                </div>
+              </div>
+            }
+          </Paper>
+        </div>
       </Drawer>
     </div>
   );

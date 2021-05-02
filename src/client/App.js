@@ -36,6 +36,8 @@ export default function App() {
   const [coordData, setCoordData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(null)
+  const [submissionData, setSubmissionData] = useState([])
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
@@ -94,14 +96,27 @@ export default function App() {
             <div className='block'>
               <div className="foreground">
                 <Navbar />
-                <LandingOverlay />
+                <LandingOverlay sizeVw={vw} sizeVh={vh}  />
               </div>
               <div className="background">
                 { isLoaded ? 
                   (
                     <div>
-                      <Map open={drawerOpen} handleDrawerOpen={handleDrawerOpen} submissions={submissions} coordData={coordData} sizeVw={vw} sizeVh={vh} data={MapData}/>
-                      <RightDrawer open={drawerOpen} handleDrawerClose={handleDrawerClose}></RightDrawer>
+                      <Map 
+                        open={drawerOpen} 
+                        setSelectedCountry={setSelectedCountry} 
+                        setSubmissionData={setSubmissionData}
+                        handleDrawerOpen={handleDrawerOpen} 
+                        submissions={submissions} 
+                        coordData={coordData} 
+                        sizeVw={vw} 
+                        sizeVh={vh} 
+                        data={MapData}/>
+                      <RightDrawer 
+                        selectedCountry={selectedCountry} 
+                        submissionData={submissionData}  
+                        open={drawerOpen} 
+                        handleDrawerClose={handleDrawerClose}/>
                     </div>
                   )
                     : null

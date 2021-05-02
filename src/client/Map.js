@@ -6,7 +6,7 @@ import MosaicModal from './components/MosaicModal';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 600;
+const drawerWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 2.5;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,13 +42,11 @@ const useStyles = makeStyles((theme) => ({
  * @param {Integer} size parameter used for width and height
  * @returns 
  */
-export default function Map({open, handleDrawerOpen, submissions, coordData, data, sizeVw, sizeVh}) {
+export default function Map({open, setSelectedCountry, setSubmissionData, handleDrawerOpen, submissions, coordData, data, sizeVw, sizeVh}) {
     const svgRef = useRef();
     const wrapperRef = useRef();
-    const [selectedCountry, setSelectedCountry] = useState(null)
     const [isRotating, setIsRotating] = useState(true)
     // const [open, setOpen] = useState(false);
-    const [submissionData, setSubmissionData] = useState([])
     const classes = useStyles();
 
     const sensitivity = 75
