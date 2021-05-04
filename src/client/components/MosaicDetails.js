@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Reptile from '../assets/contemplative-reptile.jpg';
 import CardMedia from '@material-ui/core/CardMedia';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -43,21 +46,45 @@ const useStyles = makeStyles((theme) => ({
         margin: '0px 10px',
     },
     media: {
-        // height: 500,
-        maxWidth: '100%',
+        height: 400,
+        // maxWidth: '20vh',
     },
     description: {
         marginBottom: '30px',
+    },
+    outerContainer: {
+        marginRight: 30,
+    },
+    back: {
+        padding: 0,
+        marginTop: 12,
+    },
+    buttonContainer: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+    },
+    inactive: {
+        pointerEvents: 'none',
+        cursor: 'default',
     }
 }));
 
-export default function MosaicDetails({selectedCard, submissionData}) {
+export default function MosaicDetails({handleBack, selectedCard, submissionData}) {
     const classes = useStyles();
     
     const data = submissionData[selectedCard] || {}
+    console.log('link: ', data.url, data.url.length);
+    // const clicKBackButton = () => {
+    //     handleBack
+    // }
 
     return (
-        <div>
+        <div className={classes.outerContainer}>
+            <div className={classes.buttonContainer}>
+                <IconButton onClick={handleBack} aria-label="back" className={classes.back}>
+                    <ArrowBackIcon fontSize="large" />
+                </IconButton>
+            </div>
             <div className={classes.container}>
                 <h1 className={classes.title} id="simple-modal-title">{data.title}</h1>
                 <div className={classes.lineContainer}>
@@ -66,20 +93,28 @@ export default function MosaicDetails({selectedCard, submissionData}) {
                 <div className={classes.subtext}>
                     <h3>{data.name}</h3>
                     <FiberManualRecordIcon color="primary" className={classes.icon}/>
-                    <h3>Publishing Date</h3>
-                    <FiberManualRecordIcon color="primary" className={classes.icon}/>
-                    <h3>Source</h3>
+                    <h3>{data.timestamp}</h3>
+                    {/* <FiberManualRecordIcon color="primary" className={classes.icon}/>
+                    <h3>Source</h3> */}
                 </div>
                 <div className={classes.description}>
                     {data.description}
                 </div>
             </div>
-                <img
+            <a className={data.url.length === 0 ? classes.inactive : classes.active} href={data.url} rel="noopener noreferrer" target="_blank">
+                <CardMedia
+                    className={classes.media}
+                    image={data.image}
+                    title={data.title}
+                    onProgress={console.log('getting image')}
+                />
+            </a>
+                {/* <img
                     className={classes.media}
                     src={data.image}
                     title={data.title}
                     onProgress={console.log('getting image')}
-                />
+                /> */}
         </div>
     )
 }

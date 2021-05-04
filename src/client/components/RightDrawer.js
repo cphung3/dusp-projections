@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -13,6 +13,9 @@ import { motion } from 'framer-motion';
 import MosaicDetails from './MosaicDetails';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import MosaicCard from './MosaicCard';
+import InfiniteScroll from 'react-infinite-scroller';
+import Skeleton from '@material-ui/lab/Skeleton';
+
 // const MosaicCard = React.lazy(() => import('./MosaicCard'));
 
 const drawerWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 2.5;
@@ -36,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: drawerWidth,
     top: 64,
+    overflowY: 'hidden',
   },
   drawerHeader: {
     display: 'flex',
@@ -46,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     marginLeft: 20,
     flex: 1,
+    // maxWidth: 0,
+    overflow: 'auto',
+    maxHeight: '95vh',
   },
   closeDrawer: {
     display: 'flex',
@@ -53,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
   closeDrawerBtn: {
     borderRadius: 0, 
-    padding: 3, 
+    padding: 0, 
     borderRight: '1px solid rgba(0, 0, 0, 0.12)',
     // background: 'gray',
   },
@@ -61,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-start',
     flexWrap: 'wrap',
-    marginBottom: '30px',
+    margin: '20px 0',
   },
   title: {
     width: '100%',
@@ -101,6 +108,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-start',
     flexFlow: 'wrap',
+    // height: 700,
+    overflowY: 'auto',
   },
   card: {
     maxWidth: '300px',
@@ -110,12 +119,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function RightDrawer({submissionData, selectedCountry, open, handleDrawerClose}) {
-  const [cardClicked, setCardClicked] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(0);
+  const [cardClicked, setCardClicked] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(0);
+  // const [visibleCards, setVisibleCards] = useState(submissionData.slice(0, Math.min(submissionData.length, 4)))
+  const [incrementCount, setIncrementCount] = useState(0)
+  // const [cardsLoaded, setCardsLoaded] = useState(false)
+  // console.log('submissions cards: ', submissionData);
+  // console.log('visible cards: ', visibleCards);
+  // setVisibleCards(submissionData.slice(0, Math.min(submissionData.length, 4)));
 
   const handleBack = () => {
     setCardClicked(false);
   }
+  const handleScroll = (added) => {
+    setVisibleCards(submissionData.slice(0, Math.min(submissionData.length, 4+added)));
+  }
+
+  useEffect(() => {
+    console.log('inside use effect of drawer');
+  }, [])
+
   const classes = useStyles();
   const theme = useTheme();
   
@@ -139,7 +162,7 @@ export default function RightDrawer({submissionData, selectedCountry, open, hand
           {/* <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton> */}
-          <Paper square elevation={0} className={classes.paperInner}>
+          {/* <Paper square elevation={0} className={classes.paperInner}> */}
             { cardClicked ? 
               <motion.div   
                   className="col-md-6 offset-md-3"
@@ -147,26 +170,33 @@ export default function RightDrawer({submissionData, selectedCountry, open, hand
                   animate={{ x: 0 }}
                   transition={{ stiffness: 150 }}
                   >
-                <MosaicDetails selectedCard={selectedCard} submissionData={submissionData} />
+                <MosaicDetails handleBack={handleBack} selectedCard={selectedCard} submissionData={submissionData} />
               </motion.div>
               : 
-              <div>
+              <div style={{overflow: 'auto'}}>
                 <div className={classes.container}>
-                  <h1 className={classes.title} id="simple-modal-title">{selectedCountry}</h1>
+                  {/* <h3 className={classes.title} id="simple-modal-title">{}</h3> */}
                   <div className={classes.line}/>
                 </div>
                 <div className={classes.cardContainer}>
-                  {submissionData.map((data, idx) => 
-                  (
-                      <LazyLoadComponent>
-                        <MosaicCard key={idx} index={idx} data={data} setSelectedCard={setSelectedCard} setCardClicked={setCardClicked}/>
-                      </LazyLoadComponent>
-                  )
-                  )}
+                      {/* <InfiniteScroll
+                          pageStart={0}
+                          loadMore={() => handleScroll(4)}
+                          hasMore={false}
+                          loader={<div className="loader" key={0}>Loading ...</div>}
+                          useWindow={false}
+                      > */}
+                          {submissionData.map((data, idx) => 
+                            (
+                              <MosaicCard key={idx} index={idx} data={data} incrementCount={incrementCount} setIncrementCount={setIncrementCount} setSelectedCard={setSelectedCard} setCardClicked={setCardClicked}/>
+                            )
+                          )}
+                      {/* </InfiniteScroll> */}
+                  
                 </div>
               </div>
             }
-          </Paper>
+          {/* </Paper> */}
         </div>
       </Drawer>
     </div>

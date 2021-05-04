@@ -51,33 +51,36 @@ export default function App() {
   const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 2;
   const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) - 150;
 
-  useEffect(()=> {
+  useEffect(() => {
     // fetch the spreadsheet submission data from server
-    const tempObj = {};
-    const coordData = [];
-    const addedPoints = new Set()
-    axios.get('/api/responses').then(res =>{
-      res.data.responses.forEach((val, idx) => {
-        const location = `${val.coordinates.lng},${val.coordinates.lat}`;
-        if (!addedPoints.has(location)) {
-          let coord = { 
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [val.coordinates.lng, val.coordinates.lat]
-            },
+    const fetchData = async() => {
+      const tempObj = {};
+      const coordData = [];
+      const addedPoints = new Set()
+      axios.get('/api/responses').then(res =>{
+        res.data.responses.forEach((val, idx) => {
+          const location = `${val.coordinates.lng},${val.coordinates.lat}`;
+          if (!addedPoints.has(location)) {
+            let coord = { 
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [val.coordinates.lng, val.coordinates.lat]
+              },
+            }
+            coordData.push(coord);
+            addedPoints.add(location);
           }
-          coordData.push(coord);
-          addedPoints.add(location);
-        }
-        let iso = val.iso;
-        tempObj[iso] = tempObj[iso] || [];
-        tempObj[iso].push(val)
+          let iso = val.iso;
+          tempObj[iso] = tempObj[iso] || [];
+          tempObj[iso].push(val)
+        })
+        setSubmissions(tempObj);
+        setCoordData(coordData);
+        setIsLoaded(true);
       })
-      setSubmissions(tempObj);
-      setCoordData(coordData);
-      setIsLoaded(true);
-    })
+    }
+    fetchData();
   }, [])
 
   // componentWillUnmount() {

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   root: {
     // maxWidth: 300,
     // minWidth: 300,
-    width: '15vw',
+    width: '16vw',
     marginRight: 20,
     marginBottom: 20,
     opacity: 1,
@@ -45,7 +45,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function MosaicCard({index, data, setCardClicked, setSelectedCard}) {
+export default function MosaicCard({index, data, incrementCount, setIncrementCount, setCardClicked, setSelectedCard}) {
   const [isLoading, setIsLoading] = useState(true)
 
   const classes = useStyles();
@@ -58,8 +58,8 @@ export default function MosaicCard({index, data, setCardClicked, setSelectedCard
     return (<Skeleton animation="wave" variant="rect" width={345} height={158} />);
   }
 
-  function handleLoaded() {
-    setIsLoading(false);
+  const handleLoaded = () => {
+    setIncrementCount(incrementCount+1);
     console.log('loading false')
   }
 
@@ -83,6 +83,7 @@ export default function MosaicCard({index, data, setCardClicked, setSelectedCard
             imageStyle={{height: 'auto'}}
             style={{paddingTop: 'calc(47%)', maxHeight: '168px', overflow: 'hidden'}}
             animationDuration={1000}
+            // onLoad={handleLoaded}
           />
           {/* <LazyImage
             image={data.image}
