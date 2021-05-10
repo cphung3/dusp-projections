@@ -42,6 +42,11 @@ body {
   font-weight: 700;
   font-size: 30px;
 }
+.viewButton {
+  margin: 2px;
+  color: white;
+  border: 1px solid #ffe0e0;
+}
 .subheading {
   font-family: 'Montserrat';
   font-weight: 300;
@@ -57,6 +62,7 @@ body {
 }
 .body-text {
   max-width: 600px;
+  margin-bottom: 40px;
 }
 #globe {
   /* margin: 20px auto;
@@ -86,6 +92,10 @@ svg .country {
 svg .country:hover {
   /* stroke: rgb(223, 179, 179);
   stroke-width: 5px; */
+  fill: #D67474;
+  cursor: pointer;
+}
+svg .countryHover{
   fill: #D67474;
   cursor: pointer;
 }
@@ -129,7 +139,9 @@ svg .country {
   min-height: 100vh;
   /* position: relative; */
   flex: none; /* required */
-
+}
+.block .foreground-zIndex {
+  z-index: 10;
 }
 .block .background {
   /* position: fixed; */

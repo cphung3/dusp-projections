@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     title: {
         width: '100%',
         textAlign: 'left',
+        fontSize: '1.5vw',
     },
     lineContainer: {
         width: '100%',
@@ -40,17 +41,19 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'flex-start',
         alignItems: 'center',
         width: '100%',
+        fontSize: '1vw',
     },
     icon: {
         width: '10px',
         margin: '0px 10px',
     },
     media: {
-        height: 400,
+        height: 300,
         // maxWidth: '20vh',
     },
     description: {
         marginBottom: '30px',
+        fontSize: '.9vw',
     },
     outerContainer: {
         marginRight: 30,
@@ -73,7 +76,6 @@ export default function MosaicDetails({handleBack, selectedCard, submissionData}
     const classes = useStyles();
     
     const data = submissionData[selectedCard] || {}
-    console.log('link: ', data.url, data.url.length);
     // const clicKBackButton = () => {
     //     handleBack
     // }
@@ -106,7 +108,6 @@ export default function MosaicDetails({handleBack, selectedCard, submissionData}
                     className={classes.media}
                     image={data.image}
                     title={data.title}
-                    onProgress={console.log('getting image')}
                 />
             </a>
                 {/* <img

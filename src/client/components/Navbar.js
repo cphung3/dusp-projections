@@ -11,32 +11,31 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
-    width: '200px',
     position: 'absolute',
-    left: '50%',
-    marginLeft: '-100px',
+    left: '44vw',
     fontFamily: 'Poppins',
     fontWeight: 600,
-    fontSize: 20,
+    fontSize: '1.2vw',
     color: 'white',
   },
   tab: {
     fontFamily: 'Roboto',
     fontWeight: 300,
-    fontSize: 16,
+    fontSize: '.9vw',
     color: 'white',
     cursor: 'pointer',
   },
   navigation: {
       justifyContent: 'space-between',
       display: 'flex',
-      minWidth: '150px',
-      marginRight: '50px',
+      minWidth: '6vw',
+      marginRight: '1vw',
       position: 'absolute',
       right: '10px'
   },
@@ -51,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textDecoration: 'none',
+  },
+  toolbar: {
+    minHeight: '6vh',
+    maxHeight: '6vh',
   }
 }));
 
@@ -60,7 +63,7 @@ export default function Navbar() {
   return (
     <div className={classes.root}>
         <AppBar elevation={0} position="static" className={classes.container}>
-          <Toolbar>
+          <Toolbar className={classes.toolbar}>
             <Typography variant="h6" className={classes.title}>
               VISUALIZING CITIES
             </Typography>

@@ -15,29 +15,33 @@ import LandingOverlay from './components/LandingOverlay.js'
 import Navbar from './components/Navbar.js'
 import MapData from '../../datasets/ne_110m_admin_0_countries.geo.json'
 import RightDrawer from './components/RightDrawer';
+import FilterSelect from './components/FilterSelect';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#D67474'
+      main: '#e8ba97'
     },
     secondary: {
-      main: '#FFE8D6'
+      main: '#D67474'
     }
   }
 });
 
 
-
-
 export default function App() {
   const [clicked, setClicked] = useState(false);
   const [submissions, setSubmissions] = useState({});
-  const [coordData, setCoordData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(null)
+  const [selectedCountry, setSelectedCountry] = useState({})
   const [submissionData, setSubmissionData] = useState([])
+  const [cardClicked, setCardClicked] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [filterSelection, setFilterSelection] = useState([])
+  const [filteredSubmissions, setFilteredSubmissions] = useState({})
+  const [coordData, setCoordData] = useState([]);
+  const [filteredCoordData, setFilteredCoordData] = useState([]);
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
@@ -46,6 +50,10 @@ export default function App() {
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
+
+  const handleBack = () => {
+    setCardClicked(false);
+  }
 
   // set the size of the globe based on the size of the user's window
   const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 2;
@@ -67,6 +75,11 @@ export default function App() {
                 "type": "Point",
                 "coordinates": [val.coordinates.lng, val.coordinates.lat]
               },
+              "properties": {
+                "NAME": val.country,
+                "ISO_A3": val.iso,
+                "TIMESTAMP": val.timestamp,
+              },
             }
             coordData.push(coord);
             addedPoints.add(location);
@@ -76,7 +89,9 @@ export default function App() {
           tempObj[iso].push(val)
         })
         setSubmissions(tempObj);
+        setFilteredSubmissions(tempObj);
         setCoordData(coordData);
+        setFilteredCoordData(coordData);
         setIsLoaded(true);
       })
     }
@@ -91,34 +106,73 @@ export default function App() {
   //   this.setState({scroll: window.pageYOffset})
   // }
 
+  useEffect(() => {
+    const newSubmissions = {};
+    const circlesToRemove = [];
+      if (filterSelection.length !== 0) {
+          const filtersArray = filterSelection.map(val => val.title);
+          Object.entries(submissions).map((countrySubmissions, key) => {
+          const [iso, submission] = countrySubmissions;
+          submission.map((val) => {
+            const tags = val.keywords;
+            const filteredArray = filtersArray.filter(val => tags.includes(val));
+            // if current submission's tags matches the number of tags as the user's selected filters
+            newSubmissions[iso] = newSubmissions[iso] || [];
+            if (filteredArray.length === filterSelection.length) {
+              newSubmissions[iso].push(val)
+            } else {
+              // remove the coordinate data used for the circles using the ID of the submission
+              circlesToRemove.push(val.timestamp)
+            }
+          })
+        })
+        // filter out any country's coord data that is supposed to be removed
+        const newCoordData = coordData.filter(coord => !circlesToRemove.includes(coord.properties.TIMESTAMP));
+        setFilteredSubmissions(newSubmissions);
+        setFilteredCoordData(newCoordData);
+      } else {
+        if(isLoaded){
+          setFilteredSubmissions(submissions);
+          setFilteredCoordData(coordData);
+        }
+      }
+      console.log('new submissions; ', newSubmissions);
+  }, [filterSelection])
+
   return (
     <Router>
       <MuiThemeProvider theme={theme} >
         <Switch>
           <Route path="/map">
             <div className='block'>
-              <div className="foreground">
+              <div className={hidden ? 'foreground' : 'foreground foreground-zIndex'}>
                 <Navbar />
-                <LandingOverlay sizeVw={vw} sizeVh={vh}  />
+                <LandingOverlay hidden={hidden} setHidden={setHidden} sizeVw={vw} sizeVh={vh}  />
               </div>
               <div className="background">
                 { isLoaded ? 
                   (
                     <div>
+                      <FilterSelect handleBack={handleBack} filterSelection={filterSelection} setFilterSelection={setFilterSelection}></FilterSelect>
                       <Map 
                         open={drawerOpen} 
                         setSelectedCountry={setSelectedCountry} 
                         setSubmissionData={setSubmissionData}
                         handleDrawerOpen={handleDrawerOpen} 
-                        submissions={submissions} 
-                        coordData={coordData} 
+                        handleDrawerClose={handleDrawerClose} 
+                        handleBack={handleBack}
+                        submissions={filteredSubmissions} 
+                        coordData={filteredCoordData} 
                         sizeVw={vw} 
                         sizeVh={vh} 
                         data={MapData}/>
                       <RightDrawer 
                         selectedCountry={selectedCountry} 
-                        submissionData={submissionData}  
+                        submissions={filteredSubmissions}  
                         open={drawerOpen} 
+                        cardClicked={cardClicked}
+                        setCardClicked={setCardClicked}
+                        handleBack={handleBack}
                         handleDrawerClose={handleDrawerClose}/>
                     </div>
                   )

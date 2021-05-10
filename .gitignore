@@ -6,4 +6,4 @@ yarn.lock
 datasets
 credentials
 .env
-service_account_credentials.json
+google-credentials.json

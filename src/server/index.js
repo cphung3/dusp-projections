@@ -64,19 +64,29 @@ async function getSpreadSheetValuesResponse() {
                 } else {
                   // fetch from Google geocode API and write back to form responses spreadsheets
                   const geo = await getGeocode(city, country);
-                  const lat = geo.results[0].geometry.location.lat;
-                  const long = geo.results[0].geometry.location.lng;;
-                  const values = [
-                    [lat, long]
-                  ]
-                  const range = `'${sheetName}'!M${idx + 2}:N${idx + 2}`;
-                  const body = {
-                    values: values
-                  }
-                  updateSpreadSheetValues({spreadsheetId, auth, range, body})
-                  obj[headers[key]] = geo.results[0].geometry.location;
-
+                  let lat = 'none';
+                  let long = 'none';
+                  if (geo.results.length) {
+                    lat = geo.results[0].geometry.location.lat;
+                    long = geo.results[0].geometry.location.lng;;
+                    obj[headers[key]] = geo.results[0].geometry.location;
+                  } 
+                    const values = [
+                      [lat, long]
+                    ]
+                    const range = `'${sheetName}'!M${idx + 2}:N${idx + 2}`;
+                    const body = {
+                      values: values
+                    }
+                    updateSpreadSheetValues({spreadsheetId, auth, range, body})
+                    obj[headers[key]] = 'null';
+                  
                 }
+              } else if(headers[key] === "keywords") {
+                if(arr[key]) {
+                  const listTags = arr[key].split(', ')
+                  obj[headers[key]] = listTags;
+                } 
               } else if(headers[key] === "image") {
                 if(arr[key]) {
                   const id = arr[key].split("id=")[1];
@@ -95,6 +105,7 @@ async function getSpreadSheetValuesResponse() {
                 } else if (headers[key] === 'city') {
                   city = cleanString(arr[key].replace(/\s/g, "+"));
                 }
+                if (headers[key] === 'email') val = 'redacted';
                 obj[headers[key]] = val;
               }
             }

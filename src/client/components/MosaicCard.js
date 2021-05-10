@@ -20,6 +20,10 @@ const useStyles = makeStyles({
     marginRight: 20,
     marginBottom: 20,
     opacity: 1,
+    borderRadius: 0,
+    // backgroundColor: theme.palette.primary.light,
+    // color: theme.palette.primary.contrastText,
+    boxShadow: "none"
   },
   media: {
     paddingTop: 0,

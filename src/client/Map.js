@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
+    //   padding: theme.spacing(3),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -42,14 +42,20 @@ const useStyles = makeStyles((theme) => ({
  * @param {Integer} size parameter used for width and height
  * @returns 
  */
-export default function Map({open, setSelectedCountry, setSubmissionData, handleDrawerOpen, submissions, coordData, data, sizeVw, sizeVh}) {
+export default function Map({open, setSelectedCountry, setSubmissionData, handleDrawerOpen, handleDrawerClose, handleBack, submissions, coordData, data, sizeVw, sizeVh}) {
     const svgRef = useRef();
     const wrapperRef = useRef();
     const [isRotating, setIsRotating] = useState(true)
-    // const [open, setOpen] = useState(false);
     const classes = useStyles();
 
-    const sensitivity = 75
+    const sensitivity = 75    
+    // if (!open) {
+    //     d3
+    //     .selectAll('.country')
+    //     .attr("class", "country")
+    //     .style("fill", "#aaa");
+    //     console.log('changing color');
+    // }
     // function stopRotate() {
     //     setIsRotating(false)
     //     // isRotating.stop();
@@ -61,15 +67,17 @@ export default function Map({open, setSelectedCountry, setSubmissionData, handle
     const handleCountryClick = (e, d) => {
         // setOpen(true);
         handleDrawerOpen();
-        setSelectedCountry(d.properties.NAME);
-        const selectedISO = d.properties.ISO_A3;
-        const selectedSubmission = submissions[selectedISO] || [];
-        setSubmissionData(selectedSubmission);
+        handleBack();
+        // highlightClickedCountry(e);
+        setSelectedCountry(d.properties);
     }
     const closeModal = () => {
         // setOpen(false);
     }
 
+    const highlightClickedCountry = (event) => {
+        d3.select(event.target).style("fill", "#D67474");
+    }
 
 
     useEffect(() => {
@@ -87,20 +95,83 @@ export default function Map({open, setSelectedCountry, setSubmissionData, handle
                 return d.properties.NAME || d.properties.FORMAL_EN
         })
 
-        svg.call(tooltip);
-        svg
-            .selectAll('.country')
-            .data(data.features)
-            .join("path")
-            // .on("click", feature => {
-            //     console.log('feature: ', feature)
-            //     setSelectedCountry(selectedCountry === feature ? null : feature)
-            // })
-            .attr("class", "country")
-            .attr("d", feature => path(feature))
-            .on("mouseover", tooltip.show)
-            .on("mouseout", tooltip.hide)
-            .on("click", handleCountryClick)
+        function handleMouseOver(e, d) {
+            d3.select(e.target).style('fill', '#D67474');
+            tooltip.show(e, d);
+        }
+        function handleMouseOut(e, d) {
+            if(!open) {
+                d3.select(e.target).style('fill', '#aaa');
+                tooltip.hide(d);
+            }
+        }
+
+        if (!svgRef.current['isBuilt']) {
+            svgRef.current['isBuilt'] = true;
+            svg.call(tooltip);
+            svg
+                .selectAll('.country')
+                .data(data.features)
+                .join("path")
+                // .on("click", feature => {
+                //     console.log('feature: ', feature)
+                //     setSelectedCountry(selectedCountry === feature ? null : feature)
+                // })
+                .attr("class", "country")
+                .attr("d", feature => path(feature))
+                // .on("mouseover", (e, d) => handleMouseOver(e,d))
+                // .on("mouseout",  (e, d) => handleMouseOut(e,d))
+                .on("mouseover", tooltip.show)
+                .on("mouseout",  tooltip.hide)
+                .on("click", handleCountryClick)
+
+            svg.call(d3.drag().on('drag', (event) => {
+                // handleDrawerClose();
+                // d3.selectAll('.country')
+                //     .attr("class", "country")
+                //     .style("fill", "#aaa");
+                const rotate = projection.rotate()
+                const k = sensitivity / projection.scale()
+                projection.rotate([
+                    rotate[0] + event.dx * k,
+                ])
+                path = d3.geoPath().projection(projection)
+                svg.selectAll("path").attr("d", feature => path(feature))
+                rotateTimer.stop()
+                }))
+                // .call(d3.zoom().on('zoom', () => {
+                // if(d3.event.transform.k > 0.3) {
+                //     projection.scale(initialScale * d3.event.transform.k)
+                //     path = d3.geoPath().projection(projection)
+                //     svg.selectAll("path").attr("d", path)
+                //     globe.attr("r", projection.scale())
+                // }
+                // else {
+                //     d3.event.transform.k = 0.3
+                // }
+                // }))
+    
+                // Define the div for the tooltip
+                // const tooltip = globe
+                //     .selectAll(".country").append("div")	
+                //     .attr("class", "tooltip")				
+                //     .style("opacity", 0);
+    
+            function rotateFunction(elapsed) {
+                const rotate = projection.rotate()
+                const k = sensitivity / projection.scale()
+                projection.rotate([
+                    rotate[0] + 1 * k/2,
+                ])
+                path = d3.geoPath().projection(projection)
+                svg.selectAll("path").attr("d", feature => path(feature))
+                }
+            const rotateTimer = d3.timer(rotateFunction,200)
+        }
+
+
+        // svg.selectAll('.country')
+        //     .attr("mouseover", (e, d) => d3.select(e.target).style('fill', '#D67474'));
             
             // .on("mouseover", function(event, d) {		
             //     tooltip.transition()		
@@ -118,75 +189,46 @@ export default function Map({open, setSelectedCountry, setSubmissionData, handle
             //         .style("opacity", 0);	
             //     });
         
-        const circles = svg
-            .selectAll("circle")
-            .data(coordData)
-            .join("path") // has to be a path because circles don't have edge clipping
-            .attr("class", "cities")
-            .attr("d", geo => path(geo.coordinates))
-            .attr("fill", "pink")
-            .attr("point-events", "none")
+        
+        if (svgRef.current["coordData"] !== coordData) {
+            svg.call(tooltip);
+            svg.selectAll(".circles").remove();
+            svgRef.current["coordData"] = coordData;
+            const circles = svg
+                .selectAll(".circles")
+                .data(coordData)
+                .join("path") // has to be a path because circles don't have edge clipping
+                .attr("class", "circles")
+                .attr("d", geo => path(geo.coordinates))
+                .attr("fill", "pink")
+                .attr("point-events", "none")
+                .on("mouseover", tooltip.show)
+                .on("mouseout", tooltip.hide)
+                .on("click", handleCountryClick)
+            
+            repeat();
+            //blinking circles from https://bl.ocks.org/Tak113/4a8caf75e1d3aa13132c8ad9a662a49b
+            function repeat() {
+                circles
+                    .attr('stroke-width',0)
+                    .attr('stroke', 'pink')
+                    .attr('opacity', 1)
+                    .transition()
+                    .duration(2000)
+                    .attr('stroke-width', 25)
+                    .attr('opacity', 0)
+                    .on('end',repeat);
+            };
+        }
+    
 
-        repeat();
-
-        //blinking circles from https://bl.ocks.org/Tak113/4a8caf75e1d3aa13132c8ad9a662a49b
-        function repeat() {
-            circles
-                .attr('stroke-width',1)
-                .attr('stroke', 'pink')
-                .attr('opacity', 1)
-                .transition()
-                .duration(2000)
-                .attr('stroke-width', 25)
-                .attr('opacity', 0)
-                .on('end',repeat);
-        };
-
-        svg.call(d3.drag().on('drag', (event) => {
-            const rotate = projection.rotate()
-            const k = sensitivity / projection.scale()
-            projection.rotate([
-                rotate[0] + event.dx * k,
-            ])
-            path = d3.geoPath().projection(projection)
-            svg.selectAll("path").attr("d", feature => path(feature))
-            rotateTimer.stop()
-            }))
-            // .call(d3.zoom().on('zoom', () => {
-            // if(d3.event.transform.k > 0.3) {
-            //     projection.scale(initialScale * d3.event.transform.k)
-            //     path = d3.geoPath().projection(projection)
-            //     svg.selectAll("path").attr("d", path)
-            //     globe.attr("r", projection.scale())
-            // }
-            // else {
-            //     d3.event.transform.k = 0.3
-            // }
-            // }))
-
-            // Define the div for the tooltip
-            // const tooltip = globe
-            //     .selectAll(".country").append("div")	
-            //     .attr("class", "tooltip")				
-            //     .style("opacity", 0);
-
-        function rotateFunction(elapsed) {
-            const rotate = projection.rotate()
-            const k = sensitivity / projection.scale()
-            projection.rotate([
-                rotate[0] + 1 * k/2,
-            ])
-            path = d3.geoPath().projection(projection)
-            svg.selectAll("path").attr("d", feature => path(feature))
-            }
-        const rotateTimer = d3.timer(rotateFunction,200)
         // setIsRotating(rotateTimer);
         // if (!isRotating) {
         //     rotateTimer.stop();
         // } else {
         //     rotateTimer.restart(rotateFunction, 200);
         // }
-    }, [coordData, data, isRotating])
+    }, [submissions, coordData, isRotating])
 
 
     return (

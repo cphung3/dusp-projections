@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     flexFlow: 'wrap',
     display: 'flex',
     width: drawerWidth,
-    top: 64,
+    top: '6vh',
     overflowY: 'hidden',
   },
   drawerHeader: {
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   closeDrawerBtn: {
     borderRadius: 0, 
     padding: 0, 
-    borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+    // borderRight: '1px solid rgba(0, 0, 0, 0.12)',
     // background: 'gray',
   },
   container: {
@@ -118,26 +118,27 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function RightDrawer({submissionData, selectedCountry, open, handleDrawerClose}) {
-  const [cardClicked, setCardClicked] = useState(false);
+export default function RightDrawer({submissions, cardClicked, setCardClicked, handleBack, selectedCountry, open, handleDrawerClose}) {
   const [selectedCard, setSelectedCard] = useState(0);
   // const [visibleCards, setVisibleCards] = useState(submissionData.slice(0, Math.min(submissionData.length, 4)))
   const [incrementCount, setIncrementCount] = useState(0)
-  // const [cardsLoaded, setCardsLoaded] = useState(false)
+  const [submissionData, setSubmissionData] = useState([])
   // console.log('submissions cards: ', submissionData);
   // console.log('visible cards: ', visibleCards);
   // setVisibleCards(submissionData.slice(0, Math.min(submissionData.length, 4)));
 
-  const handleBack = () => {
-    setCardClicked(false);
-  }
   const handleScroll = (added) => {
     setVisibleCards(submissionData.slice(0, Math.min(submissionData.length, 4+added)));
   }
 
+
   useEffect(() => {
-    console.log('inside use effect of drawer');
-  }, [])
+    if (Object.values(selectedCountry).length !== 0) {
+      const selectedISO = selectedCountry.ISO_A3;
+      const selectedSubmission = submissions[selectedISO] || [];
+      setSubmissionData(selectedSubmission);
+    }
+  }, [selectedCountry, submissions])
 
   const classes = useStyles();
   const theme = useTheme();

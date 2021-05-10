@@ -1,43 +1,111 @@
-import React, { Component } from 'react'
-import '../app.css';
-import ArrowDown from '../assets/arrow_down.svg';
-import { ReactSVG } from 'react-svg';
+import React, { useState } from 'react';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { animations } from 'react-animation'
+import Button from '@material-ui/core/Button';
+import clsx from 'clsx';
 
-export default class LandingOverlay extends Component {
-    state = { clicked: false, hidden: false };
+const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+    },
+    overlay: {
+        background: 'linear-gradient(125deg,#FFE8D6, #D67474);',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        opacity: 0.8,
+        color : 'white',
+        height: '100%',
+        width: '100%',
+        flexFlow: 'wrap',
+    },
+    container: {
+        justifyContent: 'center',
+        alignContent: 'center',
+        display: 'flex',
+        flexFlow: 'wrap',
+        paddingTop: 200,
+    },
+    heading: {
+        width: '100%',
+        justifyContent: 'center',
+        color: 'white',
+        fontFamily: 'Montserrat',
+        fontWeight: 700,
+        fontSize: 30,
+    },
+    subHeading: {
+        width: '100%',
+        justifyContent: 'center',
+        color: 'white',
+        fontFamily: 'Montserrat',
+        fontWeight: 300,
+        fontSize: 90,
+        marginBottom: 40,
+    },
+    bodyContainer: {
+        width: '100%',
+        justifyContent: 'center',
+        color: 'white',
+        fontFamily: 'Roboto',
+        fontWeight: 300,
+        fontSize: 16,
+        display: 'flex',
+        marginBottom: 70,
+    },
+    bodyText: {
+        maxWidth: 600,
+    },
+    hidden: {
+        display: 'none',
+    },
+    button: {
+        margin: theme.spacing(1),
+        color: 'white',
+        border: '1px solid white',
+        marginRight: 20,
+    },
+  }));
+  
 
-    handleClick = (e) => {
-        this.setState({clicked: true});
+export default function LandingOverlay({hidden, setHidden}) {
+    const [clicked, setClicked] = useState(false)
+    const classes = useStyles();
+    const theme = useTheme();
+
+    const handleClick = (e) => {
+        setClicked(true);
         setTimeout(
-            () => this.setState({ hidden: true }), 
-            450
+            () => setHidden(true), 
+            350
           );
-      }
-    render() {
-        const { clicked, hidden } = this.state;
-
-        return (
-            <div className={`overlay ${hidden ? 'hidden' : ''}`} style={clicked ? { animation: animations.fadeOut } : {}}>
-                <div className="container">
-                    <div className="heading">
-                        PROJECTIONS
-                    </div>
-                    <div className="subheading">
-                        Visualizing Cities
-                    </div>
-                    <div className="body-container">
-                        <div className="body-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                            In aliquet praesent leo ipsum, imperdiet tempor, quam. 
-                            Curabitur nisl facilisis libero sed habitant interdum. 
-                            Etiam non amet, quis eu ut rutrum aenean. 
-                            Nunc cras accumsan pellentesque lacus sed sed facilisis blandit urna.
-                        </div>
-                    </div>
-                    <ReactSVG  id="arrow-down" src={ArrowDown} onClick={this.handleClick} />
-                </div>
-            </div>
-        )
     }
+
+    return (
+        <div className={clsx(classes.overlay, {[classes.hidden]: hidden})} style={clicked ? { animation: animations.fadeOut, animationDuration: 3000 } : {}}>
+            <div className={classes.container}>
+                <div className={classes.heading}>
+                    PROJECTIONS
+                </div>
+                <div className={classes.subHeading}>
+                    Visualizing Cities
+                </div>
+                <div className={classes.bodyContainer}>
+                    <div className={classes.bodyText}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                        In aliquet praesent leo ipsum, imperdiet tempor, quam. 
+                        Curabitur nisl facilisis libero sed habitant interdum. 
+                        Etiam non amet, quis eu ut rutrum aenean. 
+                        Nunc cras accumsan pellentesque lacus sed sed facilisis blandit urna.
+                    </div>
+                </div>
+                <Button onClick={handleClick} variant="outlined" size="large" className={classes.button}>
+                    View Map
+                </Button>
+                <Button onClick={handleClick} variant="outlined" size="large" className={classes.button}>
+                    Learn More
+                </Button>
+            </div>
+        </div>
+    )
 }
