@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react'
 import * as d3 from "d3";
 import './app.css';
 import tip from "d3-tip";
-import MosaicModal from './components/MosaicModal';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 
