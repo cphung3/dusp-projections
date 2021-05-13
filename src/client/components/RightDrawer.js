@@ -26,29 +26,32 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    width: '100%',
+    textAlign: 'left',
+    margin: '1.5vh 0',
   },
   hide: {
     display: 'none',
   },
   drawer: {
-    width: drawerWidth,
+    width: '40vw',
     flexShrink: 0,
   },
   drawerPaper: {
     flexFlow: 'wrap',
     display: 'flex',
-    width: drawerWidth,
+    width: '40vw',
     top: '6vh',
     overflowY: 'hidden',
   },
   drawerHeader: {
     display: 'flex',
     // alignItems: 'center',
-    padding: theme.spacing(0, 1),
+    // padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-start',
-    marginLeft: 20,
+    marginLeft: '1vw',
     flex: 1,
     // maxWidth: 0,
     overflow: 'auto',
@@ -68,11 +71,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-start',
     flexWrap: 'wrap',
-    margin: '20px 0',
-  },
-  title: {
-    width: '100%',
-    textAlign: 'left',
+    margin: '2vh 0',
   },
   line: {
     margin: '0px',
@@ -156,7 +155,7 @@ export default function RightDrawer({submissions, cardClicked, setCardClicked, h
       >
         <div className={classes.closeDrawer}>
           <IconButton onClick={handleDrawerClose} className={classes.closeDrawerBtn}>
-            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'rtl' ? <ChevronLeftIcon style={{width: '3vw', height: '3vw'}} /> : <ChevronRightIcon />}
           </IconButton>
         </div>
         <div className={classes.drawerHeader}>
@@ -176,7 +175,7 @@ export default function RightDrawer({submissions, cardClicked, setCardClicked, h
               : 
               <div style={{overflow: 'auto'}}>
                 <div className={classes.container}>
-                  {/* <h3 className={classes.title} id="simple-modal-title">{}</h3> */}
+                  <h3 className={classes.title} id="simple-modal-title">{selectedCountry.NAME}</h3>
                   <div className={classes.line}/>
                 </div>
                 <div className={classes.cardContainer}>

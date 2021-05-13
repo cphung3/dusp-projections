@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      marginRight: drawerWidth,
+      marginRight: '40vw',
     },
     dynamicGlobe: {
         // width: '100vw',
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
  * @param {Integer} size parameter used for width and height
  * @returns 
  */
-export default function Map({open, setSelectedCountry, setSubmissionData, handleDrawerOpen, handleDrawerClose, handleBack, submissions, coordData, data, sizeVw, sizeVh}) {
+export default function Map({open, setSelectedCountry, selectedCountry, setSubmissionData, handleDrawerOpen, handleDrawerClose, handleBack, submissions, coordData, data, sizeVw, sizeVh}) {
     const svgRef = useRef();
     const wrapperRef = useRef();
     const [isRotating, setIsRotating] = useState(true)
@@ -70,6 +70,8 @@ export default function Map({open, setSelectedCountry, setSubmissionData, handle
         handleBack();
         // highlightClickedCountry(e);
         setSelectedCountry(d.properties);
+        console.log('what is d: ', d);
+        svgRef.current["selectedFeature"] = d.properties.ISO_A2;
     }
     const closeModal = () => {
         // setOpen(false);
@@ -188,7 +190,15 @@ export default function Map({open, setSelectedCountry, setSubmissionData, handle
             //         .duration(500)		
             //         .style("opacity", 0);	
             //     });
-        
+
+
+        if (Object.keys(selectedCountry).length) {
+            if (svgRef.current["selectedFeature"] === selectedCountry.ISO_A2) {
+                svg.selectAll('.country').attr('fill', feature => svgRef.current["selectedFeature"] === feature.properties.ISO_A2 ? '#D67474' : '#aaa');
+            } 
+        } else {
+            svg.selectAll('.country').attr('fill','#aaa');
+        }
         
         if (svgRef.current["coordData"] !== coordData) {
             svg.call(tooltip);
@@ -228,7 +238,7 @@ export default function Map({open, setSelectedCountry, setSubmissionData, handle
         // } else {
         //     rotateTimer.restart(rotateFunction, 200);
         // }
-    }, [submissions, coordData, isRotating])
+    }, [submissions, coordData, selectedCountry, isRotating])
 
 
     return (

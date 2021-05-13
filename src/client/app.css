@@ -85,7 +85,7 @@ svg {
   /* width: 100% */
 }
 svg .country {
-  fill: #aaa;
+  /* fill: #aaa; */
   stroke: #ddd;
   stroke-width: 0.5px;
 }

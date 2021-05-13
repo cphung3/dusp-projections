@@ -17,8 +17,8 @@ const useStyles = makeStyles({
     // maxWidth: 300,
     // minWidth: 300,
     width: '16vw',
-    marginRight: 20,
-    marginBottom: 20,
+    marginRight: '1vw',
+    marginBottom: '1vh',
     opacity: 1,
     borderRadius: 0,
     // backgroundColor: theme.palette.primary.light,
@@ -30,8 +30,8 @@ const useStyles = makeStyles({
     // height: 180,
   },
   icon: {
-    width: '10px',
-    margin: '0px 10px',
+    width: '1vh',
+    margin: '0px 1vh',
   },
   subtitle: {
     display: 'flex', 
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     fontSize: '.8rem',
   },
   content: {
-    padding: '0 10px',
+    padding: '0 1vh',
   },
   ellipsis: {
     textOverflow: 'ellipsis',

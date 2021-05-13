@@ -49,6 +49,7 @@ export default function App() {
 
   const handleDrawerClose = () => {
     setDrawerOpen(false);
+    setSelectedCountry({});
   };
 
   const handleBack = () => {
@@ -157,6 +158,7 @@ export default function App() {
                       <Map 
                         open={drawerOpen} 
                         setSelectedCountry={setSelectedCountry} 
+                        selectedCountry={selectedCountry}
                         setSubmissionData={setSubmissionData}
                         handleDrawerOpen={handleDrawerOpen} 
                         handleDrawerClose={handleDrawerClose} 
