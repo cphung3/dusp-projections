@@ -73,9 +73,9 @@ export default function Navbar() {
                   Map
                 </Typography>
               </Link> 
-              <Link className={classes.link}  to="/grid">
+              <Link className={classes.link}  to="/about">
                 <Typography variant="h6" className={classes.tab}>
-                  Grid
+                  About
                 </Typography>
               </Link>
             </div>

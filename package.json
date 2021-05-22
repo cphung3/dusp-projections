@@ -33,6 +33,7 @@
     "material-ui-image": "^3.3.2",
     "node-fetch": "^2.6.1",
     "ola": "^1.1.1",
+    "prop-types": "^15.7.2",
     "react": "^16.5.2",
     "react-animation": "^1.2.2",
     "react-dom": "^16.5.2",

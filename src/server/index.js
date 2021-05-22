@@ -24,6 +24,7 @@ async function getGeocode(city, country) {
 const spreadsheetId = process.env.SHEET_ID;
 const sheetName = process.env.SHEET_NAME;
 let sheetData = [];
+let finishedFetch = false;
 
 function cleanString(input) {
   var output = "";
@@ -110,9 +111,9 @@ async function getSpreadSheetValuesResponse() {
               }
             }
             obj["iso"] = iso;
+            finishedFetch = true;
             return obj
         }))
-        // console.log(sheetData)
     } catch(error) {
       console.log(error.message, error.stack);
     }
@@ -129,11 +130,15 @@ const app = express();
 
 app.use(express.static('dist'));
 app.get('/api/responses', async (req, res) => {
-  sheetData.then(data => {
-    while (data.length === 0) {}
-    console.log('data', data)
-    res.send({ responses: data })
-  })
+  if (finishedFetch) {
+    sheetData.then(data => {
+      while (data.length === 0) {}
+      console.log('data', data)
+      res.send({ responses: data })
+    })
+  } else {
+    res.send({ response: []})
+  }
 });
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-export default function CheckboxesTags({handleBack, filterSelection, setFilterSelection}) {
+export default function FilterSelect({handleBack, filterSelection, setFilterSelection}) {
     const classes = useStyles();
     
     const handleFilterSelect = (e, selected) => {
