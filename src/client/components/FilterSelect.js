@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-export default function FilterSelect({handleBack, filterSelection, setFilterSelection}) {
+export default function FilterSelect({handleBack, filterSelection, setFilterSelection, availibleKeywords}) {
     const classes = useStyles();
     
     const handleFilterSelect = (e, selected) => {
@@ -38,9 +38,9 @@ export default function FilterSelect({handleBack, filterSelection, setFilterSele
                 multiple
                 id="checkboxes-tags"
                 limitTags={3}
-                options={categories}
+                options={Object.keys(availibleKeywords)}
                 disableCloseOnSelect
-                getOptionLabel={(option) => option.title}
+                getOptionLabel={(option) => option}
                 onChange={handleFilterSelect}
                 getOptionDisabled={(option) => (filterSelection.length > 4 ? true : false)}
                 renderOption={(option, { selected }) => (
@@ -51,7 +51,7 @@ export default function FilterSelect({handleBack, filterSelection, setFilterSele
                         style={{ marginRight: 8 }}
                         checked={selected}
                     />
-                    {option.title}
+                    {option} &nbsp;&nbsp; <p style={{fontStyle:'italic', color: 'rgba(0, 0, 0, .4)'}}>{availibleKeywords[option]}</p>
                 </React.Fragment>
             )}
             style={{ width: 500 }}

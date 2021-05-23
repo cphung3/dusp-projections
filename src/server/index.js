@@ -12,7 +12,7 @@ const {
     updateSpreadSheetValues
 } = require('./googleSheetsService.js');
 
-async function getGeocode(city, country) {
+async function getGeocode(city, country) { 
   const key = process.env.GEO_API_KEY;
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${city},+${country}&key=${key}`
   const result = await fetch(url)
@@ -23,6 +23,7 @@ async function getGeocode(city, country) {
   
 const spreadsheetId = process.env.SHEET_ID;
 const sheetName = process.env.SHEET_NAME;
+const numSubmissionsPerTag = {};
 let sheetData = [];
 let finishedFetch = false;
 
@@ -85,7 +86,8 @@ async function getSpreadSheetValuesResponse() {
                 }
               } else if(headers[key] === "keywords") {
                 if(arr[key]) {
-                  const listTags = arr[key].split(', ')
+                  const listTags = arr[key].split(', ');
+                  listTags.map(tag => numSubmissionsPerTag[tag] = numSubmissionsPerTag[tag] + 1 || 1);
                   obj[headers[key]] = listTags;
                 } 
               } else if(headers[key] === "image") {
@@ -137,7 +139,15 @@ app.get('/api/responses', async (req, res) => {
       res.send({ responses: data })
     })
   } else {
-    res.send({ response: []})
+    res.send({ responses: []})
+  }
+});
+
+app.get('/api/keywords', async (req, res) => {
+  if (finishedFetch) {
+    res.send({ keywords: numSubmissionsPerTag })
+  } else {
+    res.send({ keywords: {}})
   }
 });
 

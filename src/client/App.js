@@ -42,6 +42,7 @@ export default function App() {
   const [filteredSubmissions, setFilteredSubmissions] = useState({});
   const [coordData, setCoordData] = useState([]);
   const [filteredCoordData, setFilteredCoordData] = useState([]);
+  const [availibleKeywords, setAvailibleKeywords] = useState({});
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
@@ -59,6 +60,15 @@ export default function App() {
   // set the size of the globe based on the size of the user's window
   const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 2;
   const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) - 150;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      axios.get('/api/keywords').then((res) => {
+        setAvailibleKeywords(res.data.keywords);
+      })
+    }
+    fetchData();
+  }, [])
 
   useEffect(() => {
     // fetch the spreadsheet submission data from server
@@ -91,8 +101,8 @@ export default function App() {
         });
         setSubmissions(tempObj);
         setFilteredSubmissions(tempObj);
-        setCoordData(coordData);
-        setFilteredCoordData(coordData);
+        setCoordData(tempCoordData);
+        setFilteredCoordData(tempCoordData);
         setIsLoaded(true);
       });
     };
@@ -117,9 +127,12 @@ export default function App() {
         submission.map((val) => {
           const tags = val.keywords;
           const filteredArray = filtersArray.filter(tag => tags.includes(tag));
-          // if current submission's tags matches the number of tags as the user's selected filters
           newSubmissions[iso] = newSubmissions[iso] || [];
-          if (filteredArray.length === filterSelection.length) {
+          
+          // if (filteredArray.length === filtersArray.length) AND condition, must satisfy all of the user's filters
+
+          // if current submission's tags has at least one of the user's selected filters, then include it (OR condition)
+          if (filteredArray.length) {
             newSubmissions[iso].push(val);
           } else {
             // remove the coordinate data used for the circles using the ID of the submission
@@ -155,6 +168,7 @@ export default function App() {
                         handleBack={handleBack}
                         filterSelection={filterSelection}
                         setFilterSelection={setFilterSelection}
+                        availibleKeywords={availibleKeywords}
                       />
                       <Map
                         open={drawerOpen}

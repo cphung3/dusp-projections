@@ -69,7 +69,6 @@ export default function Map({open, setSelectedCountry, selectedCountry, setSubmi
         handleBack();
         // highlightClickedCountry(e);
         setSelectedCountry(d.properties);
-        console.log('what is d: ', d);
         svgRef.current["selectedFeature"] = d.properties.ISO_A2;
     }
     const closeModal = () => {
