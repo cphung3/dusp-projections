@@ -26,10 +26,6 @@ const useStyles = makeStyles(theme => ({
     }),
     marginRight: '40vw',
   },
-  dynamicGlobe: {
-    // width: '100vw',
-    // height: '100vh',
-  }
 }));
 
 /**
@@ -81,7 +77,6 @@ export default function Map(props) {
       svg.selectAll('path').attr('d', feature => path(feature));
     }
 
-    const rotateTimer = d3.timer(rotateFunction, 200);
     // Add tooltip for name of each country
     const tooltip = tip()
       .attr('class', 'd3-tip')
@@ -95,23 +90,14 @@ export default function Map(props) {
         .selectAll('.country')
         .data(data.features)
         .join('path')
-      // .on("click", feature => {
-      //     console.log('feature: ', feature)
-      //     setSelectedCountry(selectedCountry === feature ? null : feature)
-      // })
         .attr('class', 'country')
         .attr('d', feature => path(feature))
-      // .on("mouseover", (e, d) => handleMouseOver(e,d))
-      // .on("mouseout",  (e, d) => handleMouseOut(e,d))
         .on('mouseover', tooltip.show)
         .on('mouseout', tooltip.hide)
         .on('click', handleCountryClick);
 
+      const rotateTimer = d3.timer(rotateFunction, 200);
       svg.call(d3.drag().on('drag', (event) => {
-        // handleDrawerClose();
-        // d3.selectAll('.country')
-        //     .attr("class", "country")
-        //     .style("fill", "#aaa");
         const rotate = projection.rotate();
         const k = sensitivity / projection.scale();
         projection.rotate([
@@ -187,18 +173,18 @@ export default function Map(props) {
 Map.propTypes = {
   coordData: PropTypes.arrayOf(PropTypes.object).isRequired,
   data: PropTypes.shape({
-    features: PropTypes.object
+    features: PropTypes.arrayOf(PropTypes.object).isRequired
   }).isRequired,
   handleBack: PropTypes.func.isRequired,
   handleDrawerOpen: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   selectedCountry: PropTypes.shape({
-    ISO_A2: PropTypes.string.isRequired
+    ISO_A2: PropTypes.string
   }).isRequired,
   setSelectedCountry: PropTypes.func.isRequired,
   sizeVh: PropTypes.number.isRequired,
   sizeVw: PropTypes.number.isRequired,
   submissions: PropTypes.shape({
-    ISO_A2: PropTypes.object
+    ISO_A2: PropTypes.string
   }).isRequired
 };

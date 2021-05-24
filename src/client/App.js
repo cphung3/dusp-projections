@@ -77,22 +77,20 @@ export default function App() {
       axios.get('/api/responses').then((res) => {
         res.data.responses.forEach((val) => {
           const location = `${val.coordinates.lng},${val.coordinates.lat}`;
-          if (!addedPoints.has(location)) {
-            const coord = {
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [val.coordinates.lng, val.coordinates.lat]
-              },
-              properties: {
-                NAME: val.country,
-                ISO_A3: val.iso,
-                TIMESTAMP: val.timestamp,
-              },
-            };
-            tempCoordData.push(coord);
-            addedPoints.add(location);
-          }
+          const coord = {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [val.coordinates.lng, val.coordinates.lat]
+            },
+            properties: {
+              NAME: val.country,
+              ISO_A3: val.iso,
+              TIMESTAMP: val.timestamp,
+            },
+          };
+          tempCoordData.push(coord);
+          addedPoints.add(location);
           const { iso } = val;
           tempObj[iso] = tempObj[iso] || [];
           tempObj[iso].push(val);
@@ -112,15 +110,14 @@ export default function App() {
     const newSubmissions = {};
     const circlesToRemove = [];
     if (filterSelection.length !== 0) {
-      const filtersArray = filterSelection.map(val => val.title);
       Object.entries(submissions).map((countrySubmissions) => {
         const [iso, submission] = countrySubmissions;
         submission.map((val) => {
           const tags = val.keywords;
-          const filteredArray = filtersArray.filter(tag => tags.includes(tag));
+          const filteredArray = filterSelection.filter(tag => tags.includes(tag));
           newSubmissions[iso] = newSubmissions[iso] || [];
 
-          // if (filteredArray.length === filtersArray.length) AND condition,
+          // if (filteredArray.length === filterSelection.length) AND condition,
           // must satisfy all of the user's filters
 
           // if current submission's tags has at least one of the user's selected filters,
