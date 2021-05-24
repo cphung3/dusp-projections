@@ -37,7 +37,6 @@ const StyledImage = styled.img`
 
 const LazyImage = ({ data, setSelectedCard, setCardClicked }) => {
   const refPlaceholder = React.useRef();
-  console.log('data: ', data);
 
   const removePlaceholder = () => {
     refPlaceholder.current.remove();

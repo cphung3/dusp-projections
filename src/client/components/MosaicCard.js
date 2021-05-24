@@ -64,7 +64,6 @@ export default function MosaicCard({index, data, incrementCount, setIncrementCou
 
   const handleLoaded = () => {
     setIncrementCount(incrementCount+1);
-    console.log('loading false')
   }
 
   return (

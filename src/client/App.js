@@ -30,12 +30,10 @@ const theme = createMuiTheme({
 
 
 export default function App() {
-  const [clicked, setClicked] = useState(false);
   const [submissions, setSubmissions] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState({});
-  const [submissionData, setSubmissionData] = useState([]);
   const [cardClicked, setCardClicked] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [filterSelection, setFilterSelection] = useState([]);
@@ -65,10 +63,10 @@ export default function App() {
     const fetchData = async () => {
       axios.get('/api/keywords').then((res) => {
         setAvailibleKeywords(res.data.keywords);
-      })
-    }
+      });
+    };
     fetchData();
-  }, [])
+  }, []);
 
   useEffect(() => {
     // fetch the spreadsheet submission data from server
@@ -77,7 +75,7 @@ export default function App() {
       const tempCoordData = [];
       const addedPoints = new Set();
       axios.get('/api/responses').then((res) => {
-        res.data.responses.forEach((val, idx) => {
+        res.data.responses.forEach((val) => {
           const location = `${val.coordinates.lng},${val.coordinates.lat}`;
           if (!addedPoints.has(location)) {
             const coord = {
@@ -109,36 +107,33 @@ export default function App() {
     fetchData();
   }, []);
 
-  // componentWillUnmount() {
-  //   window.removeEventListener('scroll', this.handleScroll)
-  // }
-  // handleScroll = (e) => {
-  //   console.log(window.pageYOffset)
-  //   this.setState({scroll: window.pageYOffset})
-  // }
 
   useEffect(() => {
     const newSubmissions = {};
     const circlesToRemove = [];
     if (filterSelection.length !== 0) {
       const filtersArray = filterSelection.map(val => val.title);
-      Object.entries(submissions).map((countrySubmissions, key) => {
+      Object.entries(submissions).map((countrySubmissions) => {
         const [iso, submission] = countrySubmissions;
         submission.map((val) => {
           const tags = val.keywords;
           const filteredArray = filtersArray.filter(tag => tags.includes(tag));
           newSubmissions[iso] = newSubmissions[iso] || [];
-          
-          // if (filteredArray.length === filtersArray.length) AND condition, must satisfy all of the user's filters
 
-          // if current submission's tags has at least one of the user's selected filters, then include it (OR condition)
+          // if (filteredArray.length === filtersArray.length) AND condition,
+          // must satisfy all of the user's filters
+
+          // if current submission's tags has at least one of the user's selected filters,
+          // then include it (OR condition)
           if (filteredArray.length) {
             newSubmissions[iso].push(val);
           } else {
             // remove the coordinate data used for the circles using the ID of the submission
             circlesToRemove.push(val.timestamp);
           }
+          return true;
         });
+        return true;
       });
       // filter out any country's coord data that is supposed to be removed
       const newCoordData = coordData.filter(coord => !circlesToRemove.includes(coord.properties.TIMESTAMP));
@@ -174,7 +169,6 @@ export default function App() {
                         open={drawerOpen}
                         setSelectedCountry={setSelectedCountry}
                         selectedCountry={selectedCountry}
-                        setSubmissionData={setSubmissionData}
                         handleDrawerOpen={handleDrawerOpen}
                         handleDrawerClose={handleDrawerClose}
                         handleBack={handleBack}
