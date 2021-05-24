@@ -1,16 +1,13 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import Image from 'material-ui-image'
+import Image from 'material-ui-image';
 import Skeleton from '@material-ui/lab/Skeleton';
-import LazyCardMedia from './LazyCardMedia.js';
 
 const useStyles = makeStyles({
   root: {
@@ -23,7 +20,7 @@ const useStyles = makeStyles({
     borderRadius: 0,
     // backgroundColor: theme.palette.primary.light,
     // color: theme.palette.primary.contrastText,
-    boxShadow: "none"
+    boxShadow: 'none'
   },
   media: {
     paddingTop: 0,
@@ -34,9 +31,9 @@ const useStyles = makeStyles({
     margin: '0px 1vh',
   },
   subtitle: {
-    display: 'flex', 
+    display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
     fontSize: '.8rem',
   },
   content: {
@@ -49,56 +46,53 @@ const useStyles = makeStyles({
   }
 });
 
-export default function MosaicCard({index, data, incrementCount, setIncrementCount, setCardClicked, setSelectedCard}) {
-  const [isLoading, setIsLoading] = useState(true)
-
+export default function MosaicCard({
+  index, data, setCardClicked, setSelectedCard
+}) {
   const classes = useStyles();
 
   const handleClick = () => {
     setSelectedCard(index);
     setCardClicked(true);
-  }
-  const loadingSkeleton = () => {
-    return (<Skeleton animation="wave" variant="rect" width={345} height={158} />);
-  }
-
-  const handleLoaded = () => {
-    setIncrementCount(incrementCount+1);
-  }
+  };
+  const loadingSkeleton = () => (<Skeleton animation="wave" variant="rect" width={345} height={158} />);
 
   return (
-    <Card 
-        className={classes.root}
-        onClick={handleClick}
-        >
+    <Card
+      className={classes.root}
+      onClick={handleClick}
+    >
       <CardActionArea>
-          {/* <LazyCardMedia
-            className={classes.media}          
-            image={data.image}
-            title={data.title}
-          /> */}
-          <Image
+        {/* <LazyCardMedia
             className={classes.media}
-            loading={loadingSkeleton()}
-            // disableSpinner={true}
-            src={data.image}
+            image={data.image}
             title={data.title}
-            imageStyle={{height: 'auto'}}
-            style={{paddingTop: 'calc(47%)', maxHeight: '168px', overflow: 'hidden'}}
-            animationDuration={1000}
-            // onLoad={handleLoaded}
-          />
-          {/* <LazyImage
+          /> */}
+        <Image
+          className={classes.media}
+          loading={loadingSkeleton()}
+            // disableSpinner={true}
+          src={data.image}
+          title={data.title}
+          imageStyle={{ height: 'auto' }}
+          style={{ paddingTop: 'calc(47%)', maxHeight: '168px', overflow: 'hidden' }}
+          animationDuration={1000}
+        />
+        {/* <LazyImage
             image={data.image}
           /> */}
-          {/* <CardMedia
-            className={classes.media}          
+        {/* <CardMedia
+            className={classes.media}
             image={data.image}
             title={data.title}
           /> */}
         <CardContent className={classes.content}>
           <Typography variant="subtitle1" className={classes.subtitle}>
-            <b className={classes.ellipsis}>{data.title}</b> <FiberManualRecordIcon color="primary" className={classes.icon}/> <p className={classes.ellipsis}>{data.name}</p> 
+            <b className={classes.ellipsis}>{data.title}</b>
+            {' '}
+            <FiberManualRecordIcon color="primary" className={classes.icon} />
+            {' '}
+            <p className={classes.ellipsis}>{data.name}</p>
           </Typography>
           {/* <Typography variant="body2" color="textSecondary" component="p">
             Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
@@ -117,3 +111,14 @@ export default function MosaicCard({index, data, incrementCount, setIncrementCou
     </Card>
   );
 }
+
+MosaicCard.propTypes = {
+  data: PropTypes.shape({
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  setCardClicked: PropTypes.func.isRequired,
+  setSelectedCard: PropTypes.func.isRequired
+};
