@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import './app.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from 'react-router-dom';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import './app.css';
+
 
 import Map from './Map';
 import About from './About';
@@ -28,6 +29,8 @@ const theme = createMuiTheme({
   }
 });
 
+const useStyles = makeStyles({
+});
 
 export default function App() {
   const [submissions, setSubmissions] = useState({});
@@ -41,6 +44,7 @@ export default function App() {
   const [coordData, setCoordData] = useState([]);
   const [filteredCoordData, setFilteredCoordData] = useState([]);
   const [availibleKeywords, setAvailibleKeywords] = useState({});
+  const classes = useStyles();
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);

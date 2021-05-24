@@ -130,7 +130,6 @@ app.get('/api/responses', async (req, res) => {
   if (finishedFetch) {
     sheetData.then((data) => {
       if (data.length !== 0) {
-        console.log('data: ', data);
         res.send({ responses: data });
       }
     });
