@@ -9,11 +9,86 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Roboto:wght@300;400&&family=Poppins:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" type="text/css" href="/public/assets/css/app.css" />
-    <!-- <base href="/"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="/public/assets/css/app.css" /> -->
 </head>
-<body>
+<body style=>
     <div id="root"></div>
 </body>
+
+<style>
+h6 {
+  font-family: 'Poppins';
+  font-weight: 600;
+}
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  text-align: center;
+  margin: auto;
+  font-family: 'Roboto';
+}
+.overlay {
+  background: linear-gradient(125deg,#FFE8D6, #D67474);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  opacity: 0.8;
+  color : white;
+  height: 100%;
+  width: 100%;
+  flex-flow: wrap;
+}
+.container {
+  justify-content: center;
+  align-content: center;
+  display: flex;
+  flex-flow: wrap;
+  padding-top: 20vh;
+}
+.heading, .subheading, .body-container {
+  width: 100%;
+  justify-content: center;
+  color: white;
+}
+.heading {
+  font-family: 'Montserrat';
+  font-weight: 700;
+  font-size: 30px;
+}
+.viewButton {
+  margin: 2px;
+  color: white;
+  border: 1px solid #ffe0e0;
+}
+.subheading {
+  font-family: 'Montserrat';
+  font-weight: 300;
+  font-size: 90px;
+  margin-bottom: 40px;
+}
+.body-container {
+  font-family: 'Roboto';
+  font-weight: 300;
+  font-size: 16px;
+  display: flex;
+}
+.body-text {
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+svg {
+  display: block;
+}
+
+.line {
+  margin: 0px;
+  background-color: red;
+  width: 50px;
+}
+</style>
 
 </html>

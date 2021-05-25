@@ -12,7 +12,11 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    //   padding: theme.spacing(3),
+    cursor: 'pointer',
+    paddingTop: '12vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignContent: 'center',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -20,11 +24,34 @@ const useStyles = makeStyles(theme => ({
     marginRight: 0,
   },
   contentShift: {
+    paddingTop: '12vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignContent: 'center',
+    cursor: 'pointer',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginRight: '40vw',
+  },
+  tip: {
+    lineHeight: 1,
+    fontFamily: 'Roboto',
+    padding: 12,
+    background: 'rgba(43,43,43, 0.8)',
+    color: '#fff',
+    borderRadius: 2,
+  },
+  country: {
+    stroke: '#ddd',
+    // fill: '#aaa',
+    strokeWidth: 0.5,
+    transition: 'fill .4s ease',
+    '&:hover': {
+      fill: '#D67474',
+      cursor: 'pointer',
+    },
   },
 }));
 
@@ -79,7 +106,7 @@ export default function Map(props) {
 
     // Add tooltip for name of each country
     const tooltip = tip()
-      .attr('class', 'd3-tip')
+      .attr('class', classes.tip)
       .offset([-5, 0])
       .html((event, d) => d.properties.NAME || d.properties.FORMAL_EN);
 
@@ -87,10 +114,10 @@ export default function Map(props) {
       svgRef.current.isBuilt = true;
       svg.call(tooltip);
       svg
-        .selectAll('.country')
+        .selectAll(`.${classes.country}`)
         .data(data.features)
         .join('path')
-        .attr('class', 'country')
+        .attr('class', classes.country)
         .attr('d', feature => path(feature))
         .on('mouseover', tooltip.show)
         .on('mouseout', tooltip.hide)
@@ -112,10 +139,10 @@ export default function Map(props) {
 
     if (Object.keys(selectedCountry).length) {
       if (svgRef.current.selectedFeature === selectedCountry.ISO_A2) {
-        svg.selectAll('.country').attr('fill', feature => (svgRef.current.selectedFeature === feature.properties.ISO_A2 ? '#D67474' : '#aaa'));
+        svg.selectAll(`.${classes.country}`).attr('fill', feature => (svgRef.current.selectedFeature === feature.properties.ISO_A2 ? '#D67474' : '#aaa'));
       }
     } else {
-      svg.selectAll('.country').attr('fill', '#aaa');
+      svg.selectAll(`.${classes.country}`).attr('fill', '#aaa');
     }
 
     if (svgRef.current.coordData !== coordData) {
@@ -155,7 +182,6 @@ export default function Map(props) {
 
   return (
     <div
-      id="globe"
       ref={wrapperRef}
       className={clsx(classes.content, {
         [classes.contentShift]: open,

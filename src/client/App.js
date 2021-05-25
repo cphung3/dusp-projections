@@ -30,6 +30,29 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles({
+  block: {
+    display: 'flex', /* required */
+    flexFlow: 'row nowrap', /* required */
+    overflow: 'hidden',
+  },
+  background: {
+    boxSizing: 'border-box', /* required */
+    width: '100%', /* required */
+    height: '100vh',
+    minHeight: '100vh',
+    flex: 'none', /* required */
+    marginLeft: '-100%',
+  },
+  foreground: {
+    boxSizing: 'border-box', /* required */
+    width: '100%', /* required */
+    height: '100vh',
+    minHeight: '100vh',
+    flex: 'none', /* required */
+  },
+  zIndex: {
+    zIndex: 10,
+  }
 });
 
 export default function App() {
@@ -151,12 +174,12 @@ export default function App() {
       <MuiThemeProvider theme={theme}>
         <Switch>
           <Route exact path="/">
-            <div className="block">
-              <div className={hidden ? 'foreground' : 'foreground foreground-zIndex'}>
+            <div className={classes.block}>
+              <div className={hidden ? classes.foreground : `${classes.foreground} ${classes.zIndex}`}>
                 <Navbar />
                 <LandingOverlay hidden={hidden} setHidden={setHidden} sizeVw={vw} sizeVh={vh} />
               </div>
-              <div className="background">
+              <div className={classes.background}>
                 { isLoaded
                   ? (
                     <div>

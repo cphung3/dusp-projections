@@ -133,7 +133,6 @@ svg .country {
   display: flex; /* required */
   flex-flow: row nowrap; /* required */
   overflow: hidden;
-
 }
 .block .background,
 .block .foreground {
