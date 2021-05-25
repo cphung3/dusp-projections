@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 600,
   },
   hidden: {
-    display: 'none',
+    // display: 'none',
   },
   button: {
     margin: theme.spacing(1),
@@ -73,8 +73,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function LandingOverlay({ hidden, setHidden }) {
-  const [clicked, setClicked] = useState(false);
+export default function LandingOverlay({
+  clicked, setClicked, hidden, setHidden
+}) {
   const classes = useStyles();
 
   const handleClick = (e) => {

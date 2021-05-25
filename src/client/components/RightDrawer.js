@@ -10,17 +10,17 @@ import { IconButton, Paper } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { motion } from 'framer-motion';
-import MosaicDetails from './MosaicDetails';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
-import MosaicCard from './MosaicCard';
 import InfiniteScroll from 'react-infinite-scroller';
 import Skeleton from '@material-ui/lab/Skeleton';
+import MosaicCard from './MosaicCard';
+import MosaicDetails from './MosaicDetails';
 
 // const MosaicCard = React.lazy(() => import('./MosaicCard'));
 
 const drawerWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 2.5;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
   },
@@ -62,8 +62,8 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   closeDrawerBtn: {
-    borderRadius: 0, 
-    padding: 0, 
+    borderRadius: 0,
+    padding: 0,
     // borderRight: '1px solid rgba(0, 0, 0, 0.12)',
     // background: 'gray',
   },
@@ -117,18 +117,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function RightDrawer({submissions, cardClicked, setCardClicked, handleBack, selectedCountry, open, handleDrawerClose}) {
+export default function RightDrawer({
+  submissions, cardClicked, setCardClicked, handleBack, selectedCountry, open, handleDrawerClose
+}) {
   const [selectedCard, setSelectedCard] = useState(0);
   // const [visibleCards, setVisibleCards] = useState(submissionData.slice(0, Math.min(submissionData.length, 4)))
-  const [incrementCount, setIncrementCount] = useState(0)
-  const [submissionData, setSubmissionData] = useState([])
+  const [incrementCount, setIncrementCount] = useState(0);
+  const [submissionData, setSubmissionData] = useState([]);
   // console.log('submissions cards: ', submissionData);
   // console.log('visible cards: ', visibleCards);
   // setVisibleCards(submissionData.slice(0, Math.min(submissionData.length, 4)));
 
-  const handleScroll = (added) => {
-    setVisibleCards(submissionData.slice(0, Math.min(submissionData.length, 4+added)));
-  }
+  // const handleScroll = (added) => {
+  //   setVisibleCards(submissionData.slice(0, Math.min(submissionData.length, 4 + added)));
+  // };
 
 
   useEffect(() => {
@@ -137,11 +139,11 @@ export default function RightDrawer({submissions, cardClicked, setCardClicked, h
       const selectedSubmission = submissions[selectedISO] || [];
       setSubmissionData(selectedSubmission);
     }
-  }, [selectedCountry, submissions])
+  }, [selectedCountry, submissions]);
 
   const classes = useStyles();
   const theme = useTheme();
-  
+
   return (
     <div className={classes.root}>
       <Drawer
@@ -155,7 +157,7 @@ export default function RightDrawer({submissions, cardClicked, setCardClicked, h
       >
         <div className={classes.closeDrawer}>
           <IconButton onClick={handleDrawerClose} className={classes.closeDrawerBtn}>
-            {theme.direction === 'rtl' ? <ChevronLeftIcon style={{width: '3vw', height: '3vw'}} /> : <ChevronRightIcon />}
+            {theme.direction === 'rtl' ? <ChevronLeftIcon style={{ width: '3vw', height: '3vw' }} /> : <ChevronRightIcon />}
           </IconButton>
         </div>
         <div className={classes.drawerHeader}>
@@ -163,38 +165,39 @@ export default function RightDrawer({submissions, cardClicked, setCardClicked, h
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton> */}
           {/* <Paper square elevation={0} className={classes.paperInner}> */}
-            { cardClicked ? 
-              <motion.div   
-                  className="col-md-6 offset-md-3"
-                  initial={{ x: '100vw' }}
-                  animate={{ x: 0 }}
-                  transition={{ stiffness: 150 }}
-                  >
+          { cardClicked
+            ? (
+              <motion.div
+                className="col-md-6 offset-md-3"
+                initial={{ x: '100vw' }}
+                animate={{ x: 0 }}
+                transition={{ stiffness: 150 }}
+              >
                 <MosaicDetails handleBack={handleBack} selectedCard={selectedCard} submissionData={submissionData} />
               </motion.div>
-              : 
-              <div style={{overflow: 'auto'}}>
+            )
+            : (
+              <div style={{ overflow: 'auto' }}>
                 <div className={classes.container}>
                   <h3 className={classes.title} id="simple-modal-title">{selectedCountry.NAME}</h3>
-                  <div className={classes.line}/>
+                  <div className={classes.line} />
                 </div>
                 <div className={classes.cardContainer}>
-                      {/* <InfiniteScroll
+                  {/* <InfiniteScroll
                           pageStart={0}
                           loadMore={() => handleScroll(4)}
                           hasMore={false}
                           loader={<div className="loader" key={0}>Loading ...</div>}
                           useWindow={false}
                       > */}
-                          {submissionData.map((data, idx) => 
-                            (
-                              <MosaicCard key={idx} index={idx} data={data} incrementCount={incrementCount} setIncrementCount={setIncrementCount} setSelectedCard={setSelectedCard} setCardClicked={setCardClicked}/>
-                            )
-                          )}
-                      {/* </InfiniteScroll> */}
-                  
+                  {submissionData.map((data, idx) => (
+                    <MosaicCard key={data.title} index={idx} data={data} incrementCount={incrementCount} setIncrementCount={setIncrementCount} setSelectedCard={setSelectedCard} setCardClicked={setCardClicked} />
+                  ))}
+                  {/* </InfiniteScroll> */}
+
                 </div>
               </div>
+            )
             }
           {/* </Paper> */}
         </div>

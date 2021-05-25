@@ -85,6 +85,7 @@ export default function Map(props) {
       .html((event, d) => d.properties.NAME || d.properties.FORMAL_EN);
 
     if (!svgRef.current.isBuilt) {
+      svg.selectAll('.country').remove();
       svgRef.current.isBuilt = true;
       svg.call(tooltip);
       svg

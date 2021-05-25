@@ -4,9 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     position: 'absolute',
-    left: '44vw',
+    // left: '44vw',
     fontFamily: 'Poppins',
     fontWeight: 600,
     fontSize: '1.2vw',
@@ -54,34 +53,59 @@ const useStyles = makeStyles(theme => ({
   toolbar: {
     minHeight: '6vh',
     maxHeight: '6vh',
+  },
+  button: {
+    position: 'absolute',
+    left: '44.2vw',
+    width: '12vw',
+    disableRipple: true,
   }
 }));
 
-export default function Navbar() {
+
+export default function Navbar({ setHidden, setClicked, handleDrawerClose }) {
   const classes = useStyles();
+  const theme = createMuiTheme({
+    props: {
+      // Name of the component
+      MuiButtonBase: {
+        // The properties to apply
+        disableRipple: true // No more ripple, on the whole application!
+      }
+    }
+  });
+  const handleUnclick = (e) => {
+    setClicked(false);
+    setHidden(false);
+    handleDrawerClose();
+  };
 
   return (
     <div className={classes.root}>
-      <AppBar elevation={0} position="static" className={classes.container}>
-        <Toolbar className={classes.toolbar}>
-          <Typography variant="h6" className={classes.title}>
-            VISUALIZING CITIES
-          </Typography>
-          <div className={classes.navigation}>
-            <Link className={classes.link} to="/">
-              <Typography variant="h6" className={classes.tab}>
-                Map
+      <MuiThemeProvider theme={theme}>
+        <AppBar elevation={0} position="static" className={classes.container}>
+          <Toolbar className={classes.toolbar}>
+            <Button type="button" onClick={handleUnclick} className={classes.button}>
+              <Typography variant="h6" className={classes.title}>
+                VISUALIZING CITIES
               </Typography>
-            </Link>
-            <Link className={classes.link} to="/about">
-              <Typography variant="h6" className={classes.tab}>
-                About
-              </Typography>
-            </Link>
-          </div>
-          {/* <Button color="inherit">Login</Button> */}
-        </Toolbar>
-      </AppBar>
+            </Button>
+            <div className={classes.navigation}>
+              <Link className={classes.link} to="/">
+                <Typography variant="h6" className={classes.tab}>
+                  Map
+                </Typography>
+              </Link>
+              <Link className={classes.link} to="/about">
+                <Typography variant="h6" className={classes.tab}>
+                  About
+                </Typography>
+              </Link>
+            </div>
+            {/* <Button color="inherit">Login</Button> */}
+          </Toolbar>
+        </AppBar>
+      </MuiThemeProvider>
     </div>
   );
 }

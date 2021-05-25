@@ -18,20 +18,26 @@ const useStyles = makeStyles({
 
   },
   media: {
-    height: 180,
+    height: 320,
   },
 });
 
-export default function ProfileCard({ name, title, affil }) {
+export default function ProfileCard({
+  image, name, title, affil, link
+}) {
   const classes = useStyles();
 
   return (
     <Card elevation={0} className={classes.root}>
-      <CardActionArea>
+      <CardActionArea
+        href={link}
+        target="_blank"
+        rel="noreferrer"
+      >
         <CardMedia
           className={classes.media}
-          image="/public/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
+          image={`/public/${image}`}
+          title="Team headshot"
         />
         <CardContent style={{ textAlign: 'Left', padding: '1rem 0 0 0' }}>
           <Typography gutterBottom variant="h5" component="h4" style={{ fontFamily: 'Montserrat', fontWeight: 700, fontSize: '1rem' }}>
@@ -45,11 +51,14 @@ export default function ProfileCard({ name, title, affil }) {
           </Typography>
         </CardContent>
       </CardActionArea>
+      {/* </Button> */}
     </Card>
   );
 }
 
 ProfileCard.propTypes = {
+  link: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   affil: PropTypes.string.isRequired,

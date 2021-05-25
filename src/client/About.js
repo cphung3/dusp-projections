@@ -85,19 +85,19 @@ export default function About() {
           </p>
         </Container>
         <Container>
-          <Button onClick={handleClick} variant="outlined" size="large" className={classes.button}>
+          <Button onClick={handleClick} href="https://projections2021.mit.edu/" variant="outlined" size="large" className={classes.button}>
             Projections 16 Website
           </Button>
-          <Button onClick={handleClick} variant="outlined" size="large" className={classes.button}>
+          <Button onClick={handleClick} href="https://projections2021.mit.edu/call-data-visualizations" variant="outlined" size="large" className={classes.button}>
             Submit Visualizations
           </Button>
         </Container>
         <Container className={classes.cardContainer}>
           <Typography variant="h4" className={classes.subtitle}>The Team</Typography>
-          <ProfileCard name="Chaewon Ahn" title="Doctoral Candidate Editor" affil="DUSP MIT" />
-          <ProfileCard name="Carmelo Ignaccolo" title="Doctoral Candidate Editor" affil="DUSP MIT" />
-          <ProfileCard name="Arianna Salazar Miranda" title="Doctoral Candidate Editor" affil="DUSP MIT" />
-          <ProfileCard name="Calvin Phung" title="Website and Visualization" affil="Course 6 MIT" />
+          <ProfileCard name="Chaewon Ahn" title="Doctoral Candidate Editor" affil="DUSP MIT" image="chaewonahn_bw.png" link="" />
+          <ProfileCard name="Carmelo Ignaccolo" title="Doctoral Candidate Editor" affil="DUSP MIT" image="capture_ilaud_bw.jpg" link="https://dusp.mit.edu/student/carmelo-ignaccolo" />
+          <ProfileCard name="Arianna Salazar Miranda" title="Doctoral Candidate Editor" affil="DUSP MIT" image="salazarmiranda.png" link="https://dusp.mit.edu/student/arianna-salazar-miranda" />
+          <ProfileCard name="Calvin Phung" title="Website and Visualization" affil="Course 6 MIT" image="calvin_bw.jpg" link="" />
         </Container>
       </Container>
       {/* </Paper> */}

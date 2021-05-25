@@ -67,6 +67,7 @@ export default function App() {
   const [coordData, setCoordData] = useState([]);
   const [filteredCoordData, setFilteredCoordData] = useState([]);
   const [availibleKeywords, setAvailibleKeywords] = useState({});
+  const [clicked, setClicked] = useState(false);
   const classes = useStyles();
 
   const handleDrawerOpen = () => {
@@ -176,8 +177,8 @@ export default function App() {
           <Route exact path="/">
             <div className={classes.block}>
               <div className={hidden ? classes.foreground : `${classes.foreground} ${classes.zIndex}`}>
-                <Navbar />
-                <LandingOverlay hidden={hidden} setHidden={setHidden} sizeVw={vw} sizeVh={vh} />
+                <Navbar setHidden={setHidden} setClicked={setClicked} handleDrawerClose={handleDrawerClose} />
+                <LandingOverlay clicked={clicked} setClicked={setClicked} hidden={hidden} setHidden={setHidden} sizeVw={vw} sizeVh={vh} />
               </div>
               <div className={classes.background}>
                 { isLoaded
