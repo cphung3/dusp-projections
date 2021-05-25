@@ -149,8 +149,12 @@ app.get('/api/keywords', async (req, res) => {
   }
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+app.get('/*', (req, res) => {
+  let url = path.resolve(__dirname, '..', 'dist', 'index.html');
+  if (!url.startsWith('/app/')) { // we're on local windows
+    url = url.substring(1);
+  }
+  res.sendFile(url);
 });
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
