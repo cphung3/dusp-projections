@@ -71,9 +71,11 @@ export default function About() {
         <Typography variant="h3" className={classes.title}>What is Projections 16?</Typography>
         <Container maxWidth="sm">
           <p className={classes.bodyText}>
-            Projections, the Journal of the MIT Department of Urban Studies and Planning, focuses on the most innovative
-            and cutting edge research in planning. Each volume is devoted to a different topic of interest to planning scholars,
-            students, and professionals. As a peer-reviewed publication, Projections welcomes original high quality submissions at the
+            Projections, the Journal of the MIT Department of Urban Studies and Planning,
+            focuses on the most innovative and cutting edge research in planning.
+            Each volume is devoted to a different topic of interest to planning scholars,
+            students, and professionals. As a peer-reviewed publication,
+            Projections welcomes original high quality submissions at the
             vanguard of planning theory and practice.
           </p>
           <p className={classes.bodyText}>

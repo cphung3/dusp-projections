@@ -36,7 +36,7 @@ export default function ProfileCard({
       >
         <CardMedia
           className={classes.media}
-          image={`/public/${image}`}
+          image={process.env.NODE_ENV === 'dev' ? `/public/${image}` : `/${image}`}
           title="Team headshot"
         />
         <CardContent style={{ textAlign: 'Left', padding: '1rem 0 0 0' }}>

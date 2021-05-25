@@ -66,7 +66,7 @@ export default function Map(props) {
     const svg = d3.select(svgRef.current);
 
     const projection = d3.geoOrthographic().fitSize([sizeVw, sizeVh], data);
-    let path = d3.geoPath().projection(projection);
+    let path = d3.geoPath().projection(projection).pointRadius(2);
 
     function rotateFunction() {
       const rotate = projection.rotate();
@@ -74,7 +74,7 @@ export default function Map(props) {
       projection.rotate([
         rotate[0] + 1 * k / 2,
       ]);
-      path = d3.geoPath().projection(projection);
+      path = d3.geoPath().projection(projection).pointRadius(2);
       svg.selectAll('path').attr('d', feature => path(feature));
     }
 
@@ -106,7 +106,7 @@ export default function Map(props) {
         projection.rotate([
           rotate[0] + event.dx * k,
         ]);
-        path = d3.geoPath().projection(projection);
+        path = d3.geoPath().projection(projection).pointRadius(2);
         svg.selectAll('path').attr('d', feature => path(feature));
         rotateTimer.stop();
       }));
@@ -138,6 +138,10 @@ export default function Map(props) {
         .on('mouseover', tooltip.show)
         .on('mouseout', tooltip.hide)
         .on('click', handleCountryClick);
+
+      // circles.attr('d', path.pointRadius(0.1));
+
+      path.pointRadius('.2');
 
       // eslint-disable-next-line no-inner-declarations
       function repeat() {

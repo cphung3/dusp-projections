@@ -96,13 +96,14 @@ export default function LandingOverlay({
           Visualizing Cities
         </div>
         <div className={classes.bodyContainer}>
-          <div className={classes.bodyText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            In aliquet praesent leo ipsum, imperdiet tempor, quam.
-            Curabitur nisl facilisis libero sed habitant interdum.
-            Etiam non amet, quis eu ut rutrum aenean.
-            Nunc cras accumsan pellentesque lacus sed sed facilisis blandit urna.
-          </div>
+          <p className={classes.bodyText}>
+            Projections, the Journal of the MIT Department of Urban Studies and Planning,
+            focuses on the most innovative and cutting edge research in planning.
+            Each volume is devoted to a different topic of interest to planning scholars,
+            students, and professionals. As a peer-reviewed publication,
+            Projections welcomes original high quality submissions at the
+            vanguard of planning theory and practice.
+          </p>
         </div>
         <Button onClick={handleClick} variant="outlined" size="large" className={classes.button}>
           View Map
