@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { animations } from 'react-animation';
@@ -114,3 +115,8 @@ export default function LandingOverlay({ hidden, setHidden }) {
     </div>
   );
 }
+
+LandingOverlay.propTypes = {
+  hidden: PropTypes.bool.isRequired,
+  setHidden: PropTypes.func.isRequired
+};

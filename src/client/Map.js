@@ -59,7 +59,7 @@ export default function Map(props) {
     handleDrawerOpen();
     handleBack();
     setSelectedCountry(d.properties);
-    svgRef.current.selectedFeature = d.properties.ISO_A2;
+    svgRef.current.selectedFeature = d.properties.ISO_A3;
   };
 
   useEffect(() => {
@@ -113,8 +113,8 @@ export default function Map(props) {
 
 
     if (Object.keys(selectedCountry).length) {
-      if (svgRef.current.selectedFeature === selectedCountry.ISO_A2) {
-        svg.selectAll('.country').attr('fill', feature => (svgRef.current.selectedFeature === feature.properties.ISO_A2 ? '#D67474' : '#aaa'));
+      if (svgRef.current.selectedFeature === selectedCountry.ISO_A3) {
+        svg.selectAll('.country').attr('fill', feature => (svgRef.current.selectedFeature === feature.properties.ISO_A3 ? '#D67474' : '#aaa'));
       }
     } else {
       svg.selectAll('.country').attr('fill', '#aaa');
@@ -181,12 +181,12 @@ Map.propTypes = {
   handleDrawerOpen: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   selectedCountry: PropTypes.shape({
-    ISO_A2: PropTypes.string
+    ISO_A3: PropTypes.string
   }).isRequired,
   setSelectedCountry: PropTypes.func.isRequired,
   sizeVh: PropTypes.number.isRequired,
   sizeVw: PropTypes.number.isRequired,
   submissions: PropTypes.shape({
-    ISO_A2: PropTypes.string
+    ISO_A3: PropTypes.string
   }).isRequired
 };
