@@ -126,6 +126,8 @@ main();
 const app = express();
 
 app.use(express.static('dist'));
+app.use(express.static(`${__dirname}`));
+
 app.get('/api/responses', async (req, res) => {
   if (finishedFetch) {
     sheetData.then((data) => {
