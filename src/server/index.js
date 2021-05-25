@@ -1,5 +1,6 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const path = require('path');
 
 require('dotenv').config();
 
@@ -126,7 +127,7 @@ main();
 const app = express();
 
 app.use(express.static('dist'));
-app.use(express.static(`${__dirname}`));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/responses', async (req, res) => {
   if (finishedFetch) {
