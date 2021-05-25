@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -63,11 +63,6 @@ export default function MosaicCard({
       onClick={handleClick}
     >
       <CardActionArea>
-        {/* <LazyCardMedia
-            className={classes.media}
-            image={data.image}
-            title={data.title}
-          /> */}
         <Image
           className={classes.media}
           loading={loadingSkeleton()}
@@ -78,14 +73,6 @@ export default function MosaicCard({
           style={{ paddingTop: 'calc(47%)', maxHeight: '168px', overflow: 'hidden' }}
           animationDuration={1000}
         />
-        {/* <LazyImage
-            image={data.image}
-          /> */}
-        {/* <CardMedia
-            className={classes.media}
-            image={data.image}
-            title={data.title}
-          /> */}
         <CardContent className={classes.content}>
           <Typography variant="subtitle1" className={classes.subtitle}>
             <b className={classes.ellipsis}>{data.title}</b>
@@ -94,10 +81,6 @@ export default function MosaicCard({
             {' '}
             <p className={classes.ellipsis}>{data.name}</p>
           </Typography>
-          {/* <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
-          </Typography> */}
         </CardContent>
       </CardActionArea>
       {/* <CardActions>
