@@ -150,7 +150,7 @@ export default function App() {
     <Router>
       <MuiThemeProvider theme={theme}>
         <Switch>
-          <Route path="/map">
+          <Route exact path="/">
             <div className="block">
               <div className={hidden ? 'foreground' : 'foreground foreground-zIndex'}>
                 <Navbar />
@@ -199,7 +199,7 @@ export default function App() {
             <Navbar />
             <About />
           </Route>
-          <Redirect from="/" to="/map" />
+          {/* <Redirect from="/" to="/map" /> */}
         </Switch>
       </MuiThemeProvider>
     </Router>

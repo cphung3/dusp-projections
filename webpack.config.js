@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
+const cssDir = process.env.CSS_DIR;
+
 const outputDirectory = 'dist';
 
 module.exports = {
@@ -46,7 +48,8 @@ module.exports = {
     new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      favicon: './public/favicon.ico'
+      favicon: './public/favicon.ico',
+      css: cssDir,
     }),
   ]
 };

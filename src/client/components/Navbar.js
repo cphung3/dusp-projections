@@ -6,12 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    
+
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -32,12 +32,12 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
   },
   navigation: {
-      justifyContent: 'space-between',
-      display: 'flex',
-      minWidth: '6vw',
-      marginRight: '1vw',
-      position: 'absolute',
-      right: '10px'
+    justifyContent: 'space-between',
+    display: 'flex',
+    minWidth: '6vw',
+    marginRight: '1vw',
+    position: 'absolute',
+    right: '10px'
   },
   container: {
     // backgroundColor: '#526355',
@@ -62,26 +62,26 @@ export default function Navbar() {
 
   return (
     <div className={classes.root}>
-        <AppBar elevation={0} position="static" className={classes.container}>
-          <Toolbar className={classes.toolbar}>
-            <Typography variant="h6" className={classes.title}>
-              VISUALIZING CITIES
-            </Typography>
-            <div className={classes.navigation}>
-              <Link className={classes.link} to="/map">
-                <Typography variant="h6" className={classes.tab}>
-                  Map
-                </Typography>
-              </Link> 
-              <Link className={classes.link}  to="/about">
-                <Typography variant="h6" className={classes.tab}>
-                  About
-                </Typography>
-              </Link>
-            </div>
-            {/* <Button color="inherit">Login</Button> */}
-          </Toolbar>
-        </AppBar>
+      <AppBar elevation={0} position="static" className={classes.container}>
+        <Toolbar className={classes.toolbar}>
+          <Typography variant="h6" className={classes.title}>
+            VISUALIZING CITIES
+          </Typography>
+          <div className={classes.navigation}>
+            <Link className={classes.link} to="/">
+              <Typography variant="h6" className={classes.tab}>
+                Map
+              </Typography>
+            </Link>
+            <Link className={classes.link} to="/about">
+              <Typography variant="h6" className={classes.tab}>
+                About
+              </Typography>
+            </Link>
+          </div>
+          {/* <Button color="inherit">Login</Button> */}
+        </Toolbar>
+      </AppBar>
     </div>
   );
 }
