@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     // maxWidth: 300,
     // minWidth: 300,
     width: '16vw',
-    marginRight: '1vw',
+    marginRight: '1w',
     marginBottom: '1vh',
     opacity: 1,
     borderRadius: 0,

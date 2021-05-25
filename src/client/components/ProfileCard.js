@@ -13,7 +13,8 @@ const useStyles = makeStyles({
     width: 240,
     color: 'white',
     background: 'rgba(0,0,0,0)',
-    marginRight: '2vw',
+    marginLeft: '1vw',
+    marginRight: '1vw',
 
   },
   media: {
