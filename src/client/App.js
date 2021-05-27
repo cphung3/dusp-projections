@@ -187,6 +187,7 @@ export default function App() {
                     <div>
                       <FilterSelect
                         handleBack={handleBack}
+                        handleDrawerOpen={handleDrawerOpen}
                         filterSelection={filterSelection}
                         setFilterSelection={setFilterSelection}
                         availableKeywords={availableKeywords}

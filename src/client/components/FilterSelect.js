@@ -25,12 +25,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function FilterSelect({
-  handleBack, filterSelection, setFilterSelection, availableKeywords
+  handleBack, filterSelection, setFilterSelection, availableKeywords, handleDrawerOpen
 }) {
   const classes = useStyles();
 
   const handleFilterSelect = (e, selected) => {
     setFilterSelection(selected);
+    handleDrawerOpen();
     handleBack();
   };
 
