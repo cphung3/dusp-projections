@@ -83,6 +83,13 @@ export default function App() {
     setCardClicked(false);
   };
 
+  const resetMap = () => {
+    setDrawerOpen(false);
+    setSelectedCountry({});
+    setCardClicked(false);
+    setFilterSelection([]);
+  };
+
   // set the size of the globe based on the size of the user's window
   const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 2;
   const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) - 150;
@@ -178,7 +185,7 @@ export default function App() {
           <Route exact path="/">
             <div className={classes.block}>
               <div className={hidden ? classes.foreground : `${classes.foreground} ${classes.zIndex}`}>
-                <Navbar setHidden={setHidden} setClicked={setClicked} handleDrawerClose={handleDrawerClose} />
+                <Navbar resetMap={resetMap} setHidden={setHidden} setClicked={setClicked} handleDrawerClose={handleDrawerClose} />
                 <LandingOverlay clicked={clicked} setClicked={setClicked} hidden={hidden} setHidden={setHidden} sizeVw={vw} sizeVh={vh} />
               </div>
               <div className={classes.background}>

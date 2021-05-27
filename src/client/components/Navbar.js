@@ -63,7 +63,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function Navbar({ setHidden, setClicked, handleDrawerClose }) {
+export default function Navbar({
+  resetMap, setHidden, setClicked, handleDrawerClose
+}) {
   const classes = useStyles();
   const theme = createMuiTheme({
     props: {
@@ -96,7 +98,7 @@ export default function Navbar({ setHidden, setClicked, handleDrawerClose }) {
                   Map
                 </Typography>
               </Link>
-              <Link className={classes.link} to="/about">
+              <Link onClick={resetMap} className={classes.link} to="/about">
                 <Typography variant="h6" className={classes.tab}>
                   About
                 </Typography>
