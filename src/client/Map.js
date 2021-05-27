@@ -55,19 +55,31 @@ export default function Map(props) {
   const classes = useStyles();
 
   const sensitivity = 75;
-  const handleCountryClick = (e, d) => {
-    handleDrawerOpen();
+
+  function handleCountryClick(e, d) {
     handleBack();
-    setSelectedCountry(d.properties);
-    svgRef.current.selectedFeature = d.properties.ISO_A3;
-  };
+    if (open && svgRef.current.selectedFeature === d.properties.ISO_A3) {
+      setSelectedCountry({});
+      svgRef.current.selectedFeature = '';
+    } else {
+      handleDrawerOpen();
+      setSelectedCountry(d.properties);
+      svgRef.current.selectedFeature = d.properties.ISO_A3;
+    }
+  }
+
+  // Add tooltip for name of each country
+  const tooltip = tip()
+    .attr('class', 'd3-tip')
+    .offset([-5, 0])
+    .html((event, d) => d.properties.NAME || d.properties.FORMAL_EN);
+
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
 
     const projection = d3.geoOrthographic().fitSize([sizeVw, sizeVh], data);
     let path = d3.geoPath().projection(projection).pointRadius(2);
-
     function rotateFunction() {
       const rotate = projection.rotate();
       const k = sensitivity / projection.scale();
@@ -77,12 +89,6 @@ export default function Map(props) {
       path = d3.geoPath().projection(projection).pointRadius(2);
       svg.selectAll('path').attr('d', feature => path(feature));
     }
-
-    // Add tooltip for name of each country
-    const tooltip = tip()
-      .attr('class', 'd3-tip')
-      .offset([-5, 0])
-      .html((event, d) => d.properties.NAME || d.properties.FORMAL_EN);
 
     if (!svgRef.current.isBuilt) {
       svg.selectAll('.country').remove();
@@ -96,7 +102,7 @@ export default function Map(props) {
         .attr('d', feature => path(feature))
         .on('mouseover', tooltip.show)
         .on('mouseout', tooltip.hide)
-        .on('click', handleCountryClick);
+        .on('click', (e, d) => handleCountryClick(e, d));
 
       svg.selectAll('.country').attr('fill', '#aaa');
       const rotateTimer = d3.timer(rotateFunction, 200);
@@ -112,6 +118,9 @@ export default function Map(props) {
       }));
     }
 
+    svg
+      .selectAll('.country')
+      .on('click', (e, d) => handleCountryClick(e, d));
 
     if (Object.keys(selectedCountry).length) {
       if (svgRef.current.selectedFeature === selectedCountry.ISO_A3) {
@@ -157,7 +166,7 @@ export default function Map(props) {
       }
       repeat();
     }
-  }, [submissions, coordData, selectedCountry]);
+  }, [open, submissions, coordData, selectedCountry]);
 
 
   return (

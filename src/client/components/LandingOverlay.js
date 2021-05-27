@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'center',
     display: 'flex',
     flexFlow: 'wrap',
-    paddingTop: 200,
+    paddingTop: '20vh',
   },
   heading: {
     width: '100%',

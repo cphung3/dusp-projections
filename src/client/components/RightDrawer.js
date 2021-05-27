@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import { IconButton, Paper } from '@material-ui/core';
+import { Button, IconButton, Paper } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { motion } from 'framer-motion';
@@ -114,32 +114,44 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '300px',
     marginRight: '20px',
     minWidth: '300px',
-  }
+  },
+  viewMore: {
+    marginRight: '3vw',
+    marginBottom: '4vh',
+  },
 }));
 
 export default function RightDrawer({
-  submissions, cardClicked, setCardClicked, handleBack, selectedCountry, open, handleDrawerClose
+  submissions, cardClicked, setCardClicked, handleBack, selectedCountry, open, handleDrawerClose, filterSelection
 }) {
   const [selectedCard, setSelectedCard] = useState(0);
-  // const [visibleCards, setVisibleCards] = useState(submissionData.slice(0, Math.min(submissionData.length, 4)))
   const [incrementCount, setIncrementCount] = useState(0);
   const [submissionData, setSubmissionData] = useState([]);
-  // console.log('submissions cards: ', submissionData);
-  // console.log('visible cards: ', visibleCards);
-  // setVisibleCards(submissionData.slice(0, Math.min(submissionData.length, 4)));
+  const [submissionLimit, setSubmissionLimit] = useState(6);
+  const [allSubmissionsVisible, setAllSubmissionsVisible] = useState(true);
 
-  // const handleScroll = (added) => {
-  //   setVisibleCards(submissionData.slice(0, Math.min(submissionData.length, 4 + added)));
-  // };
-
-
+  // check what submissions to show to user
   useEffect(() => {
+    // if a country is selected
     if (Object.values(selectedCountry).length !== 0) {
       const selectedISO = selectedCountry.ISO_A3;
-      const selectedSubmission = submissions[selectedISO] || [];
-      setSubmissionData(selectedSubmission);
+      const selectedCountrySubmissions = submissions[selectedISO] || [];
+      if (submissionLimit < selectedCountrySubmissions.length) setAllSubmissionsVisible(false);
+      else setAllSubmissionsVisible(true);
+      const batchSubmissions = selectedCountrySubmissions.slice(0, Math.min(selectedCountrySubmissions.length, submissionLimit));
+      setSubmissionData(batchSubmissions);
+    } else if (Object.values(selectedCountry).length === 0 && open) {
+      // country is deselected
+      const selectedSubmissions = Object.values(submissions).flat();
+      if (submissionLimit < selectedSubmissions.length) setAllSubmissionsVisible(false);
+      else setAllSubmissionsVisible(true);
+      setSubmissionData(selectedSubmissions.slice(0, Math.min(selectedSubmissions.length, submissionLimit)));
     }
-  }, [selectedCountry, submissions]);
+  }, [submissionLimit, selectedCountry, submissions]);
+
+  const handleViewMore = () => {
+    setSubmissionLimit(submissionLimit + 4);
+  };
 
   const classes = useStyles();
   const theme = useTheme();
@@ -179,23 +191,27 @@ export default function RightDrawer({
             : (
               <div style={{ overflow: 'auto' }}>
                 <div className={classes.container}>
-                  <h3 className={classes.title} id="simple-modal-title">{selectedCountry.NAME}</h3>
+                  {
+                    Object.keys(selectedCountry).length !== 0
+                      ? <h3 className={classes.title}>{selectedCountry.NAME}</h3>
+                      : <h3 className={classes.title}>All Submissions</h3>
+                  }
                   <div className={classes.line} />
                 </div>
                 <div className={classes.cardContainer}>
-                  {/* <InfiniteScroll
-                          pageStart={0}
-                          loadMore={() => handleScroll(4)}
-                          hasMore={false}
-                          loader={<div className="loader" key={0}>Loading ...</div>}
-                          useWindow={false}
-                      > */}
-                  {submissionData.map((data, idx) => (
-                    <MosaicCard key={data.title} index={idx} data={data} incrementCount={incrementCount} setIncrementCount={setIncrementCount} setSelectedCard={setSelectedCard} setCardClicked={setCardClicked} />
-                  ))}
-                  {/* </InfiniteScroll> */}
-
+                  {open ? submissionData.map((data, idx) => (
+                    <MosaicCard key={`${data.title}_${data.name}`} index={idx} data={data} incrementCount={incrementCount} setIncrementCount={setIncrementCount} setSelectedCard={setSelectedCard} setCardClicked={setCardClicked} />
+                  )) : null}
                 </div>
+                {
+                  !allSubmissionsVisible
+                    ? (
+                      <Button className={classes.viewMore} onClick={handleViewMore}>
+                        View More
+                      </Button>
+                    ) : null
+                }
+
               </div>
             )
             }

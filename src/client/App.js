@@ -66,7 +66,7 @@ export default function App() {
   const [filteredSubmissions, setFilteredSubmissions] = useState({});
   const [coordData, setCoordData] = useState([]);
   const [filteredCoordData, setFilteredCoordData] = useState([]);
-  const [availibleKeywords, setAvailibleKeywords] = useState({});
+  const [availableKeywords, setAvailableKeywords] = useState({});
   const [clicked, setClicked] = useState(false);
   const classes = useStyles();
 
@@ -87,17 +87,18 @@ export default function App() {
   const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 2;
   const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) - 150;
 
+  // get the available filters from submission sheet
   useEffect(() => {
     const fetchData = async () => {
       axios.get('/api/keywords').then((res) => {
-        setAvailibleKeywords(res.data.keywords);
+        setAvailableKeywords(res.data.keywords);
       });
     };
     fetchData();
   }, []);
 
+  // fetch the spreadsheet submission data from server
   useEffect(() => {
-    // fetch the spreadsheet submission data from server
     const fetchData = async () => {
       const tempObj = {};
       const tempCoordData = [];
@@ -133,7 +134,7 @@ export default function App() {
     fetchData();
   }, []);
 
-
+  // filter submissions based on user selected tags
   useEffect(() => {
     const newSubmissions = {};
     const circlesToRemove = [];
@@ -188,7 +189,7 @@ export default function App() {
                         handleBack={handleBack}
                         filterSelection={filterSelection}
                         setFilterSelection={setFilterSelection}
-                        availibleKeywords={availibleKeywords}
+                        availableKeywords={availableKeywords}
                       />
                       <Map
                         open={drawerOpen}
@@ -205,6 +206,7 @@ export default function App() {
                       />
                       <RightDrawer
                         selectedCountry={selectedCountry}
+                        filterSelection={filterSelection}
                         submissions={filteredSubmissions}
                         open={drawerOpen}
                         cardClicked={cardClicked}

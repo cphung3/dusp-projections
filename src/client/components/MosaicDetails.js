@@ -133,7 +133,7 @@ export default function MosaicDetails({ handleBack, selectedCard, submissionData
                         <div className={classes.subtext}>
                           <h3>{imageData.name}</h3>
                           <FiberManualRecordIcon color="primary" className={classes.icon} />
-                          <h3>{imageData.timestamp}</h3>
+                          <h3>{imageData.timestamp.split(' ')[0]}</h3>
                           {/* <FiberManualRecordIcon color="primary" className={classes.icon}/>
                                 <h3>Source</h3> */}
                         </div>
