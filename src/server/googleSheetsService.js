@@ -1,51 +1,54 @@
 // googleSheetsService.js
-const { google } = require('googleapis')
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+const { google } = require('googleapis');
+
+const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 const sheets = google.sheets('v4');
 const { GoogleAuth } = require('google-auth-library');
 
 // Source snippet from https://hackernoon.com/how-to-use-google-sheets-api-with-nodejs-cz3v316f
 async function getAuthToken() {
-    const auth = new GoogleAuth({
-        scopes: SCOPES,
-        keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-    });
+  const auth = new GoogleAuth({
+    scopes: SCOPES,
+    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+  });
   const authToken = await auth.getClient();
   return authToken;
 }
 
-async function getSpreadSheet({spreadsheetId, auth}) {
-    const res = await sheets.spreadsheets.get({
-      spreadsheetId,
-      auth,
-    });
-    return res;
-  }
-  
-async function getSpreadSheetValues({spreadsheetId, auth, sheetName}) {
-    const res = await sheets.spreadsheets.values.get({
-      spreadsheetId,
-      auth,
-      range: sheetName
-    });
-    return res;
+async function getSpreadSheet({ spreadsheetId, auth }) {
+  const res = await sheets.spreadsheets.get({
+    spreadsheetId,
+    auth,
+  });
+  return res;
 }
 
-async function updateSpreadSheetValues({spreadsheetId, auth, range, body}) {
+async function getSpreadSheetValues({ spreadsheetId, auth, sheetName }) {
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId,
+    auth,
+    range: sheetName
+  });
+  return res;
+}
+
+async function updateSpreadSheetValues({
+  spreadsheetId, auth, range, body
+}) {
   const res = await sheets.spreadsheets.values.update({
-    spreadsheetId: spreadsheetId,
+    spreadsheetId,
     auth,
     valueInputOption: 'USER_ENTERED',
-    range: range,
+    range,
     resource: body
   });
   return res;
 }
-  
-  
-  module.exports = {
-    getAuthToken,
-    getSpreadSheet,
-    getSpreadSheetValues,
-    updateSpreadSheetValues
-  }
+
+
+module.exports = {
+  getAuthToken,
+  getSpreadSheet,
+  getSpreadSheetValues,
+  updateSpreadSheetValues
+};

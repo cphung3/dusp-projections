@@ -5,6 +5,8 @@ import { animations } from 'react-animation';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
+import { ReactSVG } from 'react-svg';
+// import ArrowDown from '../assets/arrow_down.svg';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'center',
     display: 'flex',
     flexFlow: 'wrap',
-    paddingTop: '20vh',
+    paddingTop: '15vh',
   },
   heading: {
     width: '100%',
@@ -34,16 +36,24 @@ const useStyles = makeStyles(theme => ({
     color: 'white',
     fontFamily: 'Montserrat',
     fontWeight: 700,
-    fontSize: 30,
+    fontSize: '3vh',
   },
-  subHeading: {
+  subheading: {
     width: '100%',
     justifyContent: 'center',
     color: 'white',
     fontFamily: 'Montserrat',
     fontWeight: 300,
-    fontSize: 90,
-    marginBottom: 40,
+    fontSize: '2.5vh',
+  },
+  subSubHeading: {
+    width: '100%',
+    justifyContent: 'center',
+    color: 'white',
+    fontFamily: 'Montserrat',
+    fontWeight: 300,
+    fontSize: '11vh',
+    marginBottom: '1.45vh',
   },
   bodyContainer: {
     width: '100%',
@@ -51,25 +61,32 @@ const useStyles = makeStyles(theme => ({
     color: 'white',
     fontFamily: 'Roboto',
     fontWeight: 300,
-    fontSize: 16,
+    fontSize: '2vh',
     display: 'flex',
-    marginBottom: 70,
+    marginBottom: '1.5vh',
   },
   bodyText: {
-    maxWidth: 600,
+    maxWidth: '40vw',
   },
   hidden: {
     // display: 'none',
   },
   button: {
-    margin: theme.spacing(1),
+    margin: '1vw',
     color: 'white',
-    border: '1px solid white',
-    marginRight: 20,
+    border: '.1vh solid white',
+    marginRight: '1vw',
+    padding: '.5vw 1vw',
+    fontSize: '1.5vh',
   },
   link: {
     textDecoration: 'none',
   },
+  logoContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '4vh'
+  }
 }));
 
 
@@ -90,30 +107,40 @@ export default function LandingOverlay({
     <div className={clsx(classes.overlay, { [classes.hidden]: hidden })} style={clicked ? { animation: animations.fadeOut, animationDuration: 3000 } : {}}>
       <div className={classes.container}>
         <div className={classes.heading}>
-          PROJECTIONS
+          PROJECTIONS 16
         </div>
-        <div className={classes.subHeading}>
+        <div className={classes.subheading}>
+          Measuring the city: the power of urban metrics
+        </div>
+        <div className={classes.subSubHeading}>
           Visualizing Cities
         </div>
         <div className={classes.bodyContainer}>
           <p className={classes.bodyText}>
+            "Visualizing Cities" is an online exhibition that accompanies the "PROJECTIONS 16 -
+            Measuring the city: the power of urban metrics" volume.
             Projections, the Journal of the MIT Department of Urban Studies and Planning,
-            focuses on the most innovative and cutting edge research in planning.
-            Each volume is devoted to a different topic of interest to planning scholars,
-            students, and professionals. As a peer-reviewed publication,
-            Projections welcomes original high quality submissions at the
-            vanguard of planning theory and practice.
+            focuses on the most innovative and cutting edge research in urban planning.
+            "Visualizing Cities" aims to open a discussion about how scholars and practitioners employ
+            visual representations to investigate, interpret and communicate urban spaces.
           </p>
         </div>
-        <Button onClick={handleClick} variant="outlined" size="large" className={classes.button}>
-          View Map
-        </Button>
+        <div>
+          <Button onClick={handleClick} variant="outlined" size="large" className={classes.button}>
+            View Map
+          </Button>
+        </div>
         <Link className={classes.link} to="/about">
           <Button variant="outlined" size="large" className={classes.button}>
             Learn More
           </Button>
         </Link>
       </div>
+      <div className={classes.logoContainer}>
+        <img alt="DUSP" src="/Dusp_grey.png" style={{ width: '15vh', marginRight: '2vw' }} />
+        <ReactSVG id="MIT" src="/MIT-logo-gray-ltgray-72x38.svg" />
+      </div>
+      <div style={{ fontSize: '.7vw' }}>© Copyright MIT, DUSP 2021 - 2028 | All rights reserved.</div>
     </div>
   );
 }

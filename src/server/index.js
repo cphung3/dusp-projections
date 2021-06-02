@@ -63,24 +63,24 @@ async function getSpreadSheetValuesResponse() {
             obj[headers[key]] = coords;
           } else {
             // fetch from Google geocode API and write back to form responses spreadsheets
+            city = city.replace(/\s/g, '+');
             const geo = await getGeocode(city, country);
-            let lat = 'none';
-            let long = 'none';
             if (geo.results.length) {
-              [lat, long] = geo.results[0].geometry.location;
-              obj[headers[key]] = [lat, long];
+              const { lat, lng } = geo.results[0].geometry.location;
+              console.log('geo.results[0]', lat, lng);
+              obj[headers[key]] = [lat, lng];
+              const coordinates = [
+                [lat, lng]
+              ];
+              const range = `'${sheetName}'!M${idx + 2}:N${idx + 2}`;
+              const body = {
+                values: coordinates
+              };
+              updateSpreadSheetValues({
+                spreadsheetId, auth, range, body
+              });
+              // obj[headers[key]] = 'null';
             }
-            const coordinates = [
-              [lat, long]
-            ];
-            const range = `'${sheetName}'!M${idx + 2}:N${idx + 2}`;
-            const body = {
-              coordinates
-            };
-            updateSpreadSheetValues({
-              spreadsheetId, auth, range, body
-            });
-            obj[headers[key]] = 'null';
           }
         } else if (headers[key] === 'keywords') {
           if (arr[key]) {
@@ -102,7 +102,8 @@ async function getSpreadSheetValuesResponse() {
           const countryValue = countrySplit.join(' ');
           obj[headers[key]] = countryValue;
         } else if (headers[key] === 'city') {
-          city = cleanString(arr[key].replace(/\s/g, '+'));
+          city = cleanString(arr[key]);
+          obj[headers[key]] = city;
         } else if (headers[key] === 'email') obj[headers[key]] = 'redacted';
         else {
           obj[headers[key]] = arr[key];
@@ -131,6 +132,7 @@ app.use(express.static(path.join(__dirname, '../../public')));
 
 app.get('/api/responses', async (req, res) => {
   if (finishedFetch) {
+    console.log('finished');
     sheetData.then((data) => {
       if (data.length !== 0) {
         res.send({ responses: data });
@@ -149,12 +151,12 @@ app.get('/api/keywords', async (req, res) => {
   }
 });
 
-app.get('/*', (req, res) => {
-  let url = path.resolve(__dirname, '..', 'dist', 'index.html');
-  if (!url.startsWith('/app/')) { // we're on local windows
-    url = url.substring(1);
-  }
-  res.sendFile(url);
-});
+// app.get('/*', (req, res) => {
+//   let url = path.resolve(__dirname, '..', 'dist', 'index.html');
+//   if (!url.startsWith('/app/')) { // we're on local windows
+//     url = url.substring(1);
+//   }
+//   res.sendFile(url);
+// });
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));

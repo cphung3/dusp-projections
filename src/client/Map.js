@@ -79,14 +79,14 @@ export default function Map(props) {
     const svg = d3.select(svgRef.current);
 
     const projection = d3.geoOrthographic().fitSize([sizeVw, sizeVh], data);
-    let path = d3.geoPath().projection(projection).pointRadius(2);
+    let path = d3.geoPath().projection(projection).pointRadius(1.5);
     function rotateFunction() {
       const rotate = projection.rotate();
       const k = sensitivity / projection.scale();
       projection.rotate([
         rotate[0] + 1 * k / 2,
       ]);
-      path = d3.geoPath().projection(projection).pointRadius(2);
+      path = d3.geoPath().projection(projection).pointRadius(1.5);
       svg.selectAll('path').attr('d', feature => path(feature));
     }
 
@@ -112,7 +112,7 @@ export default function Map(props) {
         projection.rotate([
           rotate[0] + event.dx * k,
         ]);
-        path = d3.geoPath().projection(projection).pointRadius(2);
+        path = d3.geoPath().projection(projection).pointRadius(1.5);
         svg.selectAll('path').attr('d', feature => path(feature));
         rotateTimer.stop();
       }));
@@ -143,10 +143,10 @@ export default function Map(props) {
         .attr('class', 'circles')
         .attr('d', geo => path(geo.coordinates))
         .attr('fill', 'pink')
-        .attr('point-events', 'none')
-        .on('mouseover', tooltip.show)
-        .on('mouseout', tooltip.hide)
-        .on('click', handleCountryClick);
+        .attr('point-events', 'none');
+        // .on('mouseover', tooltip.show)
+        // .on('mouseout', tooltip.hide);
+        // .on('click', handleCountryClick);
 
       // circles.attr('d', path.pointRadius(0.1));
 
