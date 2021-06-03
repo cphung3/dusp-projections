@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ProfileCard from './components/ProfileCard';
+import { ReactSVG } from 'react-svg';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -13,6 +14,7 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     // marginBottom: '30px',
     paddingTop: '10vh',
+    paddingBottom: '10vh',
     width: '100%',
     // height: '100vh',
   },
@@ -28,6 +30,13 @@ const useStyles = makeStyles(theme => ({
     flexFlow: 'wrap',
     marginTop: 100,
     marginBottom: 100,
+  },
+  logoContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexFlow: 'wrap',
+    width: "100%",
+    marginBottom: '3vh'
   },
   card: {
     maxWidth: '300px',
@@ -74,9 +83,7 @@ export default function About() {
             Projections, the Journal of the MIT Department of Urban Studies and Planning,
             focuses on the most innovative and cutting edge research in planning.
             Each volume is devoted to a different topic of interest to planning scholars,
-            students, and professionals. As a peer-reviewed publication,
-            Projections welcomes original high quality submissions at the
-            vanguard of planning theory and practice.
+            students, and professionals. .
           </p>
           <p className={classes.bodyText}>
             {' '}
@@ -96,11 +103,16 @@ export default function About() {
         </Container>
         <Container className={classes.cardContainer}>
           <Typography variant="h4" className={classes.subtitle}>The Team</Typography>
-          <ProfileCard name="Chaewon Ahn" title="Doctoral Candidate Editor" affil="DUSP MIT" image="chaewonahn_bw.png" link="" />
+          <ProfileCard name="Chaewon Ahn" title="Doctoral Candidate Editor" affil="DUSP MIT" image="chaewonahn_bw.png" link="https://www.ahnchaewon.com" />
           <ProfileCard name="Carmelo Ignaccolo" title="Doctoral Candidate Editor" affil="DUSP MIT" image="capture_ilaud_bw.jpg" link="https://dusp.mit.edu/student/carmelo-ignaccolo" />
           <ProfileCard name="Arianna Salazar Miranda" title="Doctoral Candidate Editor" affil="DUSP MIT" image="salazarmiranda.png" link="https://dusp.mit.edu/student/arianna-salazar-miranda" />
           <ProfileCard name="Calvin Phung" title="Website and Visualization" affil="Course 6 MIT" image="calvin_bw.jpg" link="" />
         </Container>
+        <div className={classes.logoContainer}>
+          <img alt="DUSP" src="/Dusp_grey.png" style={{ width: '15vh', marginRight: '2vw' }} />
+          <ReactSVG id="MIT" src="/MIT-logo-gray-ltgray-72x38.svg" />
+        </div>
+        <div style={{ fontSize: '.7vw', color: 'white' }}>© Copyright MIT, DUSP 2021 - 2028 | All rights reserved.</div>
       </Container>
       {/* </Paper> */}
     </div>

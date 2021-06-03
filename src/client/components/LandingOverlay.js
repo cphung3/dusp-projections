@@ -4,7 +4,6 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { animations } from 'react-animation';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 // import ArrowDown from '../assets/arrow_down.svg';
 
@@ -117,12 +116,10 @@ export default function LandingOverlay({
         </div>
         <div className={classes.bodyContainer}>
           <p className={classes.bodyText}>
-            "Visualizing Cities" is an online exhibition that accompanies the "PROJECTIONS 16 -
-            Measuring the city: the power of urban metrics" volume.
-            Projections, the Journal of the MIT Department of Urban Studies and Planning,
-            focuses on the most innovative and cutting edge research in urban planning.
-            "Visualizing Cities" aims to open a discussion about how scholars and practitioners employ
-            visual representations to investigate, interpret and communicate urban spaces.
+          “Visualizing Cities” is an online exhibition that accompanies the 
+          “PROJECTIONS 16 - Measuring the city: the power of urban metrics” volume. 
+          The online exhibition  showcases how scholars and practitioners are using 
+          visual representations to investigate, interpret and communicate urban spaces.
           </p>
         </div>
         <div>
@@ -130,11 +127,11 @@ export default function LandingOverlay({
             View Map
           </Button>
         </div>
-        <Link className={classes.link} to="/about">
+        {/* <Link className={classes.link} to="/about">
           <Button variant="outlined" size="large" className={classes.button}>
             Learn More
           </Button>
-        </Link>
+        </Link> */}
       </div>
       <div className={classes.logoContainer}>
         <img alt="DUSP" src="/Dusp_grey.png" style={{ width: '15vh', marginRight: '2vw' }} />
