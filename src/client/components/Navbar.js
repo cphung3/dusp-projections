@@ -87,11 +87,13 @@ export default function Navbar({
       <MuiThemeProvider theme={theme}>
         <AppBar elevation={0} position="static" className={classes.container}>
           <Toolbar className={classes.toolbar}>
-            <Button type="button" onClick={handleUnclick} className={classes.button}>
-              <Typography variant="h6" className={classes.title}>
-                VISUALIZING CITIES
-              </Typography>
-            </Button>
+              <Link className={classes.link} to="/">
+                <Button type="button" onClick={handleUnclick} className={classes.button}>
+                    <Typography variant="h6" className={classes.title}>
+                      VISUALIZING CITIES
+                    </Typography>
+                </Button>
+              </Link>
             <div className={classes.navigation}>
               <Link className={classes.link} to="/">
                 <Typography variant="h6" className={classes.tab}>
