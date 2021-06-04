@@ -4,8 +4,8 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import ProfileCard from './components/ProfileCard';
 import { ReactSVG } from 'react-svg';
+import ProfileCard from './components/ProfileCard';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     flexFlow: 'wrap',
-    width: "100%",
+    width: '100%',
     marginBottom: '3vh'
   },
   card: {
@@ -109,8 +109,8 @@ export default function About() {
           <ProfileCard name="Calvin Phung" title="Website and Visualization" affil="Course 6 MIT" image="calvin_bw.jpg" link="" />
         </Container>
         <div className={classes.logoContainer}>
-          <img alt="DUSP" src="/Dusp_grey.png" style={{ width: '15vh', marginRight: '2vw' }} />
-          <ReactSVG id="MIT" src="/MIT-logo-gray-ltgray-72x38.svg" />
+          <img alt="DUSP" src="/Dusp_png-01.png" style={{ width: '15vh', marginRight: '2vw' }} />
+          {/* <ReactSVG id="MIT" src="/MIT-logo-gray-ltgray-72x38.svg" /> */}
         </div>
         <div style={{ fontSize: '.7vw', color: 'white' }}>© Copyright MIT, DUSP 2021 - 2028 | All rights reserved.</div>
       </Container>

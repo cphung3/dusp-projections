@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { animations } from 'react-animation';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
-import { ReactSVG } from 'react-svg';
-// import ArrowDown from '../assets/arrow_down.svg';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -116,10 +114,10 @@ export default function LandingOverlay({
         </div>
         <div className={classes.bodyContainer}>
           <p className={classes.bodyText}>
-          “Visualizing Cities” is an online exhibition that accompanies the 
-          “PROJECTIONS 16 - Measuring the city: the power of urban metrics” volume. 
-          The online exhibition  showcases how scholars and practitioners are using 
-          visual representations to investigate, interpret and communicate urban spaces.
+            “Visualizing Cities” is an online exhibition that accompanies the
+            “PROJECTIONS 16 - Measuring the city: the power of urban metrics” volume.
+            The online exhibition  showcases how scholars and practitioners are using
+            visual representations to investigate, interpret and communicate urban spaces.
           </p>
         </div>
         <div>
@@ -134,8 +132,8 @@ export default function LandingOverlay({
         </Link> */}
       </div>
       <div className={classes.logoContainer}>
-        <img alt="DUSP" src="/Dusp_grey.png" style={{ width: '15vh', marginRight: '2vw' }} />
-        <ReactSVG id="MIT" src="/MIT-logo-gray-ltgray-72x38.svg" />
+        <img alt="DUSP" src="/Dusp_png-01.png" style={{ width: '15vh' }} />
+        {/* <ReactSVG id="MIT" src="/MIT-logo-gray-ltgray-72x38.svg" /> */}
       </div>
       <div style={{ fontSize: '.7vw' }}>© Copyright MIT, DUSP 2021 - 2028 | All rights reserved.</div>
     </div>
