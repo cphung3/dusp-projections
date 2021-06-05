@@ -132,7 +132,6 @@ app.use(express.static(path.join(__dirname, '../../public')));
 
 app.get('/api/responses', async (req, res) => {
   if (finishedFetch) {
-    console.log('finished');
     sheetData.then((data) => {
       if (data.length !== 0) {
         res.send({ responses: data });

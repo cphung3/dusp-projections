@@ -69,7 +69,7 @@ export default function Map(props) {
     if (open && svgRef.current.selectedFeature === d.properties.ISO_A3) {
       setSelectedCountry({});
       svgRef.current.selectedFeature = '';
-    } else if (d.properties.ISO_A3 in submissions){
+    } else if (d.properties.ISO_A3 in submissions) {
       handleDrawerOpen();
       setSelectedCountry(d.properties);
       svgRef.current.selectedFeature = d.properties.ISO_A3;
@@ -191,11 +191,10 @@ export default function Map(props) {
         ref={svgRef}
       />
       <div className={classes.disclaimer}>
-        Maps both represent and generate reality.
-        The team of "Visualizing Cities" has utilized state boundaries provided by 
-        naturalearthdata.com to construct this interactive rotating globe. 
-        We stand in solidarity with communities affected by conflicts originated by 
-        contested political lines of territorial subdivision.
+        The team of "Visualizing Cities" has utilized state boundaries
+        provided by naturalearthdata.com to construct this
+        interactive rotating globe. Our group stands in solidarity with
+        communities affected by conflicts taking place in areas of territorial dispute.
       </div>
     </div>
   );
