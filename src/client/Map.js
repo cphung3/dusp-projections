@@ -193,7 +193,7 @@ export default function Map(props) {
       <div className={classes.disclaimer}>
         The team of "Visualizing Cities" has utilized state boundaries
         provided by naturalearthdata.com to construct this
-        interactive rotating globe.
+        interactive rotating globe. 
       </div>
     </div>
   );
