@@ -52,6 +52,9 @@ const useStyles = makeStyles(theme => ({
   subtitle: {
     fontFamily: 'Montserrat', color: 'white', width: '100%', fontSize: '3rem', marginBottom: '40px'
   },
+  awardTitle: {
+    fontFamily: 'Montserrat', color: 'white', width: '100%', fontSize: '2rem', marginBottom: '40px'
+  },
   button: {
     marginTop: '60px',
     margin: theme.spacing(1),
@@ -93,13 +96,29 @@ export default function About() {
             interplay between the epistemology of urban data, data-driven measurements, and the politics of designing urban places.
           </p>
         </Container>
-        <Container>
+        <Container style={{marginBottom: 30}}>
           <Button onClick={handleClick} href="https://projections2021.mit.edu/" variant="outlined" size="large" className={classes.button}>
             Projections 16 Website
           </Button>
           <Button onClick={handleClick} href="https://projections2021.mit.edu/call-data-visualizations" variant="outlined" size="large" className={classes.button}>
             Submit Visualizations
           </Button>
+        </Container>
+        <Container>
+          <Typography variant="h4" className={classes.subtitle}>Projections 16 Best Visualization Award</Typography>
+          <Typography variant="h5" className={classes.awardTitle}>"The Atlas of the Carbon Economy" by Jamie Williams</Typography>
+          <p className={classes.bodyText}>
+            Jamie Williams' "The Atlas of the Carbon Economy" impressed the editorial team with a combination 
+            of rigorous research and visual storytelling to unpack the geopolitics of carbon trading. 
+            By mapping each country's contribution to the carbon economy and the role they are undertaking to offset 
+            their carbon footprint, the visualization highlights the countries that contribute the most to the climate crisis. 
+            One of the most compelling aspects of the visualization is how it integrates the global and local scales, 
+            as well as the human and non-human contributions towards carbon production. The editorial team is proud to announce 
+            the unanimous decision to award the "Projections Best Visualization" to "The Atlas of the Carbon Economy".
+          </p>
+          <div style={{marginTop: 60}}>
+            <img alt="The Atlas of the Carbon Economy" src="/Jamie_Williams.jpg" style={{ width: '1000px' }} />
+          </div>
         </Container>
         <Container className={classes.cardContainer}>
           <Typography variant="h4" className={classes.subtitle}>The Team</Typography>
